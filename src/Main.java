@@ -5,8 +5,6 @@ public class Main {
         System.out.println("Hello world!");
 
         String s = args[0];
-        ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
-
         if (args.length == 0) {
             System.exit(1);
         }
@@ -15,7 +13,6 @@ public class Main {
             //todo mostrar ayuda
             System.exit(0);
         }
-
         String fichero_entrada = "";
         String fichero_salida = "";
         if (args.length>=2) {
@@ -30,13 +27,17 @@ public class Main {
                         case "-fs": {
                             fichero_salida = args[i+1];
                         }
-
                     }
-
-                    Instruccion inst = new Instruccion(args[i], args[i + 1]);
-                    instrucciones.add(inst);
                 }
             }
         }
+
+        ArrayList<Instruccion> instrucciones = new ArrayList<>();
+        Configuracion configuracion = new Configuracion();
+
+
+        Parser parseador = new Parser(fichero_entrada,instrucciones,configuracion);
+        parseador.leer_archivo();
+        Ejecutor ejecutor = new Ejecutor(instrucciones,configuracion);
     }
 }

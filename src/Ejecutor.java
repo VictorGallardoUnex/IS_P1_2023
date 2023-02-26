@@ -1,7 +1,13 @@
 import java.util.ArrayList;
 
 public class Ejecutor {
-    public Ejecutor(ArrayList<Instruccion> instrucciones) {
+    ArrayList<Instruccion> instrucciones;
+    Configuracion configuracion;
+    public Ejecutor(ArrayList<Instruccion> instrucciones,Configuracion configuracion) {
+
+        this.instrucciones = instrucciones;
+        this.configuracion = configuracion;
+
         for (Instruccion instruccion : instrucciones) {
             switch (instruccion.clave) {
                 case "ficheroSalida": ficheroSalida(instruccion.valor);

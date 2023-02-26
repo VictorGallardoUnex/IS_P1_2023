@@ -3,22 +3,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Lee y parsea el fichero de salida.
  */
 public class Parser {
-    private String fichero_configuracion;
-    private ArrayList<Instruccion> instrucciones;
-    private Configuracion configuracion;
+    private final String fichero_configuracion;
 
-    public Parser(String fichero_configuracion) {
+    ArrayList<Instruccion> instrucciones;
+    Configuracion configuracion;
+
+    public Parser(String fichero_configuracion ,ArrayList<Instruccion> instrucciones, Configuracion configuracion) {
         this.fichero_configuracion = fichero_configuracion;
-        instrucciones = new ArrayList<>();
-        configuracion = new Configuracion();
+        this.instrucciones = instrucciones;
+        this.configuracion = configuracion;
     }
 
-    private void leer_archivo() {
+    public void leer_archivo() {
         BufferedReader lector;
 
         try {
@@ -35,15 +37,19 @@ public class Parser {
         }
     }
 
-    private void procesar_linea(String linea) {
+    /**
+     * Recibe una lista de cadena de texto. Se encarga de llamar al procesador de lina dependiendo del tipo de bandera
+     * @param linea Esta esta compuesta por: <bandera> <comando> <valor>
+     */
+    void procesar_linea(String linea) {
         String[] comando = linea.split(" ");
         switch (comando[0]) {
             case "@": {
-                procesar_configuracion(comando[1].split(" "));
+                procesar_configuracion(Arrays.copyOfRange(comando,1,comando.length));
                 break;
             }
-            case "#": {
-                procesar_instruccion(comando[1].split(" "));
+            case "&": {
+                procesar_instruccion(Arrays.copyOfRange(comando,1,comando.length));
             }
         }
     }
