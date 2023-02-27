@@ -17,18 +17,21 @@ class ParserTest {
         parseador.procesar_linea(linea);
         assertTrue(config.reescribir_fichero_salida);
     }
-//    @Test
+    @Test
     void procesar_linea_añade_instrucciones() {
         ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
         Configuracion config = new Configuracion();
         Parser parseador = new Parser("",instrucciones,config);
-        String linea = "@ salidapantalla ON";
+        String linea = "& infotarjeta 0";
         parseador.procesar_linea(linea);
-        assertTrue(config.salida_pantalla);
-
+        assertEquals("infotarjeta", instrucciones.get(0).clave);
+        assertEquals("0", instrucciones.get(0).valor);
         linea = "& seleccionatarjeta 3";
         parseador.procesar_linea(linea);
-        assertTrue(config.reescribir_fichero_salida);
+        assertEquals(2, instrucciones.size());
+        assertEquals("seleccionatarjeta", instrucciones.get(1).clave);
+        assertEquals("3", instrucciones.get(1).valor);
+
     }
 
 }

@@ -43,13 +43,15 @@ public class Parser {
      */
     void procesar_linea(String linea) {
         String[] comando = linea.split(" ");
+        String[] comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length);
         switch (comando[0]) {
             case "@": {
-                procesar_configuracion(Arrays.copyOfRange(comando,1,comando.length));
+                procesar_configuracion(comando_sin_bandera);
                 break;
             }
             case "&": {
-                procesar_instruccion(Arrays.copyOfRange(comando,1,comando.length));
+                procesar_instruccion(comando_sin_bandera);
+                break;
             }
         }
     }
@@ -59,7 +61,7 @@ public class Parser {
      * @param configuracion El array de string con la configuracion y su valor
      */
     private void procesar_configuracion(String[] configuracion) {
-        switch (configuracion[0]) {
+        switch (configuracion[0].toLowerCase()) {
             case "salidapantalla": {
                     this.configuracion.salida_pantalla = configuracion[1].equals("ON");
                     break;
@@ -75,6 +77,7 @@ public class Parser {
         }
     }
     private void procesar_instruccion(String[] instruccion){
-
+        Instruccion nueva_instruccion = new Instruccion(instruccion[0],instruccion[1]);
+        instrucciones.add(nueva_instruccion);
     }
 }
