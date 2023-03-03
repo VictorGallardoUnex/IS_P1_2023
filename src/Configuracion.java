@@ -2,6 +2,8 @@ public class Configuracion {
     boolean salida_pantalla = false;
     boolean salida_fichero = false;
     boolean reescribir_fichero_salida = false;
+    String fichero_entrada;
+    String fichero_salida;
 
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;
@@ -27,4 +29,19 @@ public class Configuracion {
         this.salida_pantalla = salida_pantalla;
     }
 
+    public void setFichero_entrada(String fichero_entrada) {
+        this.fichero_entrada = fichero_entrada;
+    }
+
+    public String getFichero_entrada() {
+        return fichero_entrada;
+    }
+
+    public void setFichero_salida(String fichero_salida) {
+        this.fichero_salida = fichero_salida;
+    }
+
+    public String getFichero_salida() {
+        return fichero_salida;
+    }
 }

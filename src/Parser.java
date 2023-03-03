@@ -6,25 +6,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Lee y parsea el fichero de salida.
+ * Clase de soporte intermedio. Convierte entrada de usuario en configuración útil.
  */
 public class Parser {
-    private final String fichero_configuracion;
 
     ArrayList<Instruccion> instrucciones;
     Configuracion configuracion;
 
-    public Parser(String fichero_configuracion ,ArrayList<Instruccion> instrucciones, Configuracion configuracion) {
-        this.fichero_configuracion = fichero_configuracion;
+    public Parser(ArrayList<Instruccion> instrucciones, Configuracion configuracion) {
         this.instrucciones = instrucciones;
         this.configuracion = configuracion;
+    }
+
+    public void leer_argumentos(Configuracion configuracion, String[] argumentos) {
+        if (argumentos.length>=2) {
+            for (int i = 0; i < argumentos.length; i++) {
+                if (argumentos[i].startsWith("-") && i+1 < argumentos.length) {
+                    System.out.println("Argumento recibido");
+                    switch (argumentos[i]) {
+                        case "-fe": {
+                            configuracion.setFichero_entrada(argumentos[i+1]);
+                            break;
+                        }
+                        case "-fs": {
+                            configuracion.setFichero_salida(argumentos[i+1]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void leer_archivo() {
         BufferedReader lector;
 
         try {
-            lector = new BufferedReader(new FileReader(this.fichero_configuracion));
+            lector = new BufferedReader(new FileReader(configuracion.getFichero_entrada()));
             String linea = lector.readLine();
 
             while (linea != null) {
