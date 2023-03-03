@@ -1,53 +1,26 @@
 import jpcap.JpcapCaptor;
 import jpcap.NetworkInterfaceAddress;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author ifraa
- */
-public class Tarjeta {
-
-    jpcap.NetworkInterface[] tarjetas;
-    Parametros P;
-
-    public Tarjeta() {
-    }
-
-    public boolean init() {
+public class ControladorTarjeta {
+    jpcap.NetworkInterface[] tarjetas = null;
+    public void ControladorTarjeta() {
         jpcap.NetworkInterface[] tarjetas;
 
         tarjetas = JpcapCaptor.getDeviceList();
         if (tarjetas == null) {
             System.out.println("Error de packet driver");
-            return false;
         }
-        return true;
     }
 
-    public int cantidadTarjetas() {
-        jpcap.NetworkInterface[] tarjetas;
-
-        tarjetas = JpcapCaptor.getDeviceList();
-        if (tarjetas == null) {
-            System.out.println("Error de packet driver");
-            return -1;
-        }
-        return tarjetas.length;
-    }
 
     public void run() {
-        if (!init()) {
-
+        if (tarjetas == null) {
             return;
         }
+
         System.out.println("Informando de las tarjetas que tiene esta mÃ¡quina, tiene las siguientes tarjetas: " + tarjetas.length);
 
-        int numTarjeta = P.getNumeroTarjeta();
+        int numTarjeta = 0;
         System.out.println("Info de la tarjeta numero " + numTarjeta);
         System.out.println("Nombre: " + tarjetas[numTarjeta].name);
         System.out.println("Nombre del enlace: " + tarjetas[numTarjeta].datalink_name);
@@ -62,4 +35,5 @@ public class Tarjeta {
             System.out.println("direccion:" + dir.address);
         }
     }
+
 }
