@@ -24,6 +24,7 @@ public class Ejecutor {
 
     private void seleccionatarjeta(int valor) {
 
+
     }
 
     private void infotarjeta(int valor) {
