@@ -1,5 +1,8 @@
+import modelos.Bandera;
+import modelos.Comando;
+import modelos.Instruccion;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,38 +67,15 @@ public class Parser {
         String[] comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length);
         switch (comando[0]) {
             case "@": {
-                procesar_configuracion(comando_sin_bandera);
+                Instruccion nueva_instruccion = new Bandera(comando_sin_bandera[0],comando_sin_bandera[1]);
+                instrucciones.add(nueva_instruccion);
                 break;
             }
             case "&": {
-                procesar_instruccion(comando_sin_bandera);
+                Instruccion nueva_instruccion = new Comando(comando_sin_bandera[0],comando_sin_bandera[1]);
+                instrucciones.add(nueva_instruccion);
                 break;
             }
         }
-    }
-
-    /**
-     * Recibe una línea de configuración y establece el ajuste especificado en la configuracion de la clase
-     * @param configuracion El array de string con la configuracion y su valor
-     */
-    private void procesar_configuracion(String[] configuracion) {
-        switch (configuracion[0].toLowerCase()) {
-            case "salidapantalla": {
-                    this.configuracion.salida_pantalla = configuracion[1].equals("ON");
-                    break;
-                }
-            case "salidafichero": {
-                this.configuracion.salida_fichero = configuracion[1].equals("ON");
-                break;
-            }
-            case "reescribirficherosalida": {
-                this.configuracion.reescribir_fichero_salida = configuracion[1].equals("ON");
-                break;
-            }
-        }
-    }
-    private void procesar_instruccion(String[] instruccion){
-        Instruccion nueva_instruccion = new Instruccion(instruccion[0],instruccion[1]);
-        instrucciones.add(nueva_instruccion);
     }
 }

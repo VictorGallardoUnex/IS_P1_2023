@@ -11,10 +11,18 @@ public class ControladorTarjeta {
             System.out.println("Error de packet driver");
         }
     }
-
+    public int contar_tarjeta() {
+        if (is_not_init()) {
+            return -1;
+        }
+        return tarjetas.length;
+    }
+    private boolean is_not_init() {
+        return tarjetas != null;
+    }
 
     public void run() {
-        if (tarjetas == null) {
+        if (is_not_init()) {
             return;
         }
 
