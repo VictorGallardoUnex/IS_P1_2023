@@ -1,29 +1,43 @@
-import jpcap.JpcapCaptor;
-import jpcap.NetworkInterfaceAddress;
-
-import javax.swing.*;
+import jpcap.*;
 /**
- * Clase de apoyo. Incluye la interfaz de las Tarjetas y las validaciones de los módulos
+ * Clase singleton (Solo existe una instancia en el codigo). Incluye la interfaz de las Tarjetas y las validaciones de los módulos
  * */
 public class ControladorTarjeta {
-    jpcap.NetworkInterface[] tarjetas = JpcapCaptor.getDeviceList();
-    public void ControladorTarjeta() {
+    ControladorSalida syso = ControladorSalida.getInstance();
+    NetworkInterface[] tarjetas = null;
+    int tarjeta_seleccionada;
+    public ControladorTarjeta(Configuracion configuracion) {
+        NetworkInterface[] tarjetas;
+        tarjetas = JpcapCaptor.getDeviceList();
         if (tarjetas == null) {
-            System.out.println("Error de packet driver");
+            syso.println("Error de packet driver");
         }
     }
-
-
-    public jpcap.NetworkInterface getTarjeta(int valor) {
+    public jpcap.NetworkInterface getTarjeta() throws ErrorTarjetaNoExiste {
+        if (is_not_init()) {
+            return null;
+        }
+        if (tarjeta_seleccionada > tarjetas.length) {
+            throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
+        }
+        return tarjetas[tarjeta_seleccionada];
+    }
+    public jpcap.NetworkInterface getTarjeta(int valor) throws ErrorTarjetaNoExiste {
         if (is_not_init()) {
             return null;
         }
         if (valor > tarjetas.length) {
-            System.out.println("No existe esa tarjeta");
-            return null;
+            throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
         }
         return tarjetas[valor];
     }
+    public void setTarjeta_seleccionada(int tarjeta_seleccionada) throws ErrorTarjetaNoExiste {
+        if (tarjeta_seleccionada > tarjetas.length) {
+            throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
+        }
+        this.tarjeta_seleccionada = tarjeta_seleccionada;
+    }
+
     /**
      * Devuelve el numero de tarjetas detectadas.
      * returns: -1 si no existe o hay error
@@ -35,30 +49,6 @@ public class ControladorTarjeta {
         return tarjetas.length;
     }
     private boolean is_not_init() {
-        return tarjetas != null;
+        return tarjetas == null;
     }
-    public void info_tarjeta() {
-        if (is_not_init()) {
-            return;
-        }
-
-        System.out.println("Informando de las tarjetas que tiene esta mÃ¡quina, tiene las siguientes tarjetas: " + tarjetas.length);
-
-        int numTarjeta = 0;
-        jpcap.NetworkInterface tarjeta = tarjetas[numTarjeta];
-        System.out.println("Info de la tarjeta numero " + numTarjeta);
-        System.out.println("Nombre: " + tarjeta.name);
-        System.out.println("Nombre del enlace: " + tarjeta.datalink_name);
-        System.out.println("Mac:");
-        byte b = tarjeta.mac_address[0];//mirar si es mayor a 6
-        System.out.println("Primer byte: " + Integer.toHexString(b & 0xff));
-
-        NetworkInterfaceAddress dir;
-        for (int j = 0; j < tarjeta.addresses.length; j++) {
-            System.out.print("Direccion " + j + ": ");
-            dir = tarjeta.addresses[j];
-            System.out.println("direccion:" + dir.address);
-        }
-    }
-
 }
