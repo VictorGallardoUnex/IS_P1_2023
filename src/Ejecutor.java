@@ -14,6 +14,9 @@ public class Ejecutor {
         this.configuracion = configuracion;
         controladorTarjeta = new ControladorTarjeta(configuracion);
     }
+    /**
+     * Recibe una lista de instrucciones y ejecuta el comnado de cada instruccion si esta registrado
+     * */
     public void procesar_instrucciones(ArrayList<Instruccion> instrucciones) {
         for (Instruccion instruccion : instrucciones) {
             if (instruccion.getClass() == Bandera.class) {
@@ -21,11 +24,12 @@ public class Ejecutor {
             } else {
                 // Añadimos un try catch para nuestra propia excepcion
                 try {
+                    // Comparamos el nombre de instruccion en minusculas para que no se sensible a mayus y minusculas
                     switch (instruccion.clave.toLowerCase()) {
                         case "ficherosalida":
                             ControladorSalida.getInstance().setArchivoSalida(instruccion.valor);
                         case "seleccionatarjeta":
-                            seleccionatarjeta(Integer.parseInt(instruccion.valor));
+                            controladorTarjeta.setTarjeta_seleccionada(Integer.parseInt(instruccion.valor));
                         case "infotarjeta":
                             infotarjeta(Integer.parseInt(instruccion.valor));
                         case "infoip":
@@ -40,6 +44,9 @@ public class Ejecutor {
         }
     }
 
+    /**
+     * Ejecuta el cambio de configuracion
+     * */
     public void procesar_configuracion(Bandera bandera) {
         switch (bandera.clave.toLowerCase()) {
             case "salidapantalla": {
@@ -55,11 +62,6 @@ public class Ejecutor {
                 break;
             }
         }
-    }
-
-
-    private void seleccionatarjeta(int valor) throws ErrorTarjetaNoExiste {
-        controladorTarjeta.setTarjeta_seleccionada(valor);
     }
 
     private void infotarjeta(int valor) throws ErrorTarjetaNoExiste{

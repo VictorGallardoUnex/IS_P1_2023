@@ -1,9 +1,9 @@
 public class Configuracion {
-    boolean salida_pantalla = false;
+    boolean salida_pantalla = true;
     boolean salida_fichero = false;
-    boolean reescribir_fichero_salida = false;
+    boolean reescribir_fichero_salida = true;
     String fichero_entrada;
-    String fichero_salida;
+    String fichero_salida = "salida.txt";
 
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;

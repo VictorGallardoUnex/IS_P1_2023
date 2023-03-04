@@ -5,7 +5,7 @@ import jpcap.*;
 public class ControladorTarjeta {
     ControladorSalida syso = ControladorSalida.getInstance();
     NetworkInterface[] tarjetas = null;
-    int tarjeta_seleccionada;
+    int tarjeta_seleccionada = 0;
     public ControladorTarjeta(Configuracion configuracion) {
         NetworkInterface[] tarjetas;
         tarjetas = JpcapCaptor.getDeviceList();
