@@ -43,7 +43,7 @@ public class Parser {
 
     public void leer_archivo() {
         BufferedReader lector;
-
+        int contador = 1;
         try {
             lector = new BufferedReader(new FileReader(configuracion.getFichero_entrada()));
             String linea = lector.readLine();
@@ -52,8 +52,11 @@ public class Parser {
                 procesar_linea(linea);
                 // leemos siguiente linea
                 linea = lector.readLine();
+                contador++;
             }
+
         } catch (IOException e) {
+            System.out.println("Error al leer linea: " + contador);
             e.printStackTrace();
         }
     }

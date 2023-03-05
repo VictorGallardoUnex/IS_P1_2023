@@ -41,7 +41,9 @@ public class Ejecutor {
                             infoEthernet(Integer.parseInt(instruccion.valor));
                     }
                 } catch (ErrorTarjetaNoExiste excepcion) {
-                    syso.print("Error al ejecutar el comando. La tarjeta no existe");
+                    syso.println("Error al ejecutar el comando. La tarjeta no existe");
+                } catch (Exception exception) {
+                    syso.println("Error al ejecutar comando '"+instruccion.clave + "' con valor: '"+instruccion.valor+"'");
                 }
             }
         }
@@ -72,16 +74,14 @@ public class Ejecutor {
         syso.println("Info de la tarjeta numero " + valor);
         syso.println("Nombre: " + tarjeta.name);
         syso.println("Nombre del enlace: " + tarjeta.datalink_name);
-        syso.println("Mac:");
-        byte b = tarjeta.mac_address[0];//mirar si es mayor a 6
-        syso.println("Primer byte: " + Integer.toHexString(b & 0xff));
+        syso.println("Mac: " + getMacAsString(tarjeta.mac_address));
     }
 
     private void infoIP(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
         syso.println("Informacion IP de la tarjeta seleccionada (" + valor + ")" + " " + tarjeta.name);
         for (int j = 0; j < tarjeta.addresses.length; j++) {
-            System.out.print("Informacion del adaptador " + j + ": ");
+            syso.println("Informacion del adaptador " + j + ": ");
             syso.println("    Direccion:" + tarjeta.addresses[j].address);
             syso.println("    Mascara:" + tarjeta.addresses[j].subnet);
             syso.println("    Destino:" + tarjeta.addresses[j].destination);
@@ -91,8 +91,10 @@ public class Ejecutor {
 
     private void infoEthernet(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
-        byte[] mac = tarjeta.mac_address;
-        String macString = String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-        syso.println("Direccion mac de la tarjeta (" + valor + ") " + macString);
+        ;
+        syso.println("Direccion mac de la tarjeta (" + valor + ") " + getMacAsString(tarjeta.mac_address));
+    }
+    private String getMacAsString(byte[] mac) {
+        return String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     }
 }
