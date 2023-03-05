@@ -27,18 +27,18 @@ public class ControladorSalida {
         if (configuracion.salida_fichero) {
             guardarFichero();
         }
-        configuracion.fichero_salida = fichero_salida;
+        configuracion.setFichero_salida(fichero_salida);
     }
 
     public void guardarFichero() {
         // En este punto se asume que salidafichero está siempre en ON
 
         boolean sobrescribir = configuracion.isReescribir_fichero_salida(); // establecer en true para sobrescribir el archivo
-        String nombre_fichero = configuracion.fichero_salida;
+        String nombre_fichero = configuracion.getFichero_salida();
         // Si sobreescribir está en off
         if (!sobrescribir) {
             // Comprobamos si existe y preguntamos un nuevo nombre si existe.
-            nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.fichero_salida);
+            nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.getFichero_salida());
         }
         escribirFichero(nombre_fichero);
 
