@@ -38,6 +38,10 @@ public class Parser {
                                 configuracion.setFichero_salida(argumentos[i + 1]);
                                 break;
                             }
+                            case "-h": {
+                                Utils.mostrar_ayuda();
+                                System.exit(0);
+                            }
                             default: {
                                 syso.println("Error de sintaxis. Faltan argumentos");
                                 Utils.mostrar_ayuda();
