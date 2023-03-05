@@ -50,15 +50,15 @@ public class Ejecutor {
     public void procesar_configuracion(Bandera bandera) {
         switch (bandera.clave.toLowerCase()) {
             case "salidapantalla": {
-                this.configuracion.salida_pantalla = bandera.valor.equals("ON");
+                this.configuracion.setSalida_pantalla(bandera.valor.equals("ON"));
                 break;
             }
             case "salidafichero": {
-                this.configuracion.salida_fichero = bandera.valor.equals("ON");
+                this.configuracion.setSalida_fichero(bandera.valor.equals("ON"));
                 break;
             }
             case "reescribirficherosalida": {
-                this.configuracion.reescribir_fichero_salida = bandera.valor.equals("ON");
+                this.configuracion.setReescribir_fichero_salida(bandera.valor.equals("ON"));
                 break;
             }
         }

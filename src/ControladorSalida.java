@@ -1,9 +1,7 @@
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
-
 public class ControladorSalida {
     LinkedList<String> salida_texto = new LinkedList<>();
     Configuracion configuracion;
@@ -33,12 +31,24 @@ public class ControladorSalida {
     }
 
     public void guardarFichero() {
-        boolean sobrescribir = configuracion.isReescribir_fichero_salida(); // establecer en true para sobrescribir el archivo
+        // En este punto se asume que salidafichero está siempre en ON
 
-        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(configuracion.fichero_salida, !sobrescribir))) {
-            if (!new File(configuracion.fichero_salida).exists() || sobrescribir) {
-                escritor.write(""); // sobrescribir el archivo o crear un archivo vacío si no existe
-            }
+        boolean sobrescribir = configuracion.isReescribir_fichero_salida(); // establecer en true para sobrescribir el archivo
+        String nombre_fichero = configuracion.fichero_salida;
+        // Si sobreescribir está en off
+        if (!sobrescribir) {
+            // Comprobamos si existe y preguntamos un nuevo nombre si existe.
+            nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.fichero_salida);
+        }
+
+        escribirFichero(nombre_fichero);
+
+    }
+
+    public void escribirFichero(String nombre_fichero) {
+
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nombre_fichero, false))) {
+            escritor.write(""); // crear un archivo vacío si no existe
             for (String linea : salida_texto) {
                 escritor.write(linea);
                 escritor.newLine(); // agregar carácter de nueva línea después de cada línea
@@ -48,6 +58,30 @@ public class ControladorSalida {
             System.err.println("Error al escribir el archivo: " + e.getMessage());
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // metodos del singleton
 
