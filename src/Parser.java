@@ -28,7 +28,7 @@ public class Parser {
         if (argumentos.length>=2) {
             for (int i = 0; i < argumentos.length; i++) {
                 if (argumentos[i].startsWith("-")) {
-                    if (i + 1 < argumentos.length) {
+//                    if (i + 1 < argumentos.length) {
                         System.out.println("Argumento recibido");
                         switch (argumentos[i]) {
                             case "-fe": {
@@ -37,7 +37,9 @@ public class Parser {
                                 break;
                             }
                             case "-fs": {
-                                configuracion.setFichero_salida(argumentos[i + 1]);
+                                if (i+1 >= argumentos.length) {
+                                    configuracion.setFichero_salida(argumentos[i + 1]);
+                                }
                                 break;
                             }
                             case "-h": {
@@ -52,11 +54,11 @@ public class Parser {
                                 break;
                             }
                         }
-                    } else {
-                        syso.println("Error de sintaxis. Faltan argumentos");
-                        Utils.mostrar_ayuda();
-                        syso.salirYGuardar(0);
-                    }
+//                    } else {
+//                        syso.println("Error de sintaxis. Faltan argumentos");
+//                        Utils.mostrar_ayuda();
+//                        syso.salirYGuardar(0);
+//                    }
                 }
             }
         }

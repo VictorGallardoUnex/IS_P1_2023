@@ -28,7 +28,7 @@ public class Ejecutor {
                     // Comparamos el nombre de instruccion en minusculas para que no se sensible a mayus y minusculas
                     switch (instruccion.clave.toLowerCase()) {
                         case "ficherosalida": {
-                            ControladorSalida.getInstance().setArchivoSalida(instruccion.valor);
+                            syso.setArchivoSalida(instruccion.valor);
                             break;
                         }
                         case "seleccionatarjeta": {

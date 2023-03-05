@@ -22,10 +22,6 @@ public class Configuracion {
 
     public void setSalida_fichero(boolean salida_fichero) {
         this.salida_fichero = salida_fichero;
-        if (salida_fichero) {
-
-        }
-
     }
 
     public boolean isSalida_pantalla() {
