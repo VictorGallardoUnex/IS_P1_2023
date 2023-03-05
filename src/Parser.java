@@ -52,8 +52,8 @@ public class Parser {
                 if (!linea.equals("") && !linea.startsWith("#")) {
                     procesar_linea(linea);
                     // leemos siguiente linea
-                    linea = lector.readLine();
                 }
+                linea = lector.readLine();
                 contador++;
             }
 
