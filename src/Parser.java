@@ -22,6 +22,7 @@ public class Parser {
     }
 
     public void leer_argumentos(Configuracion configuracion, String[] argumentos) {
+        boolean fe_configurado = false;
         if (argumentos.length>=2) {
             for (int i = 0; i < argumentos.length; i++) {
                 if (argumentos[i].startsWith("-")) {
@@ -30,20 +31,32 @@ public class Parser {
                         switch (argumentos[i]) {
                             case "-fe": {
                                 configuracion.setFichero_entrada(argumentos[i + 1]);
+                                fe_configurado = true;
                                 break;
                             }
                             case "-fs": {
                                 configuracion.setFichero_salida(argumentos[i + 1]);
                                 break;
                             }
+                            default: {
+                                syso.println("Error de sintaxis. Faltan argumentos");
+                                Utils.mostrar_ayuda();
+                                System.exit(0);
+                            }
                         }
                     } else {
                         syso.println("Error de sintaxis. Faltan argumentos");
                         Utils.mostrar_ayuda();
+                        System.exit(0);
                     }
-
                 }
             }
+        }
+
+        if (!fe_configurado) {
+            syso.println("Error de sintaxis. Faltan el archivo de configuracion inicial");
+            Utils.mostrar_ayuda();
+            System.exit(0);
         }
     }
 
