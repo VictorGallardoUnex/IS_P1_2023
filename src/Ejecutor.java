@@ -1,4 +1,3 @@
-import jpcap.NetworkInterfaceAddress;
 import modelos.Bandera;
 import modelos.Instruccion;
 
@@ -31,7 +30,11 @@ public class Ejecutor {
                         case "seleccionatarjeta":
                             controladorTarjeta.setTarjeta_seleccionada(Integer.parseInt(instruccion.valor));
                         case "infotarjeta":
-                            infotarjeta(Integer.parseInt(instruccion.valor));
+                            if (instruccion.valor.equals("")) {
+                                infoTarjeta(controladorTarjeta.tarjeta_seleccionada);
+                            } else {
+                                infoTarjeta(Integer.parseInt(instruccion.valor));
+                            }
                         case "infoip":
                             infoIP(Integer.parseInt(instruccion.valor));
                         case "infoethernet":
@@ -64,7 +67,7 @@ public class Ejecutor {
         }
     }
 
-    private void infotarjeta(int valor) throws ErrorTarjetaNoExiste{
+    private void infoTarjeta(int valor) throws ErrorTarjetaNoExiste{
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
         syso.println("Info de la tarjeta numero " + valor);
         syso.println("Nombre: " + tarjeta.name);
@@ -88,6 +91,8 @@ public class Ejecutor {
 
     private void infoEthernet(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
-        syso.println("Direccion mac de la tarjeta (" + valor + ") " + Arrays.toString(tarjeta.mac_address));
+        byte[] mac = tarjeta.mac_address;
+        String macString = String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        syso.println("Direccion mac de la tarjeta (" + valor + ") " + macString);
     }
 }

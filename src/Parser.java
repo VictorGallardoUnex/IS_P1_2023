@@ -15,7 +15,7 @@ public class Parser {
 
     ArrayList<Instruccion> instrucciones;
     Configuracion configuracion;
-
+    ControladorSalida syso = ControladorSalida.getInstance();
     public Parser(ArrayList<Instruccion> instrucciones, Configuracion configuracion) {
         this.instrucciones = instrucciones;
         this.configuracion = configuracion;
@@ -64,7 +64,18 @@ public class Parser {
      */
     void procesar_linea(String linea) {
         String[] comando = linea.split(" ");
-        String[] comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length);
+        if (comando.length <=1) {
+            syso.println("Error al procesar comando '"+linea+"'");
+        }
+        String[] comando_sin_bandera;
+        if (comando.length == 2) {
+            comando[0] = comando[1];
+            comando[1] = "";
+            comando_sin_bandera = comando;
+        } else {
+            comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length); }
+
+
         switch (comando[0]) {
             case "@": {
                 Instruccion nueva_instruccion = new Bandera(comando_sin_bandera[0],comando_sin_bandera[1]);

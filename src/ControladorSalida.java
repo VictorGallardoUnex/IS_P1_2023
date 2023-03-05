@@ -40,7 +40,6 @@ public class ControladorSalida {
             // Comprobamos si existe y preguntamos un nuevo nombre si existe.
             nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.fichero_salida);
         }
-
         escribirFichero(nombre_fichero);
 
     }
