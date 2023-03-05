@@ -49,9 +49,11 @@ public class Parser {
             String linea = lector.readLine();
 
             while (linea != null) {
-                procesar_linea(linea);
-                // leemos siguiente linea
-                linea = lector.readLine();
+                if (!linea.equals("") && !linea.startsWith("#")) {
+                    procesar_linea(linea);
+                    // leemos siguiente linea
+                    linea = lector.readLine();
+                }
                 contador++;
             }
 

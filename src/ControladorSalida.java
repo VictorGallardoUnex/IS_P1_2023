@@ -55,6 +55,7 @@ public class ControladorSalida {
             System.out.println("Archivo escrito exitosamente.");
         } catch (IOException e) {
             System.err.println("Error al escribir el archivo: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
