@@ -63,9 +63,7 @@ public class ControladorSalida {
         }
     }
     public void salirYGuardar(int status){
-        if (configuracion.salida_pantalla) {
-            guardarFichero();
-        }
+        guardarFichero();
         System.exit(status);
     }
 

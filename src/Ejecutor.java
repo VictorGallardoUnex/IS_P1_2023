@@ -23,6 +23,7 @@ public class Ejecutor {
                 procesar_configuracion((Bandera) instruccion);
             } else {
                 // Añadimos un try catch para nuestra propia excepcion
+                syso.println("Ejecutando comando: "+instruccion.clave);
                 try {
                     // Comparamos el nombre de instruccion en minusculas para que no se sensible a mayus y minusculas
                     switch (instruccion.clave.toLowerCase()) {
