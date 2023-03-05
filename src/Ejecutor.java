@@ -25,25 +25,34 @@ public class Ejecutor {
                 try {
                     // Comparamos el nombre de instruccion en minusculas para que no se sensible a mayus y minusculas
                     switch (instruccion.clave.toLowerCase()) {
-                        case "ficherosalida":
+                        case "ficherosalida": {
                             ControladorSalida.getInstance().setArchivoSalida(instruccion.valor);
                             break;
-                        case "seleccionatarjeta":
+                        }
+                        case "seleccionatarjeta": {
                             controladorTarjeta.setTarjeta_seleccionada(Integer.parseInt(instruccion.valor));
                             break;
-                        case "infotarjeta":
+                        }
+                        case "infotarjeta": {
                             if (instruccion.valor.equals("")) {
                                 infoTarjeta(controladorTarjeta.tarjeta_seleccionada);
                             } else {
                                 infoTarjeta(Integer.parseInt(instruccion.valor));
                             }
                             break;
-                        case "infoip":
+                        }
+                        case "infoip": {
                             infoIP(Integer.parseInt(instruccion.valor));
                             break;
-                        case "infoethernet":
+                        }
+                        case "infoethernet": {
                             infoEthernet(Integer.parseInt(instruccion.valor));
                             break;
+                        }
+                        default: {
+                            syso.println("No existe el comando");
+                            break;
+                        }
                     }
                 } catch (ErrorTarjetaNoExiste excepcion) {
                     syso.println("Error al ejecutar el comando. La tarjeta no existe");
