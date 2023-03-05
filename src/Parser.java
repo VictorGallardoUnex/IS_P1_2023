@@ -50,7 +50,8 @@ public class Parser {
 
             while (linea != null) {
                 if (!linea.equals("") && !linea.startsWith("#")) {
-                    procesar_linea(linea);
+                    String cleanedString = linea.replaceAll("\\s{2,}", " ");
+                    procesar_linea(cleanedString);
                     // leemos siguiente linea
                 }
                 linea = lector.readLine();
