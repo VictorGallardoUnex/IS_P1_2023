@@ -24,18 +24,24 @@ public class Parser {
     public void leer_argumentos(Configuracion configuracion, String[] argumentos) {
         if (argumentos.length>=2) {
             for (int i = 0; i < argumentos.length; i++) {
-                if (argumentos[i].startsWith("-") && i+1 < argumentos.length) {
-                    System.out.println("Argumento recibido");
-                    switch (argumentos[i]) {
-                        case "-fe": {
-                            configuracion.setFichero_entrada(argumentos[i+1]);
-                            break;
+                if (argumentos[i].startsWith("-")) {
+                    if (i + 1 < argumentos.length) {
+                        System.out.println("Argumento recibido");
+                        switch (argumentos[i]) {
+                            case "-fe": {
+                                configuracion.setFichero_entrada(argumentos[i + 1]);
+                                break;
+                            }
+                            case "-fs": {
+                                configuracion.setFichero_salida(argumentos[i + 1]);
+                                break;
+                            }
                         }
-                        case "-fs": {
-                            configuracion.setFichero_salida(argumentos[i+1]);
-                            break;
-                        }
+                    } else {
+                        syso.println("Error de sintaxis. Faltan argumentos");
+                        Utils.mostrar_ayuda();
                     }
+
                 }
             }
         }

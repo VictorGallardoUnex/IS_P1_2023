@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Utils {
-
+    static ControladorSalida syso = ControladorSalida.getInstance();
     public static String comprobarSiExisteYReescribir(String fichero) {
         if (existe_archivo(fichero)) {
             return preguntarReescribirFicheroExiste();
@@ -24,5 +24,8 @@ public class Utils {
         return new File(nuevoNombre).exists();
     }
 
+    public static void mostrar_ayuda(){
+        syso.println("Ayudaaa");
+    }
 
 }
