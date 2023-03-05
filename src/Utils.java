@@ -10,7 +10,7 @@ public class Utils {
         return fichero;
     }
 
-    public String preguntarReescribirFicheroExiste() {
+    public static String preguntarReescribirFicheroExiste() {
         String nuevoNombre;
         do {
             System.out.println("El archivo ya existe. Introduce un nuevo nombre");
