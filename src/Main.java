@@ -31,7 +31,7 @@ public class Main {
         Ejecutor ejecutor = new Ejecutor(configuracion,syso);
         ejecutor.procesar_instrucciones(instrucciones);
 
-
+        syso.salirYGuardar(0);
 
     }
 }
