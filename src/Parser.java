@@ -16,10 +16,11 @@ public class Parser {
 
     ArrayList<Instruccion> instrucciones;
     Configuracion configuracion;
-    ControladorSalida syso = ControladorSalida.getInstance();
-    public Parser(ArrayList<Instruccion> instrucciones, Configuracion configuracion) {
+    ControladorSalida syso;
+    public Parser(ArrayList<Instruccion> instrucciones, Configuracion configuracion, ControladorSalida syso) {
         this.instrucciones = instrucciones;
         this.configuracion = configuracion;
+        this.syso = syso;
     }
 
     public void leer_argumentos(Configuracion configuracion, String[] argumentos) {

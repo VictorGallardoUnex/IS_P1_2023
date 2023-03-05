@@ -19,15 +19,16 @@ public class Main {
             Utils.mostrar_ayuda();
             System.exit(0);
         }
+        Utils.syso = syso;
         syso.println("Procesando parametros");
-        Parser parseador = new Parser(instrucciones,configuracion);
+        Parser parseador = new Parser(instrucciones,configuracion,syso);
         parseador.leer_argumentos(configuracion,args);
 
         syso.println("Procesando configuracion");
         parseador.leer_archivo();
 
         syso.println("Ejecutando instrucciones");
-        Ejecutor ejecutor = new Ejecutor(configuracion);
+        Ejecutor ejecutor = new Ejecutor(configuracion,syso);
         ejecutor.procesar_instrucciones(instrucciones);
 
     }

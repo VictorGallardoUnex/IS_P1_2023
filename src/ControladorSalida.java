@@ -55,6 +55,7 @@ public class ControladorSalida {
                 escritor.write(linea);
                 escritor.newLine(); // agregar carácter de nueva línea después de cada línea
             }
+            salida_texto.clear();
             System.out.println("Archivo escrito exitosamente.");
         } catch (IOException e) {
             System.err.println("Error al escribir el archivo: " + e.getMessage());

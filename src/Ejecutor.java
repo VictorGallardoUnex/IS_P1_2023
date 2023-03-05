@@ -6,11 +6,12 @@ import java.util.Arrays;
 
 public class Ejecutor {
     Configuracion configuracion;
-    ControladorSalida syso = ControladorSalida.getInstance();
+    ControladorSalida syso;
     ControladorTarjeta controladorTarjeta;
 
-    public Ejecutor(Configuracion configuracion) {
+    public Ejecutor(Configuracion configuracion,ControladorSalida syso) {
         this.configuracion = configuracion;
+        this.syso = syso;
         controladorTarjeta = new ControladorTarjeta(configuracion);
     }
     /**
