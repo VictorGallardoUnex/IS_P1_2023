@@ -32,8 +32,7 @@ public class ControladorSalida {
 
     public void guardarFichero() {
         // En este punto se asume que salidafichero está siempre en ON
-        println("GUardando fichero");
-        println(salida_texto.toString());
+        System.out.println(salida_texto.toString());
         boolean sobrescribir = configuracion.isReescribir_fichero_salida(); // establecer en true para sobrescribir el archivo
         String nombre_fichero = configuracion.getFichero_salida();
         // Si sobreescribir está en off
