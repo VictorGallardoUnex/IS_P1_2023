@@ -42,20 +42,20 @@ public class Parser {
                             }
                             case "-h": {
                                 Utils.mostrar_ayuda();
-                                System.exit(0);
+                                syso.salirYGuardar(0);
                                 break;
                             }
                             default: {
                                 syso.println("Error de sintaxis. La bandera del argumento '"+argumentos[i] + "' no existe");
                                 Utils.mostrar_ayuda();
-                                System.exit(0);
+                                syso.salirYGuardar(0);
                                 break;
                             }
                         }
                     } else {
                         syso.println("Error de sintaxis. Faltan argumentos");
                         Utils.mostrar_ayuda();
-                        System.exit(0);
+                        syso.salirYGuardar(0);
                     }
                 }
             }
@@ -64,7 +64,7 @@ public class Parser {
         if (!fe_configurado) {
             syso.println("Error de sintaxis. Faltan el archivo de configuracion inicial");
             Utils.mostrar_ayuda();
-            System.exit(0);
+            syso.salirYGuardar(0);
         }
     }
 
@@ -85,10 +85,10 @@ public class Parser {
                 contador++;
             }
         } catch (FileNotFoundException e) {
-                System.err.println("Error: Archivo no encontrado: " + e.getMessage());
-                System.exit(0); // exit program with non-zero status code
+                syso.println("Error: Archivo no encontrado: " + e.getMessage());
+                syso.salirYGuardar(0);
         } catch (IOException e) {
-            System.out.println("Error al leer linea: " + contador);
+            syso.println("Error al leer linea: " + contador);
             e.printStackTrace();
         }
     }

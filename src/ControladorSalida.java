@@ -32,8 +32,8 @@ public class ControladorSalida {
 
     public void guardarFichero() {
         // En este punto se asume que salidafichero está siempre en ON
-        System.out.println("GUardando fichero");
-        System.out.println(salida_texto.toString());
+        println("GUardando fichero");
+        println(salida_texto.toString());
         boolean sobrescribir = configuracion.isReescribir_fichero_salida(); // establecer en true para sobrescribir el archivo
         String nombre_fichero = configuracion.getFichero_salida();
         // Si sobreescribir está en off
@@ -51,16 +51,22 @@ public class ControladorSalida {
 
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nombre_fichero, false))) {
             escritor.write(""); // crear un archivo vacío si no existe
+            println("Archivo escrito exitosamente.");
             for (String linea : salida_texto) {
                 escritor.write(linea);
                 escritor.newLine(); // agregar carácter de nueva línea después de cada línea
             }
             salida_texto.clear();
-            System.out.println("Archivo escrito exitosamente.");
         } catch (IOException e) {
-            System.err.println("Error al escribir el archivo: " + e.getMessage());
+            println("Error al escribir el archivo: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    public void salirYGuardar(int status){
+        if (configuracion.salida_pantalla) {
+            guardarFichero();
+        }
+        System.exit(status);
     }
 
 
