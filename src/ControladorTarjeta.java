@@ -7,7 +7,6 @@ public class ControladorTarjeta {
     NetworkInterface[] tarjetas = null;
     int tarjeta_seleccionada = 0;
     public ControladorTarjeta(Configuracion configuracion) {
-        NetworkInterface[] tarjetas;
         tarjetas = JpcapCaptor.getDeviceList();
         if (tarjetas == null) {
             syso.println("Error de packet driver");
@@ -24,7 +23,7 @@ public class ControladorTarjeta {
     }
     public jpcap.NetworkInterface getTarjeta(int valor) throws ErrorTarjetaNoExiste {
         if (is_not_init()) {
-            return null;
+            throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
         }
         if (valor > tarjetas.length) {
             throw new ErrorTarjetaNoExiste("No existe esa tarjeta");

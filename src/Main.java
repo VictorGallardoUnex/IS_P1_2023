@@ -5,15 +5,18 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 //        System.out.println("Hello world!");
+        
 
-        if (args.length == 0) {
-            System.exit(1);
-        }
 
         ArrayList<Instruccion> instrucciones = new ArrayList<>();
         Configuracion configuracion = new Configuracion();
         ControladorSalida syso = ControladorSalida.getInstance(configuracion);
+        
         syso.println("Iniciando Programa");
+        if (args.length == 0) {
+            syso.println("No hay parametros saliendo");
+            System.exit(0);
+        }
         // Mostrar ayuda
         if (args.length == 1 && args[0].equals("-h")) {
             syso.println("");
