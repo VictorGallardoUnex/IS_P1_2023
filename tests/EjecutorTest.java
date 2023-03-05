@@ -13,13 +13,14 @@ class EjecutorTest {
     Configuracion config;
     Parser parseador;
     Ejecutor ejecutor;
+    ControladorSalida syso = ControladorSalida.getInstance()
     @BeforeEach
     void setUp() {
         ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
 
         config = new Configuracion();
-        ejecutor = new Ejecutor(config);
-        parseador = new Parser(instrucciones,config);
+        ejecutor = new Ejecutor(config,syso);
+        parseador = new Parser(instrucciones,config,syso);
 
     }
 

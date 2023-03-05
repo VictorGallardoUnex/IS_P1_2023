@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 class ParserTest {
-
+    ControladorSalida syso = ControladorSalida.getInstance();
     @Test
     void procesar_linea_añade_configuraciones() {
         ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
         Configuracion config = new Configuracion();
-        Parser parseador = new Parser(instrucciones,config);
+        Parser parseador = new Parser(instrucciones,config,syso);
         String linea = "@ salidapantalla ON";
         parseador.procesar_linea(linea);
         assertEquals(1, instrucciones.size());
@@ -29,7 +29,7 @@ class ParserTest {
     void procesar_linea_añade_comandos() {
         ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
         Configuracion config = new Configuracion();
-        Parser parseador = new Parser(instrucciones,config);
+        Parser parseador = new Parser(instrucciones,config,syso);
 
         String linea = "& infotarjeta 0";
         parseador.procesar_linea(linea);
@@ -48,7 +48,7 @@ class ParserTest {
     void procesar_argumentos() {
         ArrayList<Instruccion> instrucciones = new ArrayList<Instruccion>();
         Configuracion config = new Configuracion();
-        Parser parseador = new Parser(instrucciones,config);
+        Parser parseador = new Parser(instrucciones,config,syso);
         String[] prueba = {"-fe","archivo_in", "-fs","archivo_salida"};
         parseador.leer_argumentos(config,prueba);
 
