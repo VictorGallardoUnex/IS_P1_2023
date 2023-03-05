@@ -12,7 +12,7 @@ public class ControladorSalida {
             return;
         }
         System.out.println(texto);
-
+        salida_texto.add(texto);
     }
     public void print(String texto) {
         if (!configuracion.salida_pantalla) {

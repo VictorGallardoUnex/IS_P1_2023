@@ -16,8 +16,7 @@ public class Main {
         }
         // Mostrar ayuda
         if (args.length == 1 && args[0].equals("-h")) {
-            syso.println("");
-            //todo mostrar ayuda
+            Utils.mostrar_ayuda();
             System.exit(0);
         }
         syso.println("Procesando parametros");

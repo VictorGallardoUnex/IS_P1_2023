@@ -3,6 +3,7 @@ import modelos.Comando;
 import modelos.Instruccion;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,11 +42,13 @@ public class Parser {
                             case "-h": {
                                 Utils.mostrar_ayuda();
                                 System.exit(0);
+                                break;
                             }
                             default: {
-                                syso.println("Error de sintaxis. Faltan argumentos");
+                                syso.println("Error de sintaxis. La bandera del argumento '"+argumentos[i] + "' no existe");
                                 Utils.mostrar_ayuda();
                                 System.exit(0);
+                                break;
                             }
                         }
                     } else {
@@ -80,7 +83,9 @@ public class Parser {
                 linea = lector.readLine();
                 contador++;
             }
-
+        } catch (FileNotFoundException e) {
+                System.err.println("Error: Archivo no encontrado: " + e.getMessage());
+                System.exit(0); // exit program with non-zero status code
         } catch (IOException e) {
             System.out.println("Error al leer linea: " + contador);
             e.printStackTrace();
