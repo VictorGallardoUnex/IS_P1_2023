@@ -31,5 +31,9 @@ public class Main {
         Ejecutor ejecutor = new Ejecutor(configuracion,syso);
         ejecutor.procesar_instrucciones(instrucciones);
 
+        if (configuracion.salida_pantalla) {
+            syso.guardarFichero();
+        }
+
     }
 }
