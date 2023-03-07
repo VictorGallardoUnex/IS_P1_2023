@@ -2,10 +2,18 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+
+/**
+ * Clase singleton que se encarga de mostrar el texto o guardarlo en el archivo
+ */
 public class ControladorSalida {
     LinkedList<String> salida_texto = new LinkedList<>();
     Configuracion configuracion;
 
+    /**
+     * Metodo que se llama para escribir
+     * @param texto
+     */
     public void println(String texto) {
         // Si salida pantalla esta off no mostramos nada en pantalla ni mostramos nada en el archivo
         if (!configuracion.salida_pantalla) {
@@ -14,6 +22,11 @@ public class ControladorSalida {
         System.out.println(texto);
         salida_texto.add(texto);
     }
+
+    /**
+     * Metodo que se llama para escribir
+     * @param texto
+     */
     public void print(String texto) {
         if (!configuracion.salida_pantalla) {
             return;
@@ -23,6 +36,10 @@ public class ControladorSalida {
         salida_texto.set(salida_texto.size(), salida_texto.peekLast() + texto);
     }
 
+    /**
+     * Configura el archivo salida
+     * @param fichero_salida
+     */
     public void setArchivoSalida(String fichero_salida) {
         if (configuracion.salida_fichero) {
             guardarFichero();
@@ -30,6 +47,9 @@ public class ControladorSalida {
         configuracion.setFichero_salida(fichero_salida);
     }
 
+    /**
+     * Guarda el fichero. Escribe linea  alinea y sobre escribe si lo tiene que hacerr
+     */
     public void guardarFichero() {
         // En este punto se asume que salidafichero está siempre en ON
         boolean sobrescribir = configuracion.isReescribir_fichero_salida(); // establecer en true para sobrescribir el archivo
@@ -47,6 +67,10 @@ public class ControladorSalida {
 
     }
 
+    /**
+     * Metodo que escribe de verdad en el fichero.
+     * @param nombre_fichero
+     */
     public void escribirFichero(String nombre_fichero) {
 
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nombre_fichero, false))) {
@@ -62,34 +86,15 @@ public class ControladorSalida {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Guarda o escribe el texto en el fichero y sale del programa
+     * @param status
+     */
     public void salirYGuardar(int status){
         guardarFichero();
         System.exit(status);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // metodos del singleton
 

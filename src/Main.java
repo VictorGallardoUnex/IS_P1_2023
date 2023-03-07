@@ -11,7 +11,7 @@ public class Main {
 
         syso.println("Iniciando Programa");
         if (args.length == 0) {
-            syso.println("No hay parametros saliendo");
+            syso.println("No se han aportado parametros. Para usar el programa use la siguiente sintaxis:\nIsP1 -fe <fichero1> [-fs <fichero2>]| -h");
             syso.salirYGuardar(0);
         }
         // Mostrar ayuda
@@ -22,7 +22,7 @@ public class Main {
 
         syso.println("Procesando parametros");
         Parser parseador = new Parser(instrucciones,configuracion,syso);
-        parseador.leer_argumentos(configuracion,args);
+        parseador.leer_argumentos(args);
 
         syso.println("Procesando configuracion");
         parseador.leer_archivo();

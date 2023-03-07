@@ -4,6 +4,9 @@ import modelos.Instruccion;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Clase que contiene los metodos que se ejecutan, es decir los comandos o instrucciones ya leidos son hechas su funcion
+ */
 public class Ejecutor {
     Configuracion configuracion;
     ControladorSalida syso;
@@ -15,7 +18,7 @@ public class Ejecutor {
         controladorTarjeta = new ControladorTarjeta(configuracion);
     }
     /**
-     * Recibe una lista de instrucciones y ejecuta el comnado de cada instruccion si esta registrado
+     * Recibe una lista de instrucciones y ejecuta el comanado de cada instruccion si este esta registrado
      * */
     public void procesar_instrucciones(ArrayList<Instruccion> instrucciones) {
         for (Instruccion instruccion : instrucciones) {
@@ -86,6 +89,11 @@ public class Ejecutor {
         }
     }
 
+    /**
+     * Muestra la informacion de la tarjeta, si hay multiples tarjetas acepta un numero para seleccionarla
+     * @param valor
+     * @throws ErrorTarjetaNoExiste
+     */
     private void infoTarjeta(int valor) throws ErrorTarjetaNoExiste{
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
         syso.println("Info de la tarjeta numero " + valor);
@@ -94,6 +102,16 @@ public class Ejecutor {
         syso.println("Mac: " + getMacAsString(tarjeta.mac_address));
     }
 
+    /**
+     * Muestra la informacion de la tarjeta, si hay multiples tarjetas acepta un numero para seleccionarla
+     */
+    private void infoTarjeta() throws ErrorTarjetaNoExiste {
+        infoTarjeta(0);
+    }
+
+    /**
+     * Muestra la informacion de la direccion ip
+     */
     private void infoIP(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
         syso.println("Informacion IP de la tarjeta seleccionada (" + valor + ")" + " " + tarjeta.name);
@@ -106,11 +124,22 @@ public class Ejecutor {
         }
     }
 
+    /**
+     * Muestra la mac
+     * @param valor
+     * @throws ErrorTarjetaNoExiste
+     */
     private void infoEthernet(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = controladorTarjeta.getTarjeta(valor);
         ;
         syso.println("Direccion mac de la tarjeta (" + valor + ") " + getMacAsString(tarjeta.mac_address));
     }
+
+    /**
+     * Formatea los bytes de la mac en una string
+     * @param mac
+     * @return
+     */
     private String getMacAsString(byte[] mac) {
         return String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     }

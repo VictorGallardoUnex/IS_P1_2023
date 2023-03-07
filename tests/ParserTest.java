@@ -50,7 +50,7 @@ class ParserTest {
         Configuracion config = new Configuracion();
         Parser parseador = new Parser(instrucciones,config,syso);
         String[] prueba = {"-fe","archivo_in", "-fs","archivo_salida"};
-        parseador.leer_argumentos(config,prueba);
+        parseador.leer_argumentos(prueba);
 
         assertEquals(config.getFichero_entrada(),"archivo_in");
         assertEquals(config.getFichero_salida(),"archivo_salida");

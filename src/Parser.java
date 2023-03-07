@@ -17,13 +17,24 @@ public class Parser {
     ArrayList<Instruccion> instrucciones;
     Configuracion configuracion;
     ControladorSalida syso;
+
+    /**
+     * Clase que contiene los metodos para leer el fichero de entrada y sus posibles configuraciones
+     * @param instrucciones
+     * @param configuracion
+     * @param syso
+     */
     public Parser(ArrayList<Instruccion> instrucciones, Configuracion configuracion, ControladorSalida syso) {
         this.instrucciones = instrucciones;
         this.configuracion = configuracion;
         this.syso = syso;
     }
 
-    public void leer_argumentos(Configuracion configuracion, String[] argumentos) {
+    /**
+     * Lee los argumentos pasados al programa desde fuera. Establece configuraciones iniciales
+     * @param argumentos
+     */
+    public void leer_argumentos(String[] argumentos) {
         boolean fe_configurado = false;
         if (argumentos.length>=2) {
             for (int i = 0; i < argumentos.length; i++) {
@@ -54,11 +65,6 @@ public class Parser {
                                 break;
                             }
                         }
-//                    } else {
-//                        syso.println("Error de sintaxis. Faltan argumentos");
-//                        Utils.mostrar_ayuda();
-//                        syso.salirYGuardar(0);
-//                    }
                 }
             }
         }
@@ -70,6 +76,9 @@ public class Parser {
         }
     }
 
+    /**
+     * Lee el archivo de entrada linea a linea y las analiza y crea una instruccion o configuracion de cada una
+      */
     public void leer_archivo() {
         BufferedReader lector;
         int contador = 1;

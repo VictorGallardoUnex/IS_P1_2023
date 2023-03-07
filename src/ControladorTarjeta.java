@@ -6,6 +6,11 @@ public class ControladorTarjeta {
     ControladorSalida syso = ControladorSalida.getInstance();
     NetworkInterface[] tarjetas = null;
     int tarjeta_seleccionada = 0;
+
+    /**
+     * Constructor de clase
+     * @param configuracion
+     */
     public ControladorTarjeta(Configuracion configuracion) {
         tarjetas = JpcapCaptor.getDeviceList();
         if (tarjetas == null) {

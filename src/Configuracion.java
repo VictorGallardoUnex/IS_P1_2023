@@ -1,11 +1,27 @@
+/**
+ * Almacena la configuracion actual
+ */
 public class Configuracion {
+    /**
+     * Indica si se muestra en la terminal la salida
+     */
     boolean salida_pantalla = true;
+    /**
+     * Indica si se muestra en el fichero la salida
+     */
     boolean salida_fichero = false;
     /**
-     *
+     * Indica si se debe de reescribir el ficher salida por defecto
      */
     boolean reescribir_fichero_salida = true;
+
+    /**
+     * Nombre del fichero que se lee
+     */
     String fichero_entrada;
+    /**
+     * Nombre del fichero donde se guarda la salida
+     */
     String fichero_salida = "salida.txt";
 
     public boolean isReescribir_fichero_salida() {
