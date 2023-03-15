@@ -48,7 +48,7 @@ public class Parser {
                                 break;
                             }
                             case "-fs": {
-                                if (i+1 >= argumentos.length) {
+                                if (i+1 == argumentos.length-1) {
                                     configuracion.setFichero_salida(argumentos[i + 1]);
                                 }
                                 break;

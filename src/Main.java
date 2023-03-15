@@ -27,9 +27,19 @@ public class Main {
         syso.println("Procesando configuracion");
         parseador.leer_archivo();
 
+
         syso.println("Ejecutando instrucciones");
-        Ejecutor ejecutor = new Ejecutor(configuracion,syso);
-        ejecutor.procesar_instrucciones(instrucciones);
+        Ejecutor ejecutor;
+        try {
+            // Inicializador de singletones
+            ControladorTarjeta.getInstance(configuracion);
+
+            ejecutor = new Ejecutor(configuracion, syso);
+            ejecutor.procesar_instrucciones(instrucciones);
+        } catch (ErrorJpcap exception) {
+            syso.println("Error de jpcap");
+            syso.salirYGuardar(1);
+        }
 
         syso.salirYGuardar(0);
 

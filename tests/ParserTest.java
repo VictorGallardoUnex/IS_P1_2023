@@ -52,8 +52,8 @@ class ParserTest {
         String[] prueba = {"-fe","archivo_in", "-fs","archivo_salida"};
         parseador.leer_argumentos(prueba);
 
-        assertEquals(config.getFichero_entrada(),"archivo_in");
-        assertEquals(config.getFichero_salida(),"archivo_salida");
+        assertEquals("archivo_in",config.getFichero_entrada());
+        assertEquals("archivo_salida",config.getFichero_salida());
     }
 
 }
