@@ -42,6 +42,17 @@ public class Utils {
         return new File(nuevoNombre).exists();
     }
 
+
+    /**
+     * Muestra la sintaxis
+     */
+    public static void mostrar_sintaxis() {
+        syso.println("    Sintaxis");
+        syso.println("        IsP1 -fe <fichero1> [-fs <fichero2>]| -h");
+        syso.println("        -h Muestra este mensaje de ayuda");
+        syso.println("        -fe El fichero que contiene la configuracion/comandos a ejecutar");
+        syso.println("        -fs El fichero de salida donde guardar la salida. 'salida.txt' por defecto");
+    }
     /**
      * Muestra la ayuda
      */

@@ -16,7 +16,7 @@ public class Main {
         }
         // Mostrar ayuda
         if (args.length == 1 && args[0].equals("-h")) {
-            Utils.mostrar_ayuda();
+            Utils.mostrar_sintaxis();
             syso.salirYGuardar(0);
         }
 

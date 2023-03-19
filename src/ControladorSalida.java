@@ -56,7 +56,7 @@ public class ControladorSalida {
         String nombre_fichero = configuracion.getFichero_salida();
         // Si sobreescribir está en off
         if (!salida_texto.isEmpty()) {
-            System.out.println(salida_texto.toString());
+//            System.out.println(salida_texto.toString());
             if (!sobrescribir) {
                 // Comprobamos si existe y preguntamos un nuevo nombre si existe.
                 nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.getFichero_salida());
