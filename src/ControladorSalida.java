@@ -59,7 +59,7 @@ public class ControladorSalida {
 //            System.out.println(salida_texto.toString());
             if (!sobrescribir) {
                 // Comprobamos si existe y preguntamos un nuevo nombre si existe.
-                nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.getFichero_salida());
+                nombre_fichero = Utils.comprobarSiExisteYReescribir(configuracion.getFichero_salida(),configuracion);
             }
 
             escribirFichero(nombre_fichero);
@@ -75,7 +75,7 @@ public class ControladorSalida {
 
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nombre_fichero, false))) {
             escritor.write(""); // crear un archivo vacío si no existe
-            println("Archivo escrito exitosamente.");
+            System.out.println("Archivo escrito exitosamente.");
             for (String linea : salida_texto) {
                 escritor.write(linea);
                 escritor.newLine(); // agregar carácter de nueva línea después de cada línea

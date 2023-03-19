@@ -12,8 +12,8 @@ public class Utils {
      * @param fichero
      * @return
      */
-    public static String comprobarSiExisteYReescribir(String fichero) {
-        if (existe_archivo(fichero)) {
+    public static String comprobarSiExisteYReescribir(String fichero,Configuracion configuracion) {
+        if (existe_archivo(fichero) && !configuracion.isReescribir_fichero_salida()) {
             return preguntarReescribirFicheroExiste();
         }
         return fichero;
@@ -25,8 +25,9 @@ public class Utils {
      */
     public static String preguntarReescribirFicheroExiste() {
         String nuevoNombre;
+
         do {
-            System.out.println("El archivo ya existe. Introduce un nuevo nombre");
+            System.out.println("El archivo de salida ya existe. Introduce un nuevo nombre");
             Scanner scanner = new Scanner(System.in);
             nuevoNombre = scanner.nextLine().trim().toUpperCase();
         } while (existe_archivo(nuevoNombre));
