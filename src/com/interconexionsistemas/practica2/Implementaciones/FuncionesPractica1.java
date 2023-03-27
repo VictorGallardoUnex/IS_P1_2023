@@ -1,5 +1,6 @@
 package com.interconexionsistemas.practica2.Implementaciones;
 
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
@@ -10,8 +11,16 @@ public class FuncionesPractica1 {
         /*
      FUNCIONES IMPLEMENTACION
     * */
-    static ControladorSalida syso = (ControladorSalida) ControladorSalida.getInstance();
-    static ControladorTarjeta ct = (ControladorTarjeta) ControladorTarjeta.getInstance();
+    static ControladorSalida syso = ControladorSalida.getInstance();
+    static ControladorTarjeta ct;
+
+    static {
+        try {
+            ct = ControladorTarjeta.getInstance();
+        } catch (ErrorJpcap e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Muestra la informacion de la tarjeta, si hay multiples tarjetas acepta un numero para seleccionarla

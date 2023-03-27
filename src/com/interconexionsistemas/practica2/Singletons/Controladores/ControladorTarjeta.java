@@ -1,8 +1,8 @@
 package com.interconexionsistemas.practica2.Singletons.Controladores;
 
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
-import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
 import jpcap.*;
 
 import static com.interconexionsistemas.practica2.Utils.getMacAsString;
@@ -10,9 +10,10 @@ import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 /**
  * Clase singleton (Solo existe una instancia en el codigo). Incluye la interfaz de las Tarjetas y las validaciones de los módulos
  * */
-public class ControladorTarjeta extends Singletons.SingletonBase {
-    static Configuracion conf = (Configuracion) Configuracion.getInstance();
+public class ControladorTarjeta {
+    static Configuracion conf = Configuracion.getInstance();
     static ControladorSalida syso = (ControladorSalida) ControladorSalida.getInstance();
+
     NetworkInterface[] tarjetas = null;
      int tarjeta_seleccionada = 0;
 
@@ -60,6 +61,23 @@ public class ControladorTarjeta extends Singletons.SingletonBase {
     }
 
 
+    // Metodos singleton
+    private static ControladorTarjeta instance;
 
+    protected ControladorTarjeta() {
+        // Prevent instantiation from outside the class
+    }
+
+    public static ControladorTarjeta getInstance() throws ErrorJpcap {
+        if (instance == null) {
+            syso = ControladorSalida.getInstance();
+            instance = new ControladorTarjeta();
+            if (instance.tarjetas == null) {
+                syso.println("Error de packet driver. No se han encontrado tarjetas");
+                throw new ErrorJpcap("sdas");
+            }
+        }
+        return instance;
+    }
 
 }

@@ -1,4 +1,5 @@
 package com.interconexionsistemas.practica2;
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Instruccion;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
@@ -7,13 +8,21 @@ import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorS
 import java.util.ArrayList;
 
 public class Main {
-    public static Configuracion configuracion = (Configuracion) Configuracion.getInstance();
-    public static ControladorSalida syso = (ControladorSalida) ControladorSalida.getInstance();
-    public static ControladorTarjeta controladorTarjeta = (ControladorTarjeta) ControladorTarjeta.getInstance();
+    public static Configuracion configuracion = Configuracion.getInstance();
+    public static ControladorSalida syso = ControladorSalida.getInstance();
+    public static ControladorTarjeta controladorTarjeta;
 
     public static void main(String[] args) {
         ArrayList<Instruccion> instrucciones = new ArrayList<>();
         syso.println("Iniciando Programa");
+
+        try {
+            controladorTarjeta = ControladorTarjeta.getInstance();
+        } catch (ErrorJpcap e) {
+            syso.println("Error al iniciar packet driver. Asegurate que esta correctamente instalado. Saliendo...");
+            syso.salirYGuardar(1);
+        }
+
         if (args.length == 0) {
             syso.println("No se han aportado parametros. Para usar el programa use la siguiente sintaxis:\nIsP1 -fe <fichero1> [-fs <fichero2>]| -h");
             syso.salirYGuardar(0);

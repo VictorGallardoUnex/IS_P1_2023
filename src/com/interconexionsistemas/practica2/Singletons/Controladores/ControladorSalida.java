@@ -1,5 +1,4 @@
 package com.interconexionsistemas.practica2.Singletons.Controladores;
-
 import com.interconexionsistemas.practica2.Main;
 import com.interconexionsistemas.practica2.Utils;
 
@@ -11,8 +10,10 @@ import java.util.LinkedList;
 /**
  * Clase singleton que se encarga de mostrar el texto o guardarlo en el archivo
  */
-public class ControladorSalida extends Singletons.SingletonBase {
+public class ControladorSalida {
     LinkedList<String> salida_texto = new LinkedList<>();
+
+
 
     /**
      * Metodo que se llama para escribir
@@ -98,5 +99,21 @@ public class ControladorSalida extends Singletons.SingletonBase {
     public void salirYGuardar(int status){
         guardarFichero();
         System.exit(status);
+    }
+
+
+
+    // Metodos singleton
+    private static ControladorSalida instance;
+
+    protected ControladorSalida() {
+        // Prevent instantiation from outside the class
+    }
+
+    public static ControladorSalida getInstance() {
+        if (instance == null) {
+            instance =  new ControladorSalida();
+        }
+        return instance;
     }
 }

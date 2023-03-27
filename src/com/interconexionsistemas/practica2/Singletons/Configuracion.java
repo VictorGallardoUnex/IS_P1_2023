@@ -1,9 +1,12 @@
 package com.interconexionsistemas.practica2.Singletons;
 
+import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
+
 /**
  * Almacena la configuracion actual
  */
-public class Configuracion extends Singletons.SingletonBase {
+public class Configuracion {
+
     /**
      * Indica si se muestra en la terminal la salida
      */
@@ -64,6 +67,21 @@ public class Configuracion extends Singletons.SingletonBase {
 
     public String getFichero_salida() {
         return fichero_salida;
+    }
+
+
+    // Metodos singleton
+    private static Configuracion instance;
+
+    protected Configuracion() {
+        // Prevent instantiation from outside the class
+    }
+
+    public static Configuracion getInstance() {
+        if (instance == null) {
+            instance = new Configuracion();
+        }
+        return instance;
     }
 
 

@@ -1,6 +1,7 @@
 package com.interconexionsistemas.practica2;
 
 import com.interconexionsistemas.practica2.Modelos.*;
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
@@ -15,9 +16,17 @@ import static com.interconexionsistemas.practica2.Implementaciones.FuncionesPrac
  * Clase que contiene los metodos que se ejecutan, es decir los comandos o instrucciones ya leidos son hechas su funcion
  */
 public class Ejecutor {
-    static Configuracion conf = (Configuracion) Configuracion.getInstance();
-    static ControladorSalida syso = (ControladorSalida) ControladorSalida.getInstance();
-    static ControladorTarjeta ct = (ControladorTarjeta) ControladorTarjeta.getInstance();
+    static Configuracion conf = Configuracion.getInstance();
+    static ControladorSalida syso = ControladorSalida.getInstance();
+    static ControladorTarjeta ct;
+
+    static {
+        try {
+            ct = ControladorTarjeta.getInstance();
+        } catch (ErrorJpcap e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Recibe una lista de instrucciones y ejecuta el comanado de cada instruccion si este esta registrado
