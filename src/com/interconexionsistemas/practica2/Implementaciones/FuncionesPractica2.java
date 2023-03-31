@@ -1,8 +1,63 @@
 package com.interconexionsistemas.practica2.Implementaciones;
 
+import static com.interconexionsistemas.practica2.Main.syso;
+
 public class FuncionesPractica2 {
 
     // Practica 2 IS 2023
+    public void recibir(String value) {
+        if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
+            syso.println("Parametro incorrecto para 'recibir tramas'");
+            return;
+        }
+
+        // Set the filter based on the selected value
+        String filter = "";
+        if (value.equals("longitud")) {
+            filter = "ether[12:2] < 1500"; // Filter for Ethernet frames where length field is used as length
+        } else if (value.equals("tipo")) {
+            filter = "ether[12:2] > 1500"; // Filter for Ethernet frames where length field is used as type
+        }
+
+        // Open a connection to the selected device
+        NetworkInterface[] devices = JpcapCaptor.getDeviceList();
+        if (devices.length == 0) {
+            syso.println("No se encontraron dispositivos de red");
+            return;
+        }
+
+        int selectedDeviceIndex = tarjeta != null ? tarjeta.getIndex() : 0;
+        JpcapCaptor captor;
+        try {
+            captor = JpcapCaptor.openDevice(devices[selectedDeviceIndex], 2000, false, 20);
+        } catch (IOException e) {
+            syso.println("No se pudo abrir la tarjeta seleccionada");
+            return;
+        }
+
+        // Start capturing packets
+        int count = 0;
+        while (true) {
+            Packet packet = captor.getPacket();
+            if (packet == null) continue;
+
+            // Filter out non-Ethernet frames
+            if (!(packet instanceof EthernetPacket)) continue;
+            EthernetPacket ethPacket = (EthernetPacket) packet;
+
+            // Filter out packets that don't match the selected filter
+            if (filter.length() > 0 && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_IP) && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_ARP)) {
+                continue;
+            }
+
+            // Print the packet information
+            syso.println("Paquete #" + (++count) + " (" + new Date() + ")");
+            syso.println("Origen: " + ethPacket.getSourceAddress());
+            syso.println("Destino: " + ethPacket.getDestinationAddress());
+            syso.println("Tipo: " + ethPacket.getEthernetType());
+            syso.println("Datos: " + ByteArrayUtil.toHex(ethPacket.getEthernetData()));
+        }
+    }
 
 //                        case "recibir": {
 //        // todo | longitud | tipo
