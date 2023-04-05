@@ -12,13 +12,15 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import static com.interconexionsistemas.practica2.Main.*;
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
+import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 
 public class FuncionesPractica2 {
-
+    
     // Practica 2 IS 2023
-
-    static public void recibir(String value) throws IOException {
+    static public void recibir(String value) throws IOException, ErrorJpcap {
+        ControladorTarjeta controladorTarjeta = ControladorTarjeta.getInstance();
         if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
             syso.println("Parametro incorrecto para 'recibir tramas'");
             return;
@@ -72,14 +74,18 @@ public class FuncionesPractica2 {
 //            syso.println("Tipo: " + ethPacket.getEthernetType());
 //            syso.println("Datos: " + ByteArrayUtil.toHex(ethPacket.getEthernetData()));
         boolean fin = false;
+        int contador = 0;
         do {
             Packet paquete = captor.getPacket();
             if(paquete==null) continue;
+            contador ++;
+            syso.println("Paquete recibido numero "+contador);
             mostrarPaquete(paquete);
-            if (entradaTeclado.readLine().equals("f")) {
+            String entrada = entradaTeclado.readLine();
+            
+            if (entrada != null && entrada.equals("f") ) {
                 syso.println("Fin de la captura");
                 fin = true;
-
             }
         } while (!fin);
     }

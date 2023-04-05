@@ -65,6 +65,7 @@ public class ControladorTarjeta {
     private static ControladorTarjeta instance;
 
     protected ControladorTarjeta() {
+        
         // Prevent instantiation from outside the class
     }
 
@@ -72,6 +73,7 @@ public class ControladorTarjeta {
         if (instance == null) {
             syso = ControladorSalida.getInstance();
             instance = new ControladorTarjeta();
+            instance.tarjetas = JpcapCaptor.getDeviceList();
             if (instance.tarjetas == null) {
                 syso.println("Error de packet driver. No se han encontrado tarjetas");
                 throw new ErrorJpcap("sdas");
