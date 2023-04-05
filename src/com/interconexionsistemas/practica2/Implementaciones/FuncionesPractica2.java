@@ -17,7 +17,8 @@ import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 public class FuncionesPractica2 {
 
     // Practica 2 IS 2023
-    public void recibir(String value) throws IOException {
+
+    static public void recibir(String value) throws IOException {
         if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
             syso.println("Parametro incorrecto para 'recibir tramas'");
             return;
@@ -83,7 +84,7 @@ public class FuncionesPractica2 {
         } while (!fin);
     }
 
-    private void mostrarPaquete(Packet p) {
+    private static void mostrarPaquete(Packet p) {
         syso.println("Ha llegado un nuevo paquete");
         syso.println("Dir Mac destino:");
         byte[] bytes_mac_destino = Arrays.copyOfRange(p.header, 0, 6);
@@ -100,7 +101,7 @@ public class FuncionesPractica2 {
         syso.println(output);
         }
 
-    private String mostrarCampoDatos(byte[] data) {
+    private static String mostrarCampoDatos(byte[] data) {
         String output = "";
         for (int i = 0; i < data.length; i++) {
             output += String.format("%02X ", data[i]);
