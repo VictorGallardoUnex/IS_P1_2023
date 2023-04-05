@@ -1,11 +1,23 @@
 package com.interconexionsistemas.practica2.Implementaciones;
 
-import static com.interconexionsistemas.practica2.Main.syso;
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
+import jpcap.JpcapCaptor;
+import jpcap.NetworkInterface;
+import jpcap.packet.EthernetPacket;
+import jpcap.packet.Packet;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+import static com.interconexionsistemas.practica2.Main.*;
+import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 
 public class FuncionesPractica2 {
 
     // Practica 2 IS 2023
-    public void recibir(String value) {
+    public void recibir(String value) throws IOException {
         if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
             syso.println("Parametro incorrecto para 'recibir tramas'");
             return;
@@ -26,38 +38,80 @@ public class FuncionesPractica2 {
             return;
         }
 
-        int selectedDeviceIndex = tarjeta != null ? tarjeta.getIndex() : 0;
         JpcapCaptor captor;
         try {
-            captor = JpcapCaptor.openDevice(devices[selectedDeviceIndex], 2000, false, 20);
+            captor = JpcapCaptor.openDevice(controladorTarjeta.getTarjeta(), 2000, false, 20);
         } catch (IOException e) {
             syso.println("No se pudo abrir la tarjeta seleccionada");
             return;
+        } catch (ErrorTarjetaNoExiste e) {
+            throw new RuntimeException(e);
         }
+        InputStreamReader reader = new InputStreamReader(System.in);
+        BufferedReader entradaTeclado = new BufferedReader(reader);
+//        // Start capturing packets
+//        int count = 0;
+//        while (true) {
+//            Packet packet = captor.getPacket();
+//            if (packet == null) continue;
+//
+//            // Filter out non-Ethernet frames
+//            if (!(packet instanceof EthernetPacket)) continue;
+//            EthernetPacket ethPacket = (EthernetPacket) packet;
+//
+//            // Filter out packets that don't match the selected filter
+//            if (filter.length() > 0 && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_IP) && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_ARP)) {
+//                continue;
+//            }
+//
+//            // Print the packet information
+//            syso.println("Paquete #" + (++count) + " (" + new Date() + ")");
+//            syso.println("Origen: " + ethPacket.getSourceAddress());
+//            syso.println("Destino: " + ethPacket.getDestinationAddress());
+//            syso.println("Tipo: " + ethPacket.getEthernetType());
+//            syso.println("Datos: " + ByteArrayUtil.toHex(ethPacket.getEthernetData()));
+        boolean fin = false;
+        do {
+            Packet paquete = captor.getPacket();
+            if(paquete==null) continue;
+            mostrarPaquete(paquete);
+            if (entradaTeclado.readLine().equals("f")) {
+                syso.println("Fin de la captura");
+                fin = true;
 
-        // Start capturing packets
-        int count = 0;
-        while (true) {
-            Packet packet = captor.getPacket();
-            if (packet == null) continue;
-
-            // Filter out non-Ethernet frames
-            if (!(packet instanceof EthernetPacket)) continue;
-            EthernetPacket ethPacket = (EthernetPacket) packet;
-
-            // Filter out packets that don't match the selected filter
-            if (filter.length() > 0 && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_IP) && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_ARP)) {
-                continue;
             }
-
-            // Print the packet information
-            syso.println("Paquete #" + (++count) + " (" + new Date() + ")");
-            syso.println("Origen: " + ethPacket.getSourceAddress());
-            syso.println("Destino: " + ethPacket.getDestinationAddress());
-            syso.println("Tipo: " + ethPacket.getEthernetType());
-            syso.println("Datos: " + ByteArrayUtil.toHex(ethPacket.getEthernetData()));
-        }
+        } while (!fin);
     }
+
+    private void mostrarPaquete(Packet p) {
+        syso.println("Ha llegado un nuevo paquete");
+        syso.println("Dir Mac destino:");
+        byte[] bytes_mac_destino = Arrays.copyOfRange(p.header, 0, 6);
+        byte[] bytes_mac_origen = Arrays.copyOfRange(p.header, 6, 12);
+        String mac_destino = getMacAsString(bytes_mac_destino);
+        String mac_origen = getMacAsString(bytes_mac_origen);
+
+        String output = "El paquete consta de un tamaño de " + p.len + " Bytes.\n\n";
+        output += "Direcion MAC Destino: " + mac_destino + "\n";
+        output += "Direcion MAC Origen: " + mac_origen + "\n\n";
+        output += "La longitud del campo de datos es: " + p.data.length + "\n\n";
+        output += "El contenido del paquete es el siguiente:\n\n";
+        output += mostrarCampoDatos(p.data);
+        syso.println(output);
+        }
+
+    private String mostrarCampoDatos(byte[] data) {
+        String output = "";
+        for (int i = 0; i < data.length; i++) {
+            output += String.format("%02X ", data[i]);
+            if ((i + 1) % 16 == 0) {
+                output += "\n";
+            }
+        }
+        return output;
+    }
+
+
 
 //                        case "recibir": {
 //        // todo | longitud | tipo
