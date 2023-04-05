@@ -84,5 +84,14 @@ public class Configuracion {
         return instance;
     }
 
+    // Practica 2
+    String mensaje_a_enviar;
 
+    public String getMensaje_a_enviar() {
+        return mensaje_a_enviar;
+    }
+
+    public void setMensaje_a_enviar(String mensaje_a_enviar) {
+        this.mensaje_a_enviar = mensaje_a_enviar;
+    }
 }

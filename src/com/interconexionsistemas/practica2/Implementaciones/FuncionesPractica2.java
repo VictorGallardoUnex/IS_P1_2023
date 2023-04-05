@@ -2,8 +2,8 @@ package com.interconexionsistemas.practica2.Implementaciones;
 
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import jpcap.JpcapCaptor;
+import jpcap.JpcapSender;
 import jpcap.NetworkInterface;
-import jpcap.packet.EthernetPacket;
 import jpcap.packet.Packet;
 
 import java.io.BufferedReader;
@@ -12,32 +12,15 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import static com.interconexionsistemas.practica2.Main.*;
-import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
-import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 
 public class FuncionesPractica2 {
-    
+
     // Practica 2 IS 2023
-    static public void recibir(String value) throws IOException, ErrorJpcap {
-        ControladorTarjeta controladorTarjeta = ControladorTarjeta.getInstance();
+
+    static public void recibir(String value) throws IOException {
         if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
             syso.println("Parametro incorrecto para 'recibir tramas'");
-            return;
-        }
-
-        // Set the filter based on the selected value
-        String filter = "";
-        if (value.equals("longitud")) {
-            filter = "ether[12:2] < 1500"; // Filter for Ethernet frames where length field is used as length
-        } else if (value.equals("tipo")) {
-            filter = "ether[12:2] > 1500"; // Filter for Ethernet frames where length field is used as type
-        }
-
-        // Open a connection to the selected device
-        NetworkInterface[] devices = JpcapCaptor.getDeviceList();
-        if (devices.length == 0) {
-            syso.println("No se encontraron dispositivos de red");
             return;
         }
 
@@ -52,44 +35,28 @@ public class FuncionesPractica2 {
         }
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader entradaTeclado = new BufferedReader(reader);
-//        // Start capturing packets
-//        int count = 0;
-//        while (true) {
-//            Packet packet = captor.getPacket();
-//            if (packet == null) continue;
-//
-//            // Filter out non-Ethernet frames
-//            if (!(packet instanceof EthernetPacket)) continue;
-//            EthernetPacket ethPacket = (EthernetPacket) packet;
-//
-//            // Filter out packets that don't match the selected filter
-//            if (filter.length() > 0 && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_IP) && !ethPacket.hasHeader(EthernetPacket.ETHERTYPE_ARP)) {
-//                continue;
-//            }
-//
-//            // Print the packet information
-//            syso.println("Paquete #" + (++count) + " (" + new Date() + ")");
-//            syso.println("Origen: " + ethPacket.getSourceAddress());
-//            syso.println("Destino: " + ethPacket.getDestinationAddress());
-//            syso.println("Tipo: " + ethPacket.getEthernetType());
-//            syso.println("Datos: " + ByteArrayUtil.toHex(ethPacket.getEthernetData()));
+
         boolean fin = false;
         int contador = 0;
         do {
             Packet paquete = captor.getPacket();
             if(paquete==null) continue;
-            contador ++;
-            syso.println("Paquete recibido numero "+contador);
+            boolean is_longitud_or_tipo = castByteToShort(paquete.header[12], paquete.header[13]) < 1500;
+            if(!(is_longitud_or_tipo && value.equals("longitud") || !is_longitud_or_tipo && value.equals("tipo") || value.equals("todo"))) {
+                continue;
+            }
+            syso.println("Es un paquete de tipo " + (is_longitud_or_tipo ? "longitud" : "tipo"));
+
             mostrarPaquete(paquete);
-            String entrada = entradaTeclado.readLine();
-            
-            if (entrada != null && entrada.equals("f") ) {
+            if (entradaTeclado.readLine().equals("f")) {
                 syso.println("Fin de la captura");
                 fin = true;
             }
         } while (!fin);
     }
-
+    private static short castByteToShort(byte primero, byte segundo) {
+        return (short) ((segundo << 8) | (primero & 0xFF));
+    }
     private static void mostrarPaquete(Packet p) {
         syso.println("Ha llegado un nuevo paquete");
         syso.println("Dir Mac destino:");
@@ -118,36 +85,8 @@ public class FuncionesPractica2 {
         return output;
     }
 
-
-
-//                        case "recibir": {
-//        // todo | longitud | tipo
-//        //§ Mostrará las tramas que cumplan con la opción elegida, que son:
-//        //• Todo.
-//        //      Mostrará todas las tramas que lleguen a la estación.
-//        //• Longitud.
-//        //      Mostrará sólo las tramas ethernet en las que el
-//        //      campo tipo/longitud actúa como campo longitud, es decir,
-//        //      su valor es inferior a 1500.
-//        //• Tipo.
-//        //      Mostrará sólo las tramas ethernet en las que el campo
-//        //      tipo/longitud actúa como campo tipo, es decir, su valor es
-//        //      superior a 1500
-//        //    El programa terminará cuando el usuario pulse la tecla “f”. Además, se asume que
-//        //    se ha elegido una tarjeta válida, en el caso de que no se haya elegido una tarjeta
-//        //    válida o ninguna se trabajará con la tarjeta por defecto que es la 0
-//        break;
-//    }
 //    // Enviar tramas por la red
-//                        case "repertirenvio": {
-//                            /*
-//                            o & repetirenvio <numero>
-//                            § En número vendrá indicado la cantidad de veces que se enviará el
-//                            mismo paquete de datos, donde irá el mismo texto, seguido de un
-//                            numero que irá de 1 a <numero> tal cual se puede ver en el ejemplo
-//                            del comando “texto”.
-//                             */
-//        break;
+
 //    }
 //                        case "texto": {
 //        break;
@@ -170,6 +109,87 @@ public class FuncionesPractica2 {
 //                            enviará es: “esto se hace en la practica 2 de interconexión de sistemas”
 //                             */
 //    }
+    //                        case "repertirenvio": {
+//                            /*
+//                            o & repetirenvio <numero>
+//                            § En número vendrá indicado la cantidad de veces que se enviará el
+//                            mismo paquete de datos, donde irá el mismo texto, seguido de un
+//                            numero que irá de 1 a <numero> tal cual se puede ver en el ejemplo
+//                            del comando “texto”.
+//                             */
+
+    public void repetirEnvio(int numero) {
+        if (numero < 1) {
+            syso.println("El numero de veces a repetir el envio debe ser mayor que 0");
+            return;
+        }
+        for (int i = 0; i < numero; i++) {
+            enviarTexto("esto se hace en la practica 2 de interconexión de sistemas " + (i + 1));
+        }
+        JpcapSender sender;
+
+
+    }
+    public void enviarTexto(String texto) {
+        if (texto == null || texto.isEmpty()) {
+            syso.println("El texto a enviar no puede ser nulo o vacio");
+            return;
+        }
+        byte[] bytes = texto.getBytes();
+        Packet paquete = new Packet();
+        paquete.data = bytes;
+        paquete.len = bytes.length;
+        String mac_string = null;
+
+        byte[] mac = convertirMacABytes(mac_string);
+        paquete.header = new byte[14];
+        // cast the returned bytes to the correct array position based on return String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+        paquete.header[0] = (byte) 0x00;
+        paquete.header[1] = (byte) 0x0C;
+        paquete.header[2] = (byte) 0x29;
+        paquete.header[3] = (byte) 0x2A;
+        paquete.header[4] = (byte) 0x3B;
+        paquete.header[5] = (byte) 0x4C;
+        paquete.header[6] = (byte) 0x00;
+        paquete.header[7] = (byte) 0x0C;
+        paquete.header[8] = (byte) 0x29;
+        paquete.header[9] = (byte) 0x2A;
+        paquete.header[10] = (byte) 0x3B;
+        paquete.header[11] = (byte) 0x4C;
+        paquete.header[12] = (byte) 0x08;
+        paquete.header[13] = (byte) 0x00;
+        try {
+            captor.sendPacket(paquete);
+        } catch (IOException e) {
+            syso.println("No se pudo enviar el paquete");
+        }
+    }
+
+
+
+    public byte[] convertirMacABytes(String mac) throws IllegalArgumentException {
+        if (mac == null) {
+            throw new IllegalArgumentException("La cadena MAC no puede ser nula");
+        }
+
+        String[] partes = mac.split(":");
+        if (partes.length != 6) {
+            throw new IllegalArgumentException("La cadena MAC debe contener 6 bytes separados por ':'");
+        }
+
+        byte[] bytes = new byte[6];
+        try {
+            for (int i = 0; i < 6; i++) {
+                bytes[i] = (byte) Integer.parseInt(partes[i], 16);
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("La cadena MAC contiene caracteres no válidos", e);
+        }
+
+        return bytes;
+    }
+
+//        break;
 //    // Modulo C - Verificar	 que	 recibimos	 lo	 enviado	 en	 el	 módulo
 //    // anterior
 //                        case "pin": {
