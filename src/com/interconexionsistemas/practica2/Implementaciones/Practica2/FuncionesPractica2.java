@@ -43,6 +43,9 @@ public class FuncionesPractica2 {
                 continue;
             }
 
+            if (is_longitud_or_tipo && configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete))) {
+                continue;
+            }
             syso.println("Es un paquete de tipo " + (is_longitud_or_tipo ? "longitud" : "tipo"));
             mostrarPaquete(paquete);
             if (entradaTeclado.readLine().equals("f")) {
@@ -59,6 +62,9 @@ public class FuncionesPractica2 {
         }
         String texto_original = configuracion.getMensaje_a_enviar();
         String texto_enviado;
+        if (configuracion.hasPin()) {
+            texto_original = configuracion.getPin() + " " + configuracion.getMensaje_a_enviar();
+        }
         for (int i = 0; i < numero; i++) {
             texto_enviado = texto_original + " " + (i + 1);
             enviarTexto(texto_enviado);
@@ -93,6 +99,6 @@ public class FuncionesPractica2 {
         emisor = controladorTarjeta.getEmisor();
         emisor.sendPacket(paquete);
         syso.println("Paquete enviado correctamente a la direccion MAC " + MAC_BROADCAST + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data));
-
     }
+
 }

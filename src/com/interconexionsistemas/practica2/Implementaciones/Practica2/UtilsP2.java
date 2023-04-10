@@ -84,7 +84,18 @@ public class UtilsP2 {
         output += "La longitud del campo de datos es: " + p.data.length + "\n\n";
         output += "El contenido del paquete es el siguiente:\n\n";
         output += mostrarCampoDatos(p.data);
+        output += "El contenido traducido es el siguiente:\n\n";
+        output += new String(p.data);
         syso.println(output);
+    }
+
+    /**
+     * Extrae el pin de un paquete
+     * @param paquete paquete a extraer el pin
+     * @return pin del paquete
+     */
+    public static String extraerPin(Packet paquete) {
+        return new String(paquete.data).split(" ")[0];
     }
 
 }

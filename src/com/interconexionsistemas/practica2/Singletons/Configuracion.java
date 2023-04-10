@@ -101,4 +101,16 @@ public class Configuracion {
     public void setMensaje_a_enviar(String mensaje_a_enviar) {
         this.mensaje_a_enviar = mensaje_a_enviar;
     }
+    String pin = "";
+    public void setPin(String valor) {
+        this.pin = valor;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public boolean hasPin() {
+        return pin != null && !pin.isEmpty();
+    }
 }

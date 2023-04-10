@@ -84,9 +84,11 @@ public class Ejecutor {
                             conf.setMensaje_a_enviar(instruccion.valor);
                             break;
                         }
-                        // Modulo C - Verificar	 que	 recibimos	 lo	 enviado	 en	 el	 módulo
+                        // Modulo C - Verificar	que	 recibimos	 lo	 enviado	 en	 el	 módulo
                         // anterior
                         case "pin": {
+                            conf.setPin(instruccion.valor);
+                            break;
                             /*
                             & pin <palabra>
                             § En “palabra” irá un pin que se colocará a partir del primer byte del
@@ -101,6 +103,8 @@ public class Ejecutor {
                              */
                         }
                         case "recibirconpin": {
+                            recibirTramas("longitud");
+                            break;
                             /*
                             & recibirconpin
                             § En este caso se activará la recepción y mostrará sólo aquellas
