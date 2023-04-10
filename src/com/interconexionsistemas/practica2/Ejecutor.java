@@ -76,7 +76,7 @@ public class Ejecutor {
                         }
 
                         // Enviar tramas por la red
-                        case "repertirenvio": {
+                        case "repetirenvio": {
                             repetirEnvio(Integer.parseInt(instruccion.valor));
                             break;
                         }
