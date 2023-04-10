@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 
 import static com.interconexionsistemas.practica2.Main.*;
 import static com.interconexionsistemas.practica2.Implementaciones.Practica2.UtilsP2.*;
+import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 
 public class FuncionesPractica2 {
 
@@ -100,7 +101,7 @@ public class FuncionesPractica2 {
         // Enviamos el paquete
         emisor = controladorTarjeta.getEmisor();
         emisor.sendPacket(paquete);
-        syso.println("Paquete enviado correctamente a la direccion MAC " + MAC_BROADCAST + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data));
+        syso.println("Paquete enviado correctamente a la direccion MAC " + getMacAsString(MAC_BROADCAST) + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data)+ "\nInformacion del paquete como string: \n"+ new String(paquete.data));
     }
 
 }
