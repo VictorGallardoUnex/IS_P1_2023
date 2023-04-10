@@ -84,7 +84,7 @@ public class UtilsP2 {
         output += "La longitud del campo de datos es: " + p.data.length + "\n\n";
         output += "El contenido del paquete es el siguiente:\n\n";
         output += mostrarCampoDatos(p.data);
-        output += "El contenido traducido es el siguiente:\n\n";
+        output += "\n\nEl contenido traducido es el siguiente:\n\n";
         output += new String(p.data);
         syso.println(output);
     }

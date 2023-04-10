@@ -49,7 +49,8 @@ public class FuncionesPractica2 {
             }
             syso.println("Es un paquete de tipo " + (is_longitud_or_tipo ? "longitud" : "tipo"));
             mostrarPaquete(paquete);
-            if (entradaTeclado.readLine().equals("f")) {
+            syso.println("Pulse 'enter' para continuar.\nPresione 'f' y despues 'enter' para finalizar");
+            if (entradaTeclado.read() == 102) {
                 syso.println("Fin de la captura");
                 fin = true;
             }
