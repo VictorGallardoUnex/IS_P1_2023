@@ -72,21 +72,22 @@ public class UtilsP2 {
      */
     public static void mostrarPaquete(Packet p) {
         syso.println("Ha llegado un nuevo paquete");
-        syso.println("Dir Mac destino:");
+
         byte[] bytes_mac_destino = Arrays.copyOfRange(p.header, 0, 6);
         byte[] bytes_mac_origen = Arrays.copyOfRange(p.header, 6, 12);
         String mac_destino = getMacAsString(bytes_mac_destino);
         String mac_origen = getMacAsString(bytes_mac_origen);
 
-        String output = "El paquete consta de un tamaño de " + p.len + " Bytes.\n";
+        String output = "El paquete consta de un tamaño de: " + p.len + " Bytes.\n";
         output += "Direcion MAC Destino: " + mac_destino + "\n";
         output += "Direcion MAC Origen: " + mac_origen + "\n\n";
         output += "La longitud del campo de datos es: " + p.data.length + "\n\n";
         output += "El contenido del paquete es el siguiente:\n";
         output += mostrarCampoDatos(p.data);
-        output += "\n\nEl contenido traducido es el siguiente:\n";
+        output += "\n\nEl contenido convertido es el siguiente:\n";
         output += new String(p.data);
         syso.println(output);
+        syso.println("------------------------------------------------------------\n\n\n");
     }
 
     /**
