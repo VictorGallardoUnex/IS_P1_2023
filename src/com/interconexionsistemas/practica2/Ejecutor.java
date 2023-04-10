@@ -31,7 +31,8 @@ public class Ejecutor {
     /**
      * Recibe una lista de instrucciones y ejecuta el comanado de cada instruccion si este esta registrado
      *
-     * */
+     * @param instrucciones lista de instrucciones a ejecutar
+     */
     public static void procesar_instrucciones(ArrayList<Instruccion> instrucciones) {
         for (Instruccion instruccion : instrucciones) {
             if (instruccion.getClass() == Bandera.class) {
@@ -82,24 +83,6 @@ public class Ejecutor {
                         case "texto": {
                             conf.setMensaje_a_enviar(instruccion.valor);
                             break;
-                            /*
-                            o & texto <cadena que se envía>
-                             En este caso irá en el campo datos de la trama ethernet el texto que
-                            esté escrito a partir del comando “texto” y además se le añadirá un
-                            número a ese texto indicando el número de vez que se produce es
-                            envío. Por ejemplo:
-                            • & texto esto se envia por la red
-                            • & repetirenvio 5
-                            § Lo anterior produciría el envio de las siguientes tramas:
-                            • Esto se envia por la red 1
-                            • Esto se envia por la red 2
-                            • Esto se envia por la red 3
-                            • Esto se envia por la red 4
-                            • Esto se envia por la red 5
-                            o Finalmente, también ha de considerarse que por defecto si el usuario no ha
-                            puesto nada con el comando “texto”, el texto por defecto que el programa
-                            enviará es: “esto se hace en la practica 2 de interconexión de sistemas”
-                             */
                         }
                         // Modulo C - Verificar	 que	 recibimos	 lo	 enviado	 en	 el	 módulo
                         // anterior

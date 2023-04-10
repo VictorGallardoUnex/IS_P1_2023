@@ -3,7 +3,7 @@ package com.interconexionsistemas.practica2.Singletons;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
 
 /**
- * Almacena la configuracion actual
+ * Clase que contiene la configuracion del programa
  */
 public class Configuracion {
 
@@ -85,7 +85,10 @@ public class Configuracion {
     }
 
     // Practica 2
-    String mensaje_a_enviar;
+    /**
+     * El mensaje que se va a enviar si se va a enviar algo. Se reinicia a null despues de ser enviado
+     */
+    String mensaje_a_enviar = null;
 
     public String getMensaje_a_enviar() {
         if (mensaje_a_enviar == null || mensaje_a_enviar.isEmpty()) {

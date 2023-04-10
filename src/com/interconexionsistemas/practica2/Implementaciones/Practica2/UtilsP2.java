@@ -46,15 +46,23 @@ public class UtilsP2 {
      * @return Cadena de texto con el contenido del array
      */
     static String mostrarCampoDatos(byte[] data) {
-        String output = "";
+        // Creamos un StringBuilder para ir concatenando los datos
+        StringBuilder output = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
-            output += String.format("%02X ", data[i]);
+            // Concatenamos el byte en hexadecimal
+            output.append(String.format("%02X ", data[i]));
             if ((i + 1) % 16 == 0) {
-                output += "\n";
+                output.append("\n");
             }
         }
-        return output;
+        return output.toString();
     }
+    /**
+     * Convierte dos bytes en un short
+     * @param primero Primer byte
+     * @param segundo Segundo byte
+     * @return Short formado por los dos bytes
+     */
     static short castByteToShort(byte primero, byte segundo) {
         return (short) ((segundo << 8) | (primero & 0xFF));
     }

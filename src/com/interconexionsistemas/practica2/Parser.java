@@ -24,7 +24,6 @@ public class Parser {
 
     /**
      * Clase que contiene los metodos para leer el fichero de entrada y sus posibles configuraciones
-     * @param instrucciones
      */
     public Parser(ArrayList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
@@ -32,7 +31,7 @@ public class Parser {
 
     /**
      * Lee los argumentos pasados al programa desde fuera. Establece configuraciones iniciales
-     * @param argumentos
+     * @param argumentos argumentos pasados al programa
      */
     public void leer_argumentos(String[] argumentos) {
         boolean fe_configurado = false;

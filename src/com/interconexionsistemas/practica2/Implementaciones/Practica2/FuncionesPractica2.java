@@ -35,13 +35,15 @@ public class FuncionesPractica2 {
         boolean fin = false;
         do {
             Packet paquete = captor.getPacket();
+            // si no hay paquete, continuamos
             if(paquete==null) continue;
+            // si no es el tipo que buscamos, continuamos
             boolean is_longitud_or_tipo = castByteToShort(paquete.header[12], paquete.header[13]) < 1500;
             if(!(is_longitud_or_tipo && value.equals("longitud") || !is_longitud_or_tipo && value.equals("tipo") || value.equals("todo"))) {
                 continue;
             }
-            syso.println("Es un paquete de tipo " + (is_longitud_or_tipo ? "longitud" : "tipo"));
 
+            syso.println("Es un paquete de tipo " + (is_longitud_or_tipo ? "longitud" : "tipo"));
             mostrarPaquete(paquete);
             if (entradaTeclado.readLine().equals("f")) {
                 syso.println("Fin de la captura");
@@ -56,11 +58,12 @@ public class FuncionesPractica2 {
             return;
         }
         String texto_original = configuracion.getMensaje_a_enviar();
-        String texto_enviado = "";
+        String texto_enviado;
         for (int i = 0; i < numero; i++) {
             texto_enviado = texto_original + " " + (i + 1);
             enviarTexto(texto_enviado);
         }
+        configuracion.setMensaje_a_enviar(null);
     }
     private static void enviarTexto(String texto) {
         byte[] bytesDatos = texto.getBytes();
@@ -71,51 +74,25 @@ public class FuncionesPractica2 {
             // No hacemos nada, es imposible. si no existen tarjetas, el programa sale antes con codigo 1
             return;
         }
+        // Creamos el paquete
         Packet paquete = new Packet();
-
+        // Creamos la cabecera Ethernet
         EthernetPacket EthP = new EthernetPacket();
-
+        // Rellenamos los campos de la cabecera Ethernet
         EthP.frametype = (short) bytesDatos.length;
-
+        // La direccion MAC de destino es la direccion MAC de broadcast
         EthP.dst_mac = MAC_BROADCAST;
+        // La direccion MAC de origen es la direccion MAC de la tarjeta de red
         EthP.src_mac = mac_origen;
 
         paquete.datalink = EthP;
         paquete.data = bytesDatos;
 
-
         JpcapSender emisor;
+        // Enviamos el paquete
         emisor = controladorTarjeta.getEmisor();
         emisor.sendPacket(paquete);
         syso.println("Paquete enviado correctamente a la direccion MAC " + MAC_BROADCAST + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data));
 
     }
-
-//        break;
-//    // Modulo C - Verificar	 que	 recibimos	 lo	 enviado	 en	 el	 módulo
-//    // anterior
-//                        case "pin": {
-//                            /*
-//                            & pin <palabra>
-//                            § En “palabra” irá un pin que se colocará a partir del primer byte del
-//                            campo datos de la trama ethernet y seguidamente se colocará el
-//                            texto del comando texto, y se enviará las veces que indique el
-//                            comando “repetirenvio” en número vendrá indicado la cantidad de
-//                            veces que se enviará el mismo paquete de datos, donde irá el
-//                            mismo texto, seguido de un numero que irá de 1 a <numero> tal
-//                            cual se puede ver en el ejemplo del comando “texto”. Sólo cuando
-//                            este comando esté en el fichero de configuración se modificará el
-//                            comportamiento del módulo B.
-//                             */
-//    }
-//                        case "recibirconpin": {
-//                            /*
-//                            & recibirconpin
-//                            § En este caso se activará la recepción y mostrará sólo aquellas
-//                            tramas que siendo de tipo “longitud” venga el “pin” correctamente.
-//                            Si estuviera este comando activo, pero no hubiera pin definido en
-//                            el fichero, serán válidas todas las tramas, dado que es como recibirTramas
-//                            sin pin
-//                             */
-//    }
 }
