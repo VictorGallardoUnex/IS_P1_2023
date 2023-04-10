@@ -22,8 +22,9 @@ public class FuncionesPractica2 {
      * @throws IOException
      */
     static public void recibirTramas(String value) throws IOException {
+        value = value.toLowerCase();
         if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
-            syso.println("Parametro incorrecto para 'recibirTramas tramas'");
+            syso.println("Parametro incorrecto para modo recibir tramas: " + value);
             return;
         }
 
