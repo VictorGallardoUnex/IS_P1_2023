@@ -88,6 +88,10 @@ public class Configuracion {
     String mensaje_a_enviar;
 
     public String getMensaje_a_enviar() {
+        if (mensaje_a_enviar == null || mensaje_a_enviar.isEmpty()) {
+            mensaje_a_enviar = "esto se hace en la practica 2 de interconexión de sistemas";
+
+        }
         return mensaje_a_enviar;
     }
 

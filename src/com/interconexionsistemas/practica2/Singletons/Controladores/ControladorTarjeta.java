@@ -5,6 +5,8 @@ import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import jpcap.*;
 
+import java.io.IOException;
+
 import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 
 /**
@@ -65,7 +67,6 @@ public class ControladorTarjeta {
     private static ControladorTarjeta instance;
 
     protected ControladorTarjeta() {
-        
         // Prevent instantiation from outside the class
     }
 
@@ -73,7 +74,6 @@ public class ControladorTarjeta {
         if (instance == null) {
             syso = ControladorSalida.getInstance();
             instance = new ControladorTarjeta();
-            instance.tarjetas = JpcapCaptor.getDeviceList();
             if (instance.tarjetas == null) {
                 syso.println("Error de packet driver. No se han encontrado tarjetas");
                 throw new ErrorJpcap("sdas");
@@ -82,4 +82,29 @@ public class ControladorTarjeta {
         return instance;
     }
 
+    JpcapCaptor receptor;
+    JpcapSender emisor;
+
+    public JpcapCaptor getReceptor() {
+        if (receptor == null) {
+            try {
+                receptor = JpcapCaptor.openDevice(getTarjeta(), 2000, false, 20);
+            } catch (ErrorTarjetaNoExiste | IOException errorTarjetaNoExiste) {
+                errorTarjetaNoExiste.printStackTrace();
+            }
+        }
+        return receptor;
+    }
+
+    public JpcapSender getEmisor() {
+        if (emisor == null) {
+            try {
+                emisor = JpcapSender.openDevice(getTarjeta());
+            } catch (ErrorTarjetaNoExiste | IOException errorTarjetaNoExiste) {
+                errorTarjetaNoExiste.printStackTrace();
+            }
+        }
+        return emisor;
+    }
 }
+

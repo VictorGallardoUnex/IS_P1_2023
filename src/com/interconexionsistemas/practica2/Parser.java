@@ -18,15 +18,15 @@ import java.util.Arrays;
  * Clase de soporte intermedio. Convierte entrada de usuario en configuración útil.
  */
 public class Parser {
-    static Configuracion conf = (Configuracion) Configuracion.getInstance();
-    static ControladorSalida syso = (ControladorSalida) ControladorSalida.getInstance();
+    static Configuracion conf = Configuracion.getInstance();
+    static ControladorSalida syso = ControladorSalida.getInstance();
     ArrayList<Instruccion> instrucciones;
 
     /**
      * Clase que contiene los metodos para leer el fichero de entrada y sus posibles configuraciones
      * @param instrucciones
      */
-    public Parser(ArrayList<Instruccion> instrucciones, Configuracion configuracion, ControladorSalida syso) {
+    public Parser(ArrayList<Instruccion> instrucciones) {
         this.instrucciones = instrucciones;
     }
 

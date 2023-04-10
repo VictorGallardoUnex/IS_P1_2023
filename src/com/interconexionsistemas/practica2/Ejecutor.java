@@ -6,11 +6,11 @@ import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
-import com.interconexionsistemas.practica2.Implementaciones.FuncionesPractica1;
 
 import java.util.ArrayList;
 
 import static com.interconexionsistemas.practica2.Implementaciones.FuncionesPractica1.*;
+import static com.interconexionsistemas.practica2.Implementaciones.Practica2.FuncionesPractica2.*;
 
 /**
  * Clase que contiene los metodos que se ejecutan, es decir los comandos o instrucciones ya leidos son hechas su funcion
@@ -30,6 +30,7 @@ public class Ejecutor {
 
     /**
      * Recibe una lista de instrucciones y ejecuta el comanado de cada instruccion si este esta registrado
+     *
      * */
     public static void procesar_instrucciones(ArrayList<Instruccion> instrucciones) {
         for (Instruccion instruccion : instrucciones) {
@@ -68,36 +69,18 @@ public class Ejecutor {
 
                         // Practica 2 IS 2023
 
-                        case "recibir": {
-                            // todo | longitud | tipo
-                            //§ Mostrará las tramas que cumplan con la opción elegida, que son:
-                            //• Todo.
-                            //      Mostrará todas las tramas que lleguen a la estación.
-                            //• Longitud.
-                            //      Mostrará sólo las tramas ethernet en las que el
-                            //      campo tipo/longitud actúa como campo longitud, es decir,
-                            //      su valor es inferior a 1500.
-                            //• Tipo.
-                            //      Mostrará sólo las tramas ethernet en las que el campo
-                            //      tipo/longitud actúa como campo tipo, es decir, su valor es
-                            //      superior a 1500
-                            //    El programa terminará cuando el usuario pulse la tecla “f”. Además, se asume que
-                            //    se ha elegido una tarjeta válida, en el caso de que no se haya elegido una tarjeta
-                            //    válida o ninguna se trabajará con la tarjeta por defecto que es la 0
+                        case "recibirTramas": {
+                            recibirTramas(instruccion.valor);
                             break;
                         }
+
                         // Enviar tramas por la red
                         case "repertirenvio": {
-                            /*
-                            o & repetirenvio <numero>
-                            § En número vendrá indicado la cantidad de veces que se enviará el
-                            mismo paquete de datos, donde irá el mismo texto, seguido de un
-                            numero que irá de 1 a <numero> tal cual se puede ver en el ejemplo
-                            del comando “texto”.
-                             */
+                            repetirEnvio(Integer.parseInt(instruccion.valor));
                             break;
                         }
                         case "texto": {
+                            conf.setMensaje_a_enviar(instruccion.valor);
                             break;
                             /*
                             o & texto <cadena que se envía>
@@ -140,7 +123,7 @@ public class Ejecutor {
                             § En este caso se activará la recepción y mostrará sólo aquellas
                             tramas que siendo de tipo “longitud” venga el “pin” correctamente.
                             Si estuviera este comando activo, pero no hubiera pin definido en
-                            el fichero, serán válidas todas las tramas, dado que es como recibir
+                            el fichero, serán válidas todas las tramas, dado que es como recibirTramas
                             sin pin
                              */
                         }

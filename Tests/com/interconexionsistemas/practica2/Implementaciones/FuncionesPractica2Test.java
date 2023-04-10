@@ -1,5 +1,5 @@
 package com.interconexionsistemas.practica2.Implementaciones;
-import static com.interconexionsistemas.practica2.Implementaciones.FuncionesPractica2.recibir;
+import static com.interconexionsistemas.practica2.Implementaciones.Practica2.FuncionesPractica2.recibirTramas;
 import static com.interconexionsistemas.practica2.Utils.getMacAsString;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -38,7 +38,7 @@ public class FuncionesPractica2Test extends TestCase {
         }
 
         public void testRecibir() throws Exception {
-            recibir("todo");
+            recibirTramas("todo");
         }
 
 

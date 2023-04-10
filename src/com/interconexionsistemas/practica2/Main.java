@@ -34,7 +34,7 @@ public class Main {
         }
 
         syso.println("Procesando parametros");
-        Parser parseador = new Parser(instrucciones,configuracion,syso);
+        Parser parseador = new Parser(instrucciones);
         parseador.leer_argumentos(args);
 
         syso.println("Procesando configuracion");
