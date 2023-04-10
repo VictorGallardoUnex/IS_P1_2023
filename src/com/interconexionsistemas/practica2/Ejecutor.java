@@ -70,7 +70,7 @@ public class Ejecutor {
 
                         // Practica 2 IS 2023
 
-                        case "recibirTramas": {
+                        case "recibirtramas": {
                             recibirTramas(instruccion.valor);
                             break;
                         }
