@@ -67,6 +67,7 @@ public class ControladorTarjeta {
     private static ControladorTarjeta instance;
 
     protected ControladorTarjeta() {
+        tarjetas = JpcapCaptor.getDeviceList();
         // Prevent instantiation from outside the class
     }
 
