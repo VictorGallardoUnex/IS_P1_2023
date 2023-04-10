@@ -12,35 +12,6 @@ public class UtilsP2 {
     public static final byte[] MAC_BROADCAST = { (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff };
 
     /**
-     * Convierte una cadena de texto en una dirección MAC
-     * Sigue la siguiente sintaxis: xx:xx:xx:xx:xx:xx
-     * @param mac Cadena de texto con la dirección MAC
-     * @return Array de bytes con la dirección MAC
-     * @throws IllegalArgumentException Si la cadena no tiene el formato correcto
-     */
-    public static byte[] convertirMacABytes(String mac) throws IllegalArgumentException {
-        if (mac == null) {
-            throw new IllegalArgumentException("La cadena MAC no puede ser nula");
-        }
-
-        String[] partes = mac.split(":");
-        if (partes.length != 6) {
-            throw new IllegalArgumentException("La cadena MAC debe contener 6 bytes separados por ':'");
-        }
-
-        byte[] bytes = new byte[6];
-        try {
-            for (int i = 0; i < 6; i++) {
-                bytes[i] = (byte) Integer.parseInt(partes[i], 16);
-            }
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("La cadena MAC contiene caracteres no válidos", e);
-        }
-
-        return bytes;
-    }
-
-    /**
      * Muestra el contenido de un array de bytes en hexadecimal
      * @param data Array de bytes
      * @return Cadena de texto con el contenido del array

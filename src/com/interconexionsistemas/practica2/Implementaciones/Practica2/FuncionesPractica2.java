@@ -20,7 +20,6 @@ public class FuncionesPractica2 {
     /**
      * Recibe tramas de la red y las muestra por pantalla
      * @param value puede ser "todo", "longitud" o "tipo"
-     * @throws IOException
      */
     static public void recibirTramas(String value) throws IOException {
         value = value.toLowerCase();

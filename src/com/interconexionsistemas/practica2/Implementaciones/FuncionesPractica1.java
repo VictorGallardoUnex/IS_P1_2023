@@ -11,8 +11,8 @@ public class FuncionesPractica1 {
         /*
      FUNCIONES IMPLEMENTACION
     * */
-    static ControladorSalida syso = ControladorSalida.getInstance();
-    static ControladorTarjeta ct;
+    static final ControladorSalida syso = ControladorSalida.getInstance();
+    static final ControladorTarjeta ct;
 
     static {
         try {
@@ -24,8 +24,6 @@ public class FuncionesPractica1 {
 
     /**
      * Muestra la informacion de la tarjeta, si hay multiples tarjetas acepta un numero para seleccionarla
-     * @param valor
-     * @throws ErrorTarjetaNoExiste
      */
     public static void infoTarjeta(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = ct.getTarjeta(valor);
@@ -33,13 +31,6 @@ public class FuncionesPractica1 {
         syso.println("Nombre: " + tarjeta.name);
         syso.println("Nombre del enlace: " + tarjeta.datalink_name);
         syso.println("Mac: " + getMacAsString(tarjeta.mac_address));
-    }
-
-    /**
-     * Muestra la informacion de la tarjeta, si hay multiples tarjetas acepta un numero para seleccionarla
-     */
-    public static void infoTarjeta() throws ErrorTarjetaNoExiste {
-        infoTarjeta(0);
     }
 
     /**
@@ -59,12 +50,9 @@ public class FuncionesPractica1 {
 
     /**
      * Muestra la mac
-     * @param valor
-     * @throws ErrorTarjetaNoExiste
      */
     public static void infoEthernet(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = ct.getTarjeta(valor);
-        ;
         syso.println("Direccion mac de la tarjeta (" + valor + ") " + getMacAsString(tarjeta.mac_address));
     }
 }

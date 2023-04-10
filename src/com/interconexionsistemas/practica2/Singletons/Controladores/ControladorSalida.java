@@ -11,17 +11,16 @@ import java.util.LinkedList;
  * Clase singleton que se encarga de mostrar el texto o guardarlo en el archivo
  */
 public class ControladorSalida {
-    LinkedList<String> salida_texto = new LinkedList<>();
+    final LinkedList<String> salida_texto = new LinkedList<>();
 
 
 
     /**
      * Metodo que se llama para escribir
-     * @param texto
      */
     public void println(String texto) {
         // Si salida pantalla esta off no mostramos nada en pantalla ni mostramos nada en el archivo
-        if (!Main.configuracion.isSalida_pantalla()) {
+        if (Main.configuracion.isNotSalida_pantalla()) {
             return;
         }
         System.out.println(texto);
@@ -29,21 +28,7 @@ public class ControladorSalida {
     }
 
     /**
-     * Metodo que se llama para escribir
-     * @param texto
-     */
-    public void print(String texto) {
-        if (!Main.configuracion.isSalida_pantalla()) {
-            return;
-        }
-        System.out.print(texto);
-        // Añade texto a el ultimo mensaje sin salto de linea
-        salida_texto.set(salida_texto.size(), salida_texto.peekLast() + texto);
-    }
-
-    /**
      * Configura el archivo salida
-     * @param fichero_salida
      */
     public void setArchivoSalida(String fichero_salida) {
         if (Main.configuracion.isSalida_fichero()) {
@@ -74,7 +59,6 @@ public class ControladorSalida {
 
     /**
      * Metodo que escribe de verdad en el fichero.
-     * @param nombre_fichero
      */
     public void escribirFichero(String nombre_fichero) {
 
@@ -94,7 +78,6 @@ public class ControladorSalida {
 
     /**
      * Guarda o escribe el texto en el fichero y sale del programa
-     * @param status
      */
     public void salirYGuardar(int status){
         guardarFichero();

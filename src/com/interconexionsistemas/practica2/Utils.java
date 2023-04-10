@@ -9,13 +9,11 @@ import java.util.Scanner;
  * Clase con metodos de ayuda
  */
 public class Utils {
-    static Configuracion conf = (Configuracion) Configuracion.getInstance();
-    static ControladorSalida syso = (ControladorSalida) ControladorSalida.getInstance();
+    static final Configuracion conf = Configuracion.getInstance();
+    static final ControladorSalida syso = ControladorSalida.getInstance();
 
     /**
      * Devuelve el nuevo nombre de despues de comprobar que el fichero no exista. Pregunta un nuevo nombre hasta que este no exista previamente
-     * @param fichero
-     * @return
      */
     public static String comprobarSiExisteYReescribir(String fichero) {
         if (existe_archivo(fichero) && !conf.isReescribir_fichero_salida()) {
@@ -26,7 +24,6 @@ public class Utils {
 
     /**
      * Pregunta el nombre de fichero hasta que no exista
-     * @return
      */
     public static String preguntarReescribirFicheroExiste() {
         String nuevoNombre;
@@ -41,8 +38,6 @@ public class Utils {
 
     /**
      * Devuelve is existe un ficher
-     * @param nuevoNombre
-     * @return
      */
     public static boolean existe_archivo(String nuevoNombre) {
         return new File(nuevoNombre).exists();

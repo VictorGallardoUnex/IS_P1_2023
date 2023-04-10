@@ -17,10 +17,11 @@ import java.util.Arrays;
 /**
  * Clase de soporte intermedio. Convierte entrada de usuario en configuración útil.
  */
+@SuppressWarnings("ALL")
 public class Parser {
-    static Configuracion conf = Configuracion.getInstance();
-    static ControladorSalida syso = ControladorSalida.getInstance();
-    ArrayList<Instruccion> instrucciones;
+    static final Configuracion conf = Configuracion.getInstance();
+    static final ControladorSalida syso = ControladorSalida.getInstance();
+    final ArrayList<Instruccion> instrucciones;
 
     /**
      * Clase que contiene los metodos para leer el fichero de entrada y sus posibles configuraciones

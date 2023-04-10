@@ -15,10 +15,11 @@ import static com.interconexionsistemas.practica2.Implementaciones.Practica2.Fun
 /**
  * Clase que contiene los metodos que se ejecutan, es decir los comandos o instrucciones ya leidos son hechas su funcion
  */
+@SuppressWarnings("ALL")
 public class Ejecutor {
-    static Configuracion conf = Configuracion.getInstance();
-    static ControladorSalida syso = ControladorSalida.getInstance();
-    static ControladorTarjeta ct;
+    static final Configuracion conf = Configuracion.getInstance();
+    static final ControladorSalida syso = ControladorSalida.getInstance();
+    static final ControladorTarjeta ct;
 
     static {
         try {

@@ -1,7 +1,5 @@
 package com.interconexionsistemas.practica2.Singletons;
 
-import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
-
 /**
  * Clase que contiene la configuracion del programa
  */
@@ -45,8 +43,8 @@ public class Configuracion {
         this.salida_fichero = salida_fichero;
     }
 
-    public boolean isSalida_pantalla() {
-        return salida_pantalla;
+    public boolean isNotSalida_pantalla() {
+        return !salida_pantalla;
     }
 
     public void setSalida_pantalla(boolean salida_pantalla) {

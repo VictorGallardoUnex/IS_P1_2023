@@ -8,8 +8,8 @@ import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorS
 import java.util.ArrayList;
 
 public class Main {
-    public static Configuracion configuracion = Configuracion.getInstance();
-    public static ControladorSalida syso = ControladorSalida.getInstance();
+    public static final Configuracion configuracion = Configuracion.getInstance();
+    public static final ControladorSalida syso = ControladorSalida.getInstance();
     public static ControladorTarjeta controladorTarjeta;
 
     public static void main(String[] args) {
