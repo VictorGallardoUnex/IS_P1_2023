@@ -5,7 +5,7 @@ import jpcap.packet.Packet;
 import java.util.Arrays;
 
 import static com.interconexionsistemas.practica2.Main.syso;
-import static com.interconexionsistemas.practica2.Utils.getMacAsString;
+import static com.interconexionsistemas.practica2.Utils.getMacComoString;
 
 public class UtilsP2 {
     // hacemos una constante publica con direccion de broadcast
@@ -18,15 +18,15 @@ public class UtilsP2 {
      */
     static String mostrarCampoDatos(byte[] data) {
         // Creamos un StringBuilder para ir concatenando los datos
-        StringBuilder output = new StringBuilder();
+        StringBuilder salida = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             // Concatenamos el byte en hexadecimal
-            output.append(String.format("%02X ", data[i]));
+            salida.append(String.format("%02X ", data[i]));
             if ((i + 1) % 16 == 0) {
-                output.append("\n");
+                salida.append("\n");
             }
         }
-        return output.toString();
+        return salida.toString();
     }
     /**
      * Convierte dos bytes en un short
@@ -34,7 +34,7 @@ public class UtilsP2 {
      * @param segundo Segundo byte
      * @return Short formado por los dos bytes
      */
-    static short castByteToShort(byte primero, byte segundo) {
+    static short convertirBytesAShort(byte primero, byte segundo) {
         return (short) ((segundo << 8) | (primero & 0xFF));
     }
     /**
@@ -46,8 +46,8 @@ public class UtilsP2 {
 
         byte[] bytes_mac_destino = Arrays.copyOfRange(p.header, 0, 6);
         byte[] bytes_mac_origen = Arrays.copyOfRange(p.header, 6, 12);
-        String mac_destino = getMacAsString(bytes_mac_destino);
-        String mac_origen = getMacAsString(bytes_mac_origen);
+        String mac_destino = getMacComoString(bytes_mac_destino);
+        String mac_origen = getMacComoString(bytes_mac_origen);
 
         String output = "El paquete consta de un tamaño de: " + p.len + " Bytes.\n";
         output += "Direcion MAC Destino: " + mac_destino + "\n";

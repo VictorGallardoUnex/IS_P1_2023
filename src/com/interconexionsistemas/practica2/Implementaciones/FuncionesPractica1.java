@@ -5,7 +5,7 @@ import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 
-import static com.interconexionsistemas.practica2.Utils.getMacAsString;
+import static com.interconexionsistemas.practica2.Utils.getMacComoString;
 
 public class FuncionesPractica1 {
         /*
@@ -30,7 +30,7 @@ public class FuncionesPractica1 {
         syso.println("Info de la tarjeta numero " + valor);
         syso.println("Nombre: " + tarjeta.name);
         syso.println("Nombre del enlace: " + tarjeta.datalink_name);
-        syso.println("Mac: " + getMacAsString(tarjeta.mac_address));
+        syso.println("Mac: " + getMacComoString(tarjeta.mac_address));
     }
 
     /**
@@ -53,6 +53,6 @@ public class FuncionesPractica1 {
      */
     public static void infoEthernet(int valor) throws ErrorTarjetaNoExiste {
         jpcap.NetworkInterface tarjeta = ct.getTarjeta(valor);
-        syso.println("Direccion mac de la tarjeta (" + valor + ") " + getMacAsString(tarjeta.mac_address));
+        syso.println("Direccion mac de la tarjeta (" + valor + ") " + getMacComoString(tarjeta.mac_address));
     }
 }

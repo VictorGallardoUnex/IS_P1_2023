@@ -17,7 +17,6 @@ import java.util.Arrays;
 /**
  * Clase de soporte intermedio. Convierte entrada de usuario en configuración útil.
  */
-@SuppressWarnings("ALL")
 public class Parser {
     static final Configuracion conf = Configuracion.getInstance();
     static final ControladorSalida syso = ControladorSalida.getInstance();
@@ -39,7 +38,6 @@ public class Parser {
         if (argumentos.length>=2) {
             for (int i = 0; i < argumentos.length; i++) {
                 if (argumentos[i].startsWith("-")) {
-//                    if (i + 1 < argumentos.length) {
                     System.out.println("Argumento recibido");
                     switch (argumentos[i]) {
                         case "-fe": {
@@ -88,8 +86,9 @@ public class Parser {
 
             while (linea != null) {
                 if (!linea.equals("") && !linea.startsWith("#")) {
-                    String cleanedString = linea.replaceAll("\\s{2,}", " ");
-                    procesar_linea(cleanedString);
+                    // limpiamos la linea de espacios en blanco
+                    String line_limpia = linea.replaceAll("\\s{2,}", " ");
+                    procesar_linea(line_limpia);
                     // leemos siguiente linea
                 }
                 linea = lector.readLine();
@@ -120,7 +119,6 @@ public class Parser {
             comando_sin_bandera = comando;
         } else {
             comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length); }
-
 
         switch (comando[0]) {
             case "@": {

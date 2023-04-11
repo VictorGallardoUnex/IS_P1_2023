@@ -12,19 +12,19 @@ import java.io.InputStreamReader;
 
 import static com.interconexionsistemas.practica2.Main.*;
 import static com.interconexionsistemas.practica2.Implementaciones.Practica2.UtilsP2.*;
-import static com.interconexionsistemas.practica2.Utils.getMacAsString;
+import static com.interconexionsistemas.practica2.Utils.getMacComoString;
 
 public class FuncionesPractica2 {
 
     // Practica 2 IS 2023
     /**
      * Recibe tramas de la red y las muestra por pantalla
-     * @param value puede ser "todo", "longitud" o "tipo"
+     * @param modo puede ser "todo", "longitud" o "tipo"
      */
-    static public void recibirTramas(String value) throws IOException {
-        value = value.toLowerCase();
-        if (!(value.equals("todo") || value.equals("longitud") || value.equals("tipo"))) {
-            syso.println("Parametro incorrecto para modo recibir tramas: " + value);
+    static public void recibirTramas(String modo) throws IOException {
+        modo = modo.toLowerCase();
+        if (!(modo.equals("todo") || modo.equals("longitud") || modo.equals("tipo"))) {
+            syso.println("Parametro incorrecto para modo recibir tramas: " + modo);
             return;
         }
 
@@ -39,8 +39,8 @@ public class FuncionesPractica2 {
             // si no hay paquete, continuamos
             if(paquete==null) continue;
             // si no es el tipo que buscamos, continuamos
-            boolean is_longitud_or_tipo = castByteToShort(paquete.header[12], paquete.header[13]) < 1500;
-            if(!(is_longitud_or_tipo && value.equals("longitud") || !is_longitud_or_tipo && value.equals("tipo") || value.equals("todo"))) {
+            boolean is_longitud_or_tipo = convertirBytesAShort(paquete.header[12], paquete.header[13]) < 1500;
+            if(!(is_longitud_or_tipo && modo.equals("longitud") || !is_longitud_or_tipo && modo.equals("tipo") || modo.equals("todo"))) {
                 continue;
             }
 
@@ -73,6 +73,10 @@ public class FuncionesPractica2 {
         }
         configuracion.setMensaje_a_enviar(null);
     }
+    /**
+     * Envia un texto a la direccion MAC de broadcast
+     * @param texto texto a enviar
+     */
     private static void enviarTexto(String texto) {
         byte[] bytesDatos = texto.getBytes();
         byte[] mac_origen;
@@ -100,7 +104,7 @@ public class FuncionesPractica2 {
         // Enviamos el paquete
         emisor = controladorTarjeta.getEmisor();
         emisor.sendPacket(paquete);
-        syso.println("Paquete enviado correctamente a la direccion MAC " + getMacAsString(MAC_BROADCAST) + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data)+ "\nInformacion del paquete como string: \n"+ new String(paquete.data));
+        syso.println("Paquete enviado correctamente a la direccion MAC " + getMacComoString(MAC_BROADCAST) + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data)+ "\nInformacion del paquete como string: \n"+ new String(paquete.data));
     }
 
 }

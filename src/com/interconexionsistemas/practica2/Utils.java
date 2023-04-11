@@ -72,35 +72,51 @@ public class Utils {
         syso.println("        o @ reescribirficherosalida");
         syso.println("            Indica si se sobreescribe el archivo de salida por defecto o no");
         syso.println("    Comandos");
-        syso.println("        o & ficheroSalida <nombre>");
-        syso.println("            En <nombre> vendrá una cadena para indicar cual será el fichero");
-        syso.println("            de salida que se usará a partir de ese instante. En el caso de que la");
-        syso.println("            bandera de salidafichero esté en ON se procederá a ponerla en");
-        syso.println("            OFF; y se ejecutará todo el código asociado a la aparición de esta");
-        syso.println("            bandera en OFF en el fichero de configuración");
-        syso.println("        o & seleccionatarjeta [<numero>]");
-        syso.println("            Elegirá en el sistema el numero de tarjeta asociado para trabajar");
-        syso.println("            con ella en el resto de comandos si procede");
-        syso.println("            Si no existe esa tarjeta en el sistema no se cambiará el numero de");
-        syso.println("            tarjeta de trabajo, y además informará de que no es posible el");
-        syso.println("            cambio");
-        syso.println("        o & infotarjeta [<numero>]");
-        syso.println("            Mostrará la información completa de la tarjeta seleccionada en el");
-        syso.println("            <numero>. Si no se indica el número, se mostrará la de la tarjeta");
-        syso.println("            elegida,.");
-        syso.println("        o & infoIP [<numero>]");
-        syso.println("            Mostrará la información sobre la dirección IP de la tarjeta asociada");
-        syso.println("            a <numero>");
-        syso.println("        o & infoEthernet [<numero>]");
-        syso.println("            Mostrará la información sobre la dirección Ethernet de la tarjeta");
-        syso.println("            asociada a <numero>");
+        syso.println("      PRACTICA 1");
+        syso.println("      |- o & ficheroSalida <nombre>");
+        syso.println("      |      En <nombre> vendrá una cadena para indicar cual será el fichero");
+        syso.println("      |      de salida que se usará a partir de ese instante. En el caso de que la");
+        syso.println("      |      bandera de salidafichero esté en ON se procederá a ponerla en");
+        syso.println("      |      OFF; y se ejecutará todo el código asociado a la aparición de esta");
+        syso.println("      |      bandera en OFF en el fichero de configuración");
+        syso.println("      |- o & seleccionatarjeta [<numero>]");
+        syso.println("      |      Elegirá en el sistema el numero de tarjeta asociado para trabajar");
+        syso.println("      |      con ella en el resto de comandos si procede");
+        syso.println("      |      Si no existe esa tarjeta en el sistema no se cambiará el numero de");
+        syso.println("      |      tarjeta de trabajo, y además informará de que no es posible el");
+        syso.println("      |      cambio");
+        syso.println("      |- o & infotarjeta [<numero>]");
+        syso.println("      |      Mostrará la información completa de la tarjeta seleccionada en el");
+        syso.println("      |      <numero>. Si no se indica el número, se mostrará la de la tarjeta");
+        syso.println("      |      elegida,.");
+        syso.println("      |- o & infoIP [<numero>]");
+        syso.println("      |      Mostrará la información sobre la dirección IP de la tarjeta asociada");
+        syso.println("      |      a <numero>");
+        syso.println("      |- o & infoEthernet [<numero>]");
+        syso.println("             Mostrará la información sobre la dirección Ethernet de la tarjeta");
+        syso.println("             asociada a <numero>\n");
+        syso.println("      PRACTICA 2");
+        syso.println("      |- o & recibir <longitud|tipo|todo>");
+        syso.println("      |      Recibe un paquete cuyo campo tipo/longitud sea tipo, longitud o ambos");
+        syso.println("      |- o & repetirenvio <numero>");
+        syso.println("      |      El valor numérico del argumento indica la cantidad de veces que se enviará el mismo");
+        syso.println("      |      paquete de datos.Este paquete incluirá el mismo texto y un número que irá de 1 a <numero>.");
+        syso.println("      |      Este comportamiento se puede observar en el ejemplo del comando \"texto\".");
+        syso.println("      |- o & texto <texto>");
+        syso.println("      |      Donde <texto> es la cadena que se va a enviar en el campo de datos del paquete");
+        syso.println("      |- o & pin <palabra>");
+        syso.println("      |      Establece un pin que se añade al principio de los datos del paquete a enviar");
+        syso.println("      |      Si no se establece un pin, la trama se enviará sin pin");
+        syso.println("      |- o & recibirconpin");
+        syso.println("             Recibe un paquete que contenga un pin que coincida con el establecido previamente.");
+        syso.println("             En el caso de no haber pin establecido, muestra todas las tramas recibidas");
     }
 
     /**
      * Formatea los bytes de la mac en una string
      * @return String
      */
-    public static String getMacAsString(byte[] mac) {
+    public static String getMacComoString(byte[] mac) {
         return String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     }
 

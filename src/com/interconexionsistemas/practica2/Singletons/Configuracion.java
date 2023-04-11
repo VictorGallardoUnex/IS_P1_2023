@@ -72,7 +72,7 @@ public class Configuracion {
     private static Configuracion instance;
 
     protected Configuracion() {
-        // Prevent instantiation from outside the class
+        // Prevenimos que se cree una instancia desde fuera de la clase
     }
 
     public static Configuracion getInstance() {

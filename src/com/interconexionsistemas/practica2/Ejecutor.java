@@ -15,7 +15,6 @@ import static com.interconexionsistemas.practica2.Implementaciones.Practica2.Fun
 /**
  * Clase que contiene los metodos que se ejecutan, es decir los comandos o instrucciones ya leidos son hechas su funcion
  */
-@SuppressWarnings("ALL")
 public class Ejecutor {
     static final Configuracion conf = Configuracion.getInstance();
     static final ControladorSalida syso = ControladorSalida.getInstance();
@@ -71,7 +70,7 @@ public class Ejecutor {
 
                         // Practica 2 IS 2023
 
-                        case "recibirtramas": {
+                        case "recibir": {
                             recibirTramas(instruccion.valor);
                             break;
                         }
@@ -133,6 +132,7 @@ public class Ejecutor {
 
     /**
      * Ejecuta el cambio de configuracion
+     * @param bandera bandera a ejecutar
      * */
     private static void procesar_configuracion(Bandera bandera) {
         switch (bandera.clave.toLowerCase()) {

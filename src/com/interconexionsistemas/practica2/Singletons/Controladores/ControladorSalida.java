@@ -11,6 +11,7 @@ import java.util.LinkedList;
  * Clase singleton que se encarga de mostrar el texto o guardarlo en el archivo
  */
 public class ControladorSalida {
+    // Lista de texto que se va a mostrar en pantalla y en el archivo
     final LinkedList<String> salida_texto = new LinkedList<>();
 
 
@@ -84,13 +85,11 @@ public class ControladorSalida {
         System.exit(status);
     }
 
-
-
     // Metodos singleton
     private static ControladorSalida instance;
 
     protected ControladorSalida() {
-        // Prevent instantiation from outside the class
+        // Prevenimos que se cree una instancia desde fuera de la clase
     }
 
     public static ControladorSalida getInstance() {
