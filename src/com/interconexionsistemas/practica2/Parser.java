@@ -113,6 +113,7 @@ public class Parser {
             syso.println("Error al procesar comando '"+linea+"'");
         }
         String[] comando_sin_bandera;
+        // si solo hay una bandera, se crea una instruccion con la bandera y el valor vacio
         if (comando.length == 2) {
             comando[0] = comando[1];
             comando[1] = "";
@@ -127,7 +128,10 @@ public class Parser {
                 break;
             }
             case "&": {
-                Instruccion nueva_instruccion = new Comando(comando_sin_bandera[0],comando_sin_bandera[1]);
+                // Unimos el resto de la cadena en un solo string
+                String comando_sin_bandera_valor = String.join(" ", Arrays.copyOfRange(comando_sin_bandera, 1, comando_sin_bandera.length));
+                Instruccion nueva_instruccion = new Comando(comando_sin_bandera[0],comando_sin_bandera_valor);
+
                 instrucciones.add(nueva_instruccion);
                 break;
             }
