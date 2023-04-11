@@ -3,10 +3,7 @@ import static com.interconexionsistemas.practica2.Implementaciones.Practica2.Fun
 import static com.interconexionsistemas.practica2.Utils.getMacComoString;
 import junit.framework.TestCase;
 import org.junit.After;
-import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 
 public class FuncionesPractica2Test extends TestCase {

@@ -98,6 +98,9 @@ public class Utils {
         syso.println("      PRACTICA 2");
         syso.println("      |- o & recibir <longitud|tipo|todo>");
         syso.println("      |      Recibe un paquete cuyo campo tipo/longitud sea tipo, longitud o ambos");
+        syso.println("      |      longitud: Mostrara las tramas en las que el valor campo tipo/longitud sea inferior a 1500");
+        syso.println("      |      tipo: Mostrara las tramas en las que el valor campo tipo/longitud sea superior a 1500");
+        syso.println("      |      todo: Mostrara todas las tramas");
         syso.println("      |- o & repetirenvio <numero>");
         syso.println("      |      El valor numérico del argumento indica la cantidad de veces que se enviará el mismo");
         syso.println("      |      paquete de datos.Este paquete incluirá el mismo texto y un número que irá de 1 a <numero>.");
