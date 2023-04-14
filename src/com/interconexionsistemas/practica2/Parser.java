@@ -35,6 +35,14 @@ public class Parser {
      */
     public void leer_argumentos(String[] argumentos) {
         boolean fe_configurado = false;
+        if (argumentos.length >=1) {
+            syso.println("El programa no acepta argumentos");
+            syso.salirYGuardar(1);
+        } else {
+            conf.setFichero_entrada("config.txt");
+            return;
+        }
+
         if (argumentos.length>=2) {
             for (int i = 0; i < argumentos.length; i++) {
                 if (argumentos[i].startsWith("-")) {
