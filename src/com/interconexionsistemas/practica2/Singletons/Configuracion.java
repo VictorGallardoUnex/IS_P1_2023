@@ -111,4 +111,14 @@ public class Configuracion {
     public boolean hasPin() {
         return pin != null && !pin.isEmpty();
     }
+
+    int pospin = 1;
+
+    public void setPospin(int pospin) {
+        this.pospin = pospin;
+    }
+
+    public int getPospin() {
+        return pospin;
+    }
 }

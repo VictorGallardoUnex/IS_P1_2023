@@ -115,6 +115,14 @@ public class Ejecutor {
                              */
                         }
 
+                        // Examen presencial
+                        case "pospin": {
+                            if (Integer.parseInt(instruccion.valor) <= 20) {
+                                conf.setPospin(Integer.parseInt(instruccion.valor));
+                            }
+
+                        }
+
                         default: {
                             syso.println("No existe el comando");
                             break;
