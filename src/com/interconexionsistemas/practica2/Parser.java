@@ -113,13 +113,7 @@ public class Parser {
             syso.println("Error al procesar comando '"+linea+"'");
         }
         String[] comando_sin_bandera;
-        // si solo hay una bandera, se crea una instruccion con la bandera y el valor vacio
-        if (comando.length == 2) {
-            comando[0] = comando[1];
-            comando[1] = "";
-            comando_sin_bandera = comando;
-        } else {
-            comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length); }
+        comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length);
 
         switch (comando[0]) {
             case "@": {
