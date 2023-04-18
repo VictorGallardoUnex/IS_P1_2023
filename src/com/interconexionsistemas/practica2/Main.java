@@ -23,10 +23,10 @@ public class Main {
             syso.salirYGuardar(1);
         }
 
-        if (args.length == 0) {
-            syso.println("No se han aportado parametros. Para usar el programa use la siguiente sintaxis:\nIsP1 -fe <fichero1> [-fs <fichero2>]| -h");
-            syso.salirYGuardar(0);
-        }
+//        if (args.length == 0) {
+//            syso.println("No se han aportado parametros. Para usar el programa use la siguiente sintaxis:\nIsP1 -fe <fichero1> [-fs <fichero2>]| -h");
+//            syso.salirYGuardar(0);
+//        }
         // Mostrar ayuda
         if (args.length == 1 && args[0].equals("-h")) {
             Utils.mostrar_sintaxis();
