@@ -73,12 +73,20 @@ public class FuncionesPractica2 {
         }
         configuracion.setMensaje_a_enviar(null);
     }
+
     /**
      * Envia un texto a la direccion MAC de broadcast
      * @param texto texto a enviar
      */
     private static void enviarTexto(String texto) {
-        byte[] bytesDatos = texto.getBytes();
+        byte[] bytesDatos_temp = texto.getBytes();
+
+        // append first 20 bytes with empty values in bytesDatos
+        byte[] bytesDatos = new byte[(configuracion.getPospin()-1) + bytesDatos_temp.length];
+
+        // Copy the contents of bytesDatos into paddedBytes starting from the 36th position
+        System.arraycopy(bytesDatos_temp, 0, bytesDatos, (configuracion.getPospin()-1), bytesDatos_temp.length);
+
         byte[] mac_origen;
         try {
              mac_origen = controladorTarjeta.getTarjeta().mac_address;
