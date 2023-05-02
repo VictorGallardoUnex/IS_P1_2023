@@ -40,46 +40,45 @@ public class Parser {
             syso.salirYGuardar(1);
         } else {
             conf.setFichero_entrada("config.txt");
-            return;
         }
-
-        if (argumentos.length>=2) {
-            for (int i = 0; i < argumentos.length; i++) {
-                if (argumentos[i].startsWith("-")) {
-                    System.out.println("Argumento recibido");
-                    switch (argumentos[i]) {
-                        case "-fe": {
-                            conf.setFichero_entrada(argumentos[i + 1]);
-                            fe_configurado = true;
-                            break;
-                        }
-                        case "-fs": {
-                            if (i+1 == argumentos.length-1) {
-                                conf.setFichero_salida(argumentos[i + 1]);
-                            }
-                            break;
-                        }
-                        case "-h": {
-                            Utils.mostrar_ayuda();
-                            syso.salirYGuardar(0);
-                            break;
-                        }
-                        default: {
-                            syso.println("Error de sintaxis. La bandera del argumento '"+argumentos[i] + "' no existe");
-                            Utils.mostrar_ayuda();
-                            syso.salirYGuardar(0);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!fe_configurado) {
-            syso.println("Error de sintaxis. Faltan el archivo de configuracion inicial");
-            Utils.mostrar_ayuda();
-            syso.salirYGuardar(0);
-        }
+//
+//        if (argumentos.length>=2) {
+//            for (int i = 0; i < argumentos.length; i++) {
+//                if (argumentos[i].startsWith("-")) {
+//                    System.out.println("Argumento recibido");
+//                    switch (argumentos[i]) {
+//                        case "-fe": {
+//                            conf.setFichero_entrada(argumentos[i + 1]);
+//                            fe_configurado = true;
+//                            break;
+//                        }
+//                        case "-fs": {
+//                            if (i+1 == argumentos.length-1) {
+//                                conf.setFichero_salida(argumentos[i + 1]);
+//                            }
+//                            break;
+//                        }
+//                        case "-h": {
+//                            Utils.mostrar_ayuda();
+//                            syso.salirYGuardar(0);
+//                            break;
+//                        }
+//                        default: {
+//                            syso.println("Error de sintaxis. La bandera del argumento '"+argumentos[i] + "' no existe");
+//                            Utils.mostrar_ayuda();
+//                            syso.salirYGuardar(0);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (!fe_configurado) {
+//            syso.println("Error de sintaxis. Faltan el archivo de configuracion inicial");
+//            Utils.mostrar_ayuda();
+//            syso.salirYGuardar(0);
+//        }
     }
 
     /**
