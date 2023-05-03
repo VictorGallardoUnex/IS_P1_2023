@@ -5,6 +5,7 @@ package com.interconexionsistemas.practica2.Singletons;
  */
 public class Configuracion {
 
+    String fichero_fuente;
     /**
      * Indica si se muestra en la terminal la salida
      */
@@ -122,5 +123,9 @@ public class Configuracion {
 
     public int getPospin() {
         return pospin;
+    }
+
+    public String getFichero_fuente() {
+        return this.fichero_fuente;
     }
 }

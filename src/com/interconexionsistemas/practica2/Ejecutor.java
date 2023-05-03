@@ -44,9 +44,17 @@ public class Ejecutor {
                     // Comparamos el nombre de instruccion en minusculas para que no se sensible a mayus y minusculas
                     switch (instruccion.clave.toLowerCase()) {
 
+                        case "seleccionatarjeta": {
+                            ct.setTarjeta_seleccionada(Integer.parseInt(instruccion.valor));
+                            break;
+                        }
+                        case "pin": {
+                            conf.setPin(instruccion.valor);
+                            break;
+                        }
 
                         default: {
-                            syso.println("No existe el comando");
+                            syso.println("[Error] Ese comando no esta disponible");
                             break;
                         }
                     }
@@ -66,6 +74,7 @@ public class Ejecutor {
      * */
     private static void procesar_configuracion(Bandera bandera) {
         switch (bandera.clave.toLowerCase()) {
+
 
             }
         }
