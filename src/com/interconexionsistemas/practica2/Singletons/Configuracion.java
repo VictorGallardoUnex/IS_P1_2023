@@ -128,4 +128,13 @@ public class Configuracion {
     public String getFichero_fuente() {
         return this.fichero_fuente;
     }
+
+    int posTramaIs = 1;
+    public void setPosTramaIs(int posTramaIs) {
+        this.posTramaIs = posTramaIs;
+    }
+    public int getPosTramaIs() {
+        return posTramaIs;
+    }
+
 }
