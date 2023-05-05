@@ -1,6 +1,7 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaDatos;
+import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import jpcap.JpcapCaptor;
 import jpcap.packet.Packet;
 
@@ -58,7 +59,7 @@ public class Receptor {
     static public void recibirTramas() {
 
         JpcapCaptor captor;
-        captor = controladorTarjeta.getReceptor();
+        captor = ControladorTarjeta.getReceptor();
 
         Console console = System.console();
 

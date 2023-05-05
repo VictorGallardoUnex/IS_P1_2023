@@ -1,13 +1,13 @@
 package com.interconexionsistemas.practica2;
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
+import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import jpcap.packet.Packet;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Scanner;
-
-import static com.interconexionsistemas.practica2.Main.syso;
 
 /**
  * Clase con metodos de ayuda
@@ -168,6 +168,13 @@ public class Utils {
             }
         }
         return salida.toString();
+    }
+
+
+    public static void initSingletons() throws ErrorJpcap {
+        Configuracion.getInstance();
+        ControladorSalida.getInstance();
+        ControladorTarjeta.getInstance();
     }
 
 }

@@ -72,26 +72,40 @@ public class ControladorTarjeta {
     JpcapCaptor receptor;
     JpcapSender emisor;
 
-    public JpcapCaptor getReceptor() {
-        if (receptor == null) {
+    public static JpcapCaptor getReceptor() {
+        ControladorTarjeta ct = null;
+        try {
+            ct = ControladorTarjeta.getInstance();
+        } catch (ErrorJpcap e) {
+            throw new RuntimeException(e);
+        }
+
+        if (ct.receptor == null) {
             try {
-                receptor = JpcapCaptor.openDevice(getTarjeta(), 2000, false, 20);
+                ct.receptor = JpcapCaptor.openDevice(ct.getTarjeta(), 2000, false, 20);
             } catch (ErrorTarjetaNoExiste | IOException errorTarjetaNoExiste) {
                 errorTarjetaNoExiste.printStackTrace();
             }
         }
-        return receptor;
+        return ct.receptor;
     }
 
-    public JpcapSender getEmisor() {
-        if (emisor == null) {
+    public static JpcapSender getEmisor() {
+        ControladorTarjeta ct = null;
+        try {
+            ct = ControladorTarjeta.getInstance();
+        } catch (ErrorJpcap e) {
+            throw new RuntimeException(e);
+        }
+
+        if (ct.emisor == null) {
             try {
-                emisor = JpcapSender.openDevice(getTarjeta());
+                ct.emisor = JpcapSender.openDevice(ct.getTarjeta());
             } catch (ErrorTarjetaNoExiste | IOException errorTarjetaNoExiste) {
                 errorTarjetaNoExiste.printStackTrace();
             }
         }
-        return emisor;
+        return ct.emisor;
     }
 
     public static byte[] getMacAdress() {
