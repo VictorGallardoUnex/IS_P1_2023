@@ -77,11 +77,11 @@ public class Receptor {
             syso.println("El texto recibido es: "+ tramaIs.getTexto());
             syso.println("[Traza] El numero de trama recibida es: "+ tramaIs.getNumero_trama());
             // Leemos la entrada del usuario en modo no bloqueante
-            String entradaUsuario = console.readLine("Pulse 'enter' para continuar.\nPresione 'f' y despues 'enter' para finalizar");
-            if (entradaUsuario != null && entradaUsuario.toLowerCase().equals("f")) {
-                syso.println("Fin de la captura");
-                fin = true;
-            }
+//            String entradaUsuario = console.readLine("Pulse 'enter' para continuar.\nPresione 'f' y despues 'enter' para finalizar");
+//            if (entradaUsuario != null && entradaUsuario.toLowerCase().equals("f")) {
+//                syso.println("Fin de la captura");
+//                fin = true;
+//            }
         } while (!fin);
     }
 }

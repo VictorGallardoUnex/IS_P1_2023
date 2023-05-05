@@ -42,4 +42,8 @@ public class FuncP3F1Test extends TestCase {
     public void testProcesar() {
         FuncP3F1.procesar();
     }
+
+    public void testLeer() {
+        FuncP3F1.leer();
+    }
 }
