@@ -26,7 +26,6 @@ public class Receptor {
     }
     /**
      * Recibe tramas de la red y las muestra por pantalla
-     * @param modo puede ser "todo", "longitud" o "tipo"
      */
 //    static public void recibirTramas(String modo) throws IOException {
 //
@@ -56,7 +55,7 @@ public class Receptor {
 //            }
 //        } while (!fin);
 //    }
-    static public void recibirTramas(String modo) throws IOException {
+    static public void recibirTramas() {
 
         JpcapCaptor captor;
         captor = controladorTarjeta.getReceptor();
