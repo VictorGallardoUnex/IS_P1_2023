@@ -25,7 +25,7 @@ public class TramaAck extends Trama {
 
     public static TramaAck fromBytes(byte[] bytes) {
         Configuracion config = Configuracion.getInstance();
-        int offset = config.getPosTramaIs()-1;
+        int offset = config.getPosTramaIs();
 
 
         TramaAck instance = new TramaAck(bytes[2+offset]);

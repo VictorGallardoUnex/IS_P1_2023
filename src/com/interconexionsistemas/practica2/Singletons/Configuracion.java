@@ -122,7 +122,7 @@ public class Configuracion {
     }
 
     public int getPospin() {
-        return pospin;
+        return pospin-1;
     }
 
     public String getFichero_fuente() {
@@ -134,7 +134,7 @@ public class Configuracion {
         this.posTramaIs = posTramaIs;
     }
     public int getPosTramaIs() {
-        return posTramaIs;
+        return posTramaIs -1;
     }
 
 }

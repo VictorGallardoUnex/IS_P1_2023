@@ -61,17 +61,17 @@ public class PacketHelper {
         assert posicion_ultimo_caracter_pin <= configuracion.getPosTramaIs() : "El valor posttrama_is solapa con el pin. Introduce un postrama mayor";
 
         // Crear nueva array de bytes con el tamaño de la trama IS + el offset de postramaIS
-        byte[] bytesTramaISMovidos = new byte[bytesDatos_temp.length + (configuracion.getPosTramaIs()-1)];
-        System.arraycopy(bytesDatos_temp, 0, bytesTramaISMovidos, (configuracion.getPosTramaIs()-1), bytesDatos_temp.length);
+        byte[] bytesTramaISMovidos = new byte[bytesDatos_temp.length + (configuracion.getPosTramaIs())];
+        System.arraycopy(bytesDatos_temp, 0, bytesTramaISMovidos, (configuracion.getPosTramaIs()), bytesDatos_temp.length);
 
         // Copiamos la array de bytes del pin en la array original donde está ya la trama_is con su offset establecido
-        System.arraycopy(configuracion.getPin().getBytes(), 0, bytesTramaISMovidos, configuracion.getPospin()-1, configuracion.getPin().getBytes().length);
+        System.arraycopy(configuracion.getPin().getBytes(), 0, bytesTramaISMovidos, configuracion.getPospin(), configuracion.getPin().getBytes().length);
 
         return bytesTramaISMovidos;
     }
 
     public static String extraerPin(byte[] bytesTrama) {
-        int pinOffset = configuracion.getPospin() - 1;
+        int pinOffset = configuracion.getPospin();
         byte[] pinBytes = configuracion.getPin().getBytes();
         int pinLength = pinBytes.length;
         // Extraer el pin de la trama
