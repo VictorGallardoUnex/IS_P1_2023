@@ -80,15 +80,20 @@ public class PacketHelper {
     }
 
 
-
+    /**
+     * Ignora la posicion del pin y solo se basa en la posicion de la trama IS
+     * @param bytesTrama
+     * @return
+     */
     public static TramaDatos extraerTexto(byte[] bytesTrama) {
+
         int posTramaIS = configuracion.getPosTramaIs();
-        int longitudTramaIS = bytesTrama[posTramaIS];
+        int longitudTramaIS = bytesTrama.length - posTramaIS;
 
-        byte[] bytesDatos = new byte[longitudTramaIS];
-        System.arraycopy(bytesTrama, posTramaIS+1, bytesDatos, 0, longitudTramaIS);
+        byte[] bytesTramaIS = new byte[longitudTramaIS];
+        System.arraycopy(bytesTrama, posTramaIS, bytesTramaIS, 0, longitudTramaIS);
 
-        TramaDatos td = TramaDatos.fromBytes(bytesDatos);
+        TramaDatos td = TramaDatos.fromBytes(bytesTramaIS);
 
         // Devolver el texto y el número de trama como una cadena de caracteres
         return td;
