@@ -1,10 +1,15 @@
-package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama;
+package com.interconexionsistemas.practica2.Implementaciones.Practica3.fase1.Trama;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
+import com.interconexionsistemas.practica2.Singletons.Configuracion;
+
 
 public class TramaAck extends Trama {
-    TramaAck(int numero_trama) {
+    public TramaAck(int numero_trama) {
+
         this.numero_trama = numero_trama;
+    }
+    public TramaAck() {
     }
 
 
@@ -18,8 +23,13 @@ public class TramaAck extends Trama {
         return bytes;
     }
 
-    @Override
-    public void fromBytes(byte[] bytes) {
-        numero_trama = bytes[2];
+    public static TramaAck fromBytes(byte[] bytes) {
+        Configuracion config = Configuracion.getInstance();
+        int offset = config.getPosTramaIs()-1;
+
+
+        TramaAck instance = new TramaAck(bytes[2+offset]);
+        instance.numero_trama = bytes[2+offset];
+        return instance;
     }
 }

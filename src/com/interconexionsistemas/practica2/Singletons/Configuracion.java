@@ -5,7 +5,7 @@ package com.interconexionsistemas.practica2.Singletons;
  */
 public class Configuracion {
 
-    String fichero_fuente;
+    String fichero_fuente = "quijote.txt";
     /**
      * Indica si se muestra en la terminal la salida
      */

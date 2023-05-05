@@ -1,7 +1,9 @@
-package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
+package com.interconexionsistemas.practica2.Implementaciones.Practica3.fase1;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaDatos;
+import com.interconexionsistemas.practica2.Implementaciones.Practica3.fase1.Trama.TramaDatos;
+import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
+import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import jpcap.JpcapSender;
 import jpcap.packet.EthernetPacket;
 import jpcap.packet.Packet;
@@ -16,6 +18,7 @@ import static com.interconexionsistemas.practica2.Main.*;
 import static com.interconexionsistemas.practica2.Utils.getMacComoString;
 
 public class FuncP3F1 {
+
     public static final byte[] MAC_BROADCAST = { (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff };
     static ArrayList<String> leer() {
         String filePath = configuracion.getFichero_fuente();
@@ -36,49 +39,41 @@ public class FuncP3F1 {
         return resultado;
     }
 
-    private static void enviarTexto(String texto,int numero_trama) {
-//
-//        int contador_tramas= 0;
-//
-//
-//
-//        // Anadimos el offset de pospin y el pin
-//        System.arraycopy(bytesDatos_temp, 0, bytesTramaISMovidos, (configuracion.getPosTramaIs()-1), bytesDatos_temp.length);
-//
-//        // append first 20 bytes with empty values in bytesDatos
-//        byte[] bytesDatos = new byte[(configuracion.getPospin()-1) + bytesDatos_temp.length];
-//
-//        // Copy the contents of bytesDatos into paddedBytes starting from the 36th position
-//        System.arraycopy(bytesDatos_temp, 0, bytesDatos, (configuracion.getPospin()-1), bytesDatos_temp.length);
-//
-//        byte[] mac_origen;
-//        try {
-//            mac_origen = controladorTarjeta.getTarjeta().mac_address;
-//        } catch (ErrorTarjetaNoExiste e) {
-//            // No hacemos nada, es imposible. si no existen tarjetas, el programa sale antes con codigo 1
-//            return;
-//        }
-//        // Creamos el paquete
-//        Packet paquete = new Packet();
-//        // Creamos la cabecera Ethernet
-//        EthernetPacket EthP = new EthernetPacket();
-//        // Rellenamos los campos de la cabecera Ethernet
-//        EthP.frametype = (short) bytesDatos.length;
-//        // La direccion MAC de destino es la direccion MAC de broadcast
-//        EthP.dst_mac = MAC_BROADCAST;
-//        // La direccion MAC de origen es la direccion MAC de la tarjeta de red
-//        EthP.src_mac = mac_origen;
-//
-//        paquete.datalink = EthP;
-//        paquete.data = bytesDatos;
-//
-//        JpcapSender emisor;
-//        // Enviamos el paquete
-//        emisor = controladorTarjeta.getEmisor();
-//        emisor.sendPacket(paquete);
-//        syso.println("Paquete enviado correctamente a la direccion MAC " + getMacComoString(MAC_BROADCAST) + "\n Informacion del paquete: \n" + mostrarCampoDatos(paquete.data)+ "\nInformacion del paquete como string: \n"+ new String(paquete.data));
+    private static void enviarPaquete(byte[] bytesDatos) {
+        ControladorTarjeta controladorTarjeta = null;
+        try {
+            controladorTarjeta = ControladorTarjeta.getInstance();
+        } catch (ErrorJpcap e) {
+            throw new RuntimeException(e);
+        }
+        byte[] mac_origen;
+
+        try {
+            mac_origen = controladorTarjeta.getTarjeta().mac_address;
+        } catch (ErrorTarjetaNoExiste e) {
+            // No hacemos nada, es imposible. si no existen tarjetas, el programa sale antes con codigo 1
+            return;
+        }
+        // Creamos el paquete
+        Packet paquete = new Packet();
+        // Creamos la cabecera Ethernet
+        EthernetPacket EthP = new EthernetPacket();
+        // Rellenamos los campos de la cabecera Ethernet
+        EthP.frametype = (short) bytesDatos.length;
+        // La direccion MAC de destino es la direccion MAC de broadcast
+        EthP.dst_mac = MAC_BROADCAST;
+        // La direccion MAC de origen es la direccion MAC de la tarjeta de red
+        EthP.src_mac = mac_origen;
+
+        paquete.datalink = EthP;
+        paquete.data = bytesDatos;
+
+        JpcapSender emisor;
+        // Enviamos el paquete
+        emisor = controladorTarjeta.getEmisor();
+        emisor.sendPacket(paquete);
+        syso.println("Paquete enviado correctamente a la direccion MAC " + getMacComoString(MAC_BROADCAST) + "\n Informacion del paquete: \n" + "\nInformacion del paquete como string: \n"+ new String(paquete.data));
     }
-//
 
     /**
      * Recibe un texto/datos y lo coloca en la posición requerida por la configuracion
@@ -106,5 +101,15 @@ public class FuncP3F1 {
         System.arraycopy(bytesPin, 0, bytesTramaISMovidos, 0, bytesPin.length);
 
         return bytesTramaISMovidos;
+    }
+    public static void procesar() {
+        ArrayList<String> lineas = leer();
+        int contadorTramas = 0;
+        // iterate lineas
+        for (String linea : lineas) {
+            byte[] bytesDatos = formatear_trama(linea, contadorTramas);
+            enviarPaquete(bytesDatos);
+            contadorTramas++;
+        }
     }
 }

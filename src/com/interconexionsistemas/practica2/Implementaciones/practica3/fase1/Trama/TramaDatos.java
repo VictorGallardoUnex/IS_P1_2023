@@ -1,4 +1,4 @@
-package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama;
+package com.interconexionsistemas.practica2.Implementaciones.Practica3.fase1.Trama;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
 
@@ -10,7 +10,8 @@ public class TramaDatos extends Trama{
 
     @Override
     public byte[] toBytes() {
-        byte[] bytes = new byte[12 + texto.getBytes().length];
+        // todo bce
+        byte[] bytes = new byte[5 + texto.getBytes().length];
         bytes[0] = Caracteres.SYN.value(); // SYN
         bytes[1] = Caracteres.STX.value(); // control
         bytes[2] = (byte) numero_trama;
@@ -20,8 +21,8 @@ public class TramaDatos extends Trama{
         return bytes;
     }
 
-    @Override
-    public void fromBytes(byte[] bytes) {
+    public TramaAck fromBytes(byte[] bytes) {
         texto = new String(bytes, 5, bytes[4]);
+        return null;
     }
 }

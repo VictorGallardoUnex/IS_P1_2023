@@ -17,9 +17,7 @@ public enum Caracteres {
     private final int caracter;
     Caracteres(int caracter) {
         this.caracter = caracter;
-
     }
-
     // assign ENQ character 25
 
 
