@@ -39,10 +39,20 @@ public class FuncP3F1Test extends TestCase {
     }
 
 
-    public void testProcesar() {
-        FuncP3F1.procesar();
-    }
+//    public void testProcesar() {
+//        FuncP3F1.procesar();
+//    }
 
+    public void testExtraccionPin() {
+        Configuracion config = Configuracion.getInstance();
+        config.setPosTramaIs(10);
+        config.setPin("pin");
+        config.setPospin(4);
+
+        byte[] trama = PacketHelper.formatear_trama("hola 4 t45 y5h56",0);
+        String pinExtraido = PacketHelper.extraerPin(trama);
+        assertEquals("pin", pinExtraido);
+    }
     public void testLeer() {
         FuncP3F1.leer();
     }

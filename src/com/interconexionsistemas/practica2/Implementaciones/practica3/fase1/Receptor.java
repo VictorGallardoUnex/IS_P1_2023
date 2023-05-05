@@ -10,6 +10,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import static com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.PacketHelper.extraerPin;
 import static com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.PacketHelper.extraerTexto;
 import static com.interconexionsistemas.practica2.Main.*;
 import static com.interconexionsistemas.practica2.Main.syso;
@@ -17,14 +18,6 @@ import static com.interconexionsistemas.practica2.Utils.mostrarPaquete;
 
 public class Receptor {
 
-    /**
-     * Extrae el pin de un paquete
-     * @param paquete paquete a extraer el pin
-     * @return pin del paquete
-     */
-    public static String extraerPin(Packet paquete) {
-        return new String(paquete.data).split(" ")[0];
-    }
     /**
      * Recibe tramas de la red y las muestra por pantalla
      */
@@ -70,7 +63,7 @@ public class Receptor {
             if(paquete==null) continue;
             // si no es el tipo que buscamos, continuamos
 
-            if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete))) {
+            if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete.data))) {
                 continue;
             }
             TramaDatos tramaIs = extraerTexto(paquete.data);

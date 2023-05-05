@@ -8,6 +8,8 @@ import jpcap.JpcapSender;
 import jpcap.packet.EthernetPacket;
 import jpcap.packet.Packet;
 
+import java.util.Arrays;
+
 import static com.interconexionsistemas.practica2.Main.configuracion;
 import static com.interconexionsistemas.practica2.Main.syso;
 import static com.interconexionsistemas.practica2.Utils.getMacComoString;
@@ -62,17 +64,20 @@ public class PacketHelper {
         byte[] bytesTramaISMovidos = new byte[bytesDatos_temp.length + (configuracion.getPosTramaIs()-1)];
         System.arraycopy(bytesDatos_temp, 0, bytesTramaISMovidos, (configuracion.getPosTramaIs()-1), bytesDatos_temp.length);
 
-        // crear nueva array con el tamaño del pin y el offset de pospin
-        byte[] bytesPin = new byte[(configuracion.getPospin()-1) + configuracion.getPin().getBytes().length];
-        // llenamos la nueva array con el pin
-        System.arraycopy(configuracion.getPin().getBytes(), 0, bytesPin, 0, configuracion.getPin().getBytes().length);
-
         // Copiamos la array de bytes del pin en la array original donde está ya la trama_is con su offset establecido
-        System.arraycopy(bytesPin, 0, bytesTramaISMovidos, 0, bytesPin.length);
+        System.arraycopy(configuracion.getPin().getBytes(), 0, bytesTramaISMovidos, configuracion.getPospin()-1, configuracion.getPin().getBytes().length);
 
         return bytesTramaISMovidos;
     }
 
+    public static String extraerPin(byte[] bytesTrama) {
+        int pinOffset = configuracion.getPospin() - 1;
+        byte[] pinBytes = configuracion.getPin().getBytes();
+        int pinLength = pinBytes.length;
+        // Extraer el pin de la trama
+        byte[] pinArray = Arrays.copyOfRange(bytesTrama, pinOffset, pinOffset + pinLength);
+        return new String(pinArray);
+    }
 
 
 
@@ -81,6 +86,7 @@ public class PacketHelper {
         int longitudPin = configuracion.getPospin() + configuracion.getPin().getBytes().length - 1;
         int longitudTramaIS = configuracion.getPosTramaIs() - 1;
 
+        int inicioTramaIS = longitudPin + 1;
         // Obtener la longitud del campo de datos
         int longitudDatos = bytesTrama[configuracion.getPosTramaIs() + 1] & 0xFF;
 
