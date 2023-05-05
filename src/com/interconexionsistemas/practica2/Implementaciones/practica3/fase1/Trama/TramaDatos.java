@@ -21,8 +21,10 @@ public class TramaDatos extends Trama{
         return bytes;
     }
 
-    public TramaAck fromBytes(byte[] bytes) {
-        texto = new String(bytes, 5, bytes[4]);
-        return null;
+    public static TramaDatos fromBytes(byte[] bytes) {
+
+        String texto = new String(bytes, 5, bytes[4]);
+        int numero_trama = bytes[2];
+        return new TramaDatos(texto, numero_trama);
     }
 }

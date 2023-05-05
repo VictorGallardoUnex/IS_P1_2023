@@ -82,27 +82,16 @@ public class PacketHelper {
 
 
     public static TramaDatos extraerTexto(byte[] bytesTrama) {
-        // Obtener la longitud del pin y la trama IS
-        int longitudPin = configuracion.getPospin() + configuracion.getPin().getBytes().length - 1;
-        int longitudTramaIS = configuracion.getPosTramaIs() - 1;
+        int posTramaIS = configuracion.getPosTramaIs();
+        int longitudTramaIS = bytesTrama[posTramaIS];
 
-        int inicioTramaIS = longitudPin + 1;
-        // Obtener la longitud del campo de datos
-        int longitudDatos = bytesTrama[configuracion.getPosTramaIs() + 1] & 0xFF;
+        byte[] bytesDatos = new byte[longitudTramaIS];
+        System.arraycopy(bytesTrama, posTramaIS+1, bytesDatos, 0, longitudTramaIS);
 
-        // Crear una nueva array de bytes sin el pin y la trama IS
-        byte[] bytesDatos = new byte[longitudDatos];
-        System.arraycopy(bytesTrama, configuracion.getPosTramaIs() + 2, bytesDatos, 0, longitudDatos);
-        //System.arraycopy(bytesTrama, longitudPin + longitudTramaIS, bytesDatos, 0, longitudDatos);
-
-        // Convertir los bytes de los datos en una cadena de caracteres
-        String texto = new String(bytesDatos);
-
-        // Extraer el número de trama de la cadena de caracteres
-        int numeroTrama = (int) bytesTrama[configuracion.getPosTramaIs()];
+        TramaDatos td = TramaDatos.fromBytes(bytesDatos);
 
         // Devolver el texto y el número de trama como una cadena de caracteres
-        return new TramaDatos(texto,numeroTrama);
+        return td;
     }
 
 }
