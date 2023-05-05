@@ -93,5 +93,16 @@ public class ControladorTarjeta {
         }
         return emisor;
     }
+
+    public static byte[] getMacAdress() {
+
+        try {
+            return ControladorTarjeta.getInstance().getTarjeta().mac_address;
+        } catch (ErrorTarjetaNoExiste e) {
+            throw new RuntimeException(e);
+        } catch (ErrorJpcap e) {
+            throw new RuntimeException("Los drivers del controlador de tarjeta JPcap no estan instalados o initializados");
+        }
+    }
 }
 

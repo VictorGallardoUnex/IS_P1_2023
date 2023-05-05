@@ -1,9 +1,13 @@
 package com.interconexionsistemas.practica2;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorSalida;
+import jpcap.packet.Packet;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import static com.interconexionsistemas.practica2.Main.syso;
 
 /**
  * Clase con metodos de ayuda
@@ -125,6 +129,45 @@ public class Utils {
     public static String getMacComoString(byte[] mac) {
         return String.format("%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     }
+    /**
+     * Muestra por pantalla la informacion de un paquete
+     * @param p paquete a mostrar
+     */
+    public static void mostrarPaquete(Packet p) {
+        syso.println("Ha llegado un nuevo paquete");
 
+        byte[] bytes_mac_destino = Arrays.copyOfRange(p.header, 0, 6);
+        byte[] bytes_mac_origen = Arrays.copyOfRange(p.header, 6, 12);
+        String mac_destino = getMacComoString(bytes_mac_destino);
+        String mac_origen = getMacComoString(bytes_mac_origen);
+
+        String output = "El paquete consta de un tamaño de: " + p.len + " Bytes.\n";
+        output += "Direcion MAC Destino: " + mac_destino + "\n";
+        output += "Direcion MAC Origen: " + mac_origen + "\n\n";
+        output += "La longitud del campo de datos es: " + p.data.length + "\n\n";
+        output += "El contenido del paquete es el siguiente:\n";
+        output += mostrarCampoDatos(p.data);
+        output += "\n\nEl contenido convertido es el siguiente:\n";
+        output += new String(p.data);
+        syso.println(output);
+        syso.println("------------------------------------------------------------\n\n\n");
+    }
+    /**
+     * Muestra el contenido de un array de bytes en hexadecimal
+     * @param data Array de bytes
+     * @return Cadena de texto con el contenido del array
+     */
+    static String mostrarCampoDatos(byte[] data) {
+        // Creamos un StringBuilder para ir concatenando los datos
+        StringBuilder salida = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            // Concatenamos el byte en hexadecimal
+            salida.append(String.format("%02X ", data[i]));
+            if ((i + 1) % 16 == 0) {
+                salida.append("\n");
+            }
+        }
+        return salida.toString();
+    }
 
 }

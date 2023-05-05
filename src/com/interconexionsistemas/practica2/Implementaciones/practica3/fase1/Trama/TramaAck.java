@@ -1,4 +1,4 @@
-package com.interconexionsistemas.practica2.Implementaciones.Practica3.fase1.Trama;
+package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
