@@ -81,12 +81,13 @@ public class PacketHelper {
         int longitudPin = configuracion.getPospin() + configuracion.getPin().getBytes().length - 1;
         int longitudTramaIS = configuracion.getPosTramaIs() - 1;
 
-        // Calcular la longitud de los datos de la trama original
-        int longitudDatos = bytesTrama.length - longitudPin - longitudTramaIS;
+        // Obtener la longitud del campo de datos
+        int longitudDatos = bytesTrama[configuracion.getPosTramaIs() + 1] & 0xFF;
 
         // Crear una nueva array de bytes sin el pin y la trama IS
         byte[] bytesDatos = new byte[longitudDatos];
-        System.arraycopy(bytesTrama, longitudPin + longitudTramaIS, bytesDatos, 0, longitudDatos);
+        System.arraycopy(bytesTrama, configuracion.getPosTramaIs() + 2, bytesDatos, 0, longitudDatos);
+        //System.arraycopy(bytesTrama, longitudPin + longitudTramaIS, bytesDatos, 0, longitudDatos);
 
         // Convertir los bytes de los datos en una cadena de caracteres
         String texto = new String(bytesDatos);
