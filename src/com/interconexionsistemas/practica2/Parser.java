@@ -35,50 +35,38 @@ public class Parser {
      */
     public void leer_argumentos(String[] argumentos) {
         boolean fe_configurado = false;
-        if (argumentos.length >=1) {
-            syso.println("El programa no acepta argumentos");
-            syso.salirYGuardar(1);
-        } else {
-            conf.setFichero_entrada("config.txt");
+//        if (argumentos.length >=1) {
+//            syso.println("El programa no acepta argumentos");
+//            syso.salirYGuardar(1);
+//        } else {
+//            conf.setFichero_entrada("config.txt");
+//        }
+//
+        if (argumentos.length>=2) {
+            for (int i = 0; i < argumentos.length; i++) {
+                if (argumentos[i].startsWith("-")) {
+                    System.out.println("Argumento recibido");
+                    switch (argumentos[i]) {
+                        case "-fe": {
+                            conf.setFichero_entrada(argumentos[i + 1]);
+                            fe_configurado = true;
+                            break;
+                        }
+                        default: {
+                            syso.println("Error de sintaxis. La bandera del argumento '" + argumentos[i] + "' no existe");
+                            Utils.mostrar_ayuda();
+                            syso.salirYGuardar(0);
+                            break;
+                        }
+                    }
+                }
+            }
         }
-//
-//        if (argumentos.length>=2) {
-//            for (int i = 0; i < argumentos.length; i++) {
-//                if (argumentos[i].startsWith("-")) {
-//                    System.out.println("Argumento recibido");
-//                    switch (argumentos[i]) {
-//                        case "-fe": {
-//                            conf.setFichero_entrada(argumentos[i + 1]);
-//                            fe_configurado = true;
-//                            break;
-//                        }
-//                        case "-fs": {
-//                            if (i+1 == argumentos.length-1) {
-//                                conf.setFichero_salida(argumentos[i + 1]);
-//                            }
-//                            break;
-//                        }
-//                        case "-h": {
-//                            Utils.mostrar_ayuda();
-//                            syso.salirYGuardar(0);
-//                            break;
-//                        }
-//                        default: {
-//                            syso.println("Error de sintaxis. La bandera del argumento '"+argumentos[i] + "' no existe");
-//                            Utils.mostrar_ayuda();
-//                            syso.salirYGuardar(0);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (!fe_configurado) {
-//            syso.println("Error de sintaxis. Faltan el archivo de configuracion inicial");
-//            Utils.mostrar_ayuda();
-//            syso.salirYGuardar(0);
-//        }
+        if (!fe_configurado) {
+            syso.println("Error de sintaxis. Faltan el archivo de configuracion inicial");
+            Utils.mostrar_ayuda();
+            syso.salirYGuardar(0);
+        }
     }
 
     /**
@@ -117,7 +105,7 @@ public class Parser {
     void procesar_linea(String linea) {
         String[] comando = linea.split(" ");
         if (comando.length <=1) {
-            syso.println("Error al procesar comando '"+linea+"'");
+            syso.println("Error al leer_y_enviar comando '"+linea+"'");
         }
         String[] comando_sin_bandera;
         comando_sin_bandera = Arrays.copyOfRange(comando,1,comando.length);

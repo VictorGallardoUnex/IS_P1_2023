@@ -1,6 +1,5 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.FuncP3F1;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaAck;
 import junit.framework.TestCase;
@@ -40,7 +39,7 @@ public class FuncP3F1Test extends TestCase {
 
 
 //    public void testProcesar() {
-//        FuncP3F1.procesar();
+//        FuncP3F1.leer_y_enviar();
 //    }
 
     public void testExtraccionPin() {
@@ -54,6 +53,6 @@ public class FuncP3F1Test extends TestCase {
         assertEquals("pin", pinExtraido);
     }
     public void testLeer() {
-        FuncP3F1.leer();
+        Emisor.leer();
     }
 }

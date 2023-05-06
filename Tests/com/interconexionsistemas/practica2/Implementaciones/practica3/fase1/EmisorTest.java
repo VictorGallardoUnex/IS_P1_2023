@@ -9,6 +9,6 @@ public class EmisorTest extends TestCase {
 
     public void testEnviarPaquete() throws ErrorJpcap {
         initSingletons();
-        FuncP3F1.procesar();
+        Emisor.leer_y_enviar();
     }
 }

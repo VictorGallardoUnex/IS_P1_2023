@@ -5,7 +5,7 @@ package com.interconexionsistemas.practica2.Singletons;
  */
 public class Configuracion {
 
-    String fichero_fuente = "quijote.txt";
+
     /**
      * Indica si se muestra en la terminal la salida
      */
@@ -20,13 +20,23 @@ public class Configuracion {
     boolean reescribir_fichero_salida = true;
 
     /**
-     * Nombre del fichero que se lee
+     * Nombre del fichero de configuracion
      */
-    String fichero_entrada;
+    String fichero_entrada = "config.txt";
     /**
      * Nombre del fichero donde se guarda la salida
      */
     String fichero_salida = "salida.txt";
+
+
+    String fichero_fuente = "quijote.txt";
+
+    int pospin = 1;
+
+    String pin = "";
+
+    int posTramaIs = 1;
+    boolean maestro = false;
 
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;
@@ -69,38 +79,6 @@ public class Configuracion {
     }
 
 
-    // Metodos singleton
-    private static Configuracion instance;
-
-    protected Configuracion() {
-        // Prevenimos que se cree una instancia desde fuera de la clase
-    }
-
-    public static Configuracion getInstance() {
-        if (instance == null) {
-            instance = new Configuracion();
-        }
-        return instance;
-    }
-
-    // Practica 2
-    /**
-     * El mensaje que se va a enviar si se va a enviar algo. Se reinicia a null despues de ser enviado
-     */
-    String mensaje_a_enviar = null;
-
-    public String getMensaje_a_enviar() {
-        if (mensaje_a_enviar == null || mensaje_a_enviar.isEmpty()) {
-            mensaje_a_enviar = "esto se hace en la practica 2 de interconexión de sistemas";
-
-        }
-        return mensaje_a_enviar;
-    }
-
-    public void setMensaje_a_enviar(String mensaje_a_enviar) {
-        this.mensaje_a_enviar = mensaje_a_enviar;
-    }
-    String pin = "";
     public void setPin(String valor) {
         this.pin = valor;
     }
@@ -113,8 +91,6 @@ public class Configuracion {
         return pin != null && !pin.isEmpty();
     }
 
-    int pospin = 1;
-
     public void setPospin(int pospin) {
         if (pospin<=20) {
             this.pospin = pospin;
@@ -124,17 +100,45 @@ public class Configuracion {
     public int getPospin() {
         return pospin-1;
     }
+    public void setFicheroFuente(String fichero_fuente) {
+        this.fichero_fuente = fichero_fuente;
+    }
 
-    public String getFichero_fuente() {
+    public String getFicheroFuente() {
         return this.fichero_fuente;
     }
 
-    int posTramaIs = 1;
     public void setPosTramaIs(int posTramaIs) {
         this.posTramaIs = posTramaIs;
     }
+
     public int getPosTramaIs() {
         return posTramaIs -1;
+    }
+
+
+    public void setMaestro(boolean maestro) {
+        this.maestro = maestro;
+    }
+
+    public boolean isMaestro() {
+        return maestro;
+    }
+
+
+
+    // Metodos singleton
+    private static Configuracion instance;
+
+    protected Configuracion() {
+        // Prevenimos que se cree una instancia desde fuera de la clase
+    }
+
+    public static Configuracion getInstance() {
+        if (instance == null) {
+            instance = new Configuracion();
+        }
+        return instance;
     }
 
 }
