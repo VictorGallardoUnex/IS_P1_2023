@@ -23,7 +23,7 @@ public class TramaDatos extends Trama{
 
     public static TramaDatos fromBytes(byte[] bytes) {
 
-        String texto = new String(bytes, 3, bytes[4]);
+        String texto = new String(bytes, 5, bytes[4]);
         int numero_trama = bytes[2];
         return new TramaDatos(texto, numero_trama);
     }

@@ -58,7 +58,7 @@ public class PacketHelper {
         byte[] bytesDatos_temp = new TramaDatos(texto,contador_tramas).toBytes();
         // Nos aseguramos que el posttrama_is es menor que el final de pin
         int posicion_ultimo_caracter_pin = configuracion.getPospin() + configuracion.getPin().getBytes().length;
-        if (posicion_ultimo_caracter_pin <= configuracion.getPosTramaIs()) {
+        if (posicion_ultimo_caracter_pin >= configuracion.getPosTramaIs()) {
             syso.println("[AVISO] El valor posttrama_is solapa con el pin. La trama IS sera colocada inmediatamente despues");
             configuracion.setPosTramaIs(posicion_ultimo_caracter_pin + 1);
         }
