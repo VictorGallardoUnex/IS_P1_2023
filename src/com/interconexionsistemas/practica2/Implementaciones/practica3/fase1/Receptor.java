@@ -55,7 +55,7 @@ public class Receptor {
         captor = ControladorTarjeta.getReceptor();
 
         Console console = System.console();
-
+        syso.println("Esperando Tramas...");
         boolean fin = false;
         do {
             Packet paquete = captor.getPacket();

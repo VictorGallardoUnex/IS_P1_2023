@@ -74,12 +74,18 @@ public class PacketHelper {
     }
 
     public static String extraerPin(byte[] bytesTrama) {
-        int pinOffset = configuracion.getPospin();
-        byte[] pinBytes = configuracion.getPin().getBytes();
-        int pinLength = pinBytes.length;
-        // Extraer el pin de la trama
-        byte[] pinArray = Arrays.copyOfRange(bytesTrama, pinOffset, pinOffset + pinLength);
+        byte[] pinArray;
+        try {
+            int pinOffset = configuracion.getPospin();
+            byte[] pinBytes = configuracion.getPin().getBytes();
+            int pinLength = pinBytes.length;
+            // Extraer el pin de la trama
+            pinArray = Arrays.copyOfRange(bytesTrama, pinOffset, pinOffset + pinLength);
+        } catch (Exception e) {
+            return "";
+        }
         return new String(pinArray);
+
     }
 
 
