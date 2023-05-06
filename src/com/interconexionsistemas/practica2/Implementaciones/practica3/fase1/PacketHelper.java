@@ -96,14 +96,13 @@ public class PacketHelper {
      */
     public static TramaDatos extraerTexto(byte[] bytesTrama) {
 
-        int posTramaIS = configuracion.getPosTramaIs();
-        if (posTramaIS <= configuracion.getPospin()) {
+        if (configuracion.getPosTramaIs() <= configuracion.getPospin()) {
             configuracion.setPosTramaIs(configuracion.getPospin() + configuracion.getPin().getBytes().length + 1);
         }
-        int longitudTramaIS = bytesTrama.length - posTramaIS;
+        int longitudTramaIS = bytesTrama.length - configuracion.getPosTramaIs();
 
         byte[] bytesTramaIS = new byte[longitudTramaIS];
-        System.arraycopy(bytesTrama, posTramaIS, bytesTramaIS, 0, longitudTramaIS);
+        System.arraycopy(bytesTrama, configuracion.getPosTramaIs(), bytesTramaIS, 0, longitudTramaIS);
 
         TramaDatos td = TramaDatos.fromBytes(bytesTramaIS);
 

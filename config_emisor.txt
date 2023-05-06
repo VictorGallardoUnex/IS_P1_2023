@@ -1,4 +1,4 @@
-@ MAESTRO on
+@ maestro on
 & pospin 3
 & pin Sunny
 & posTramaIS 10
