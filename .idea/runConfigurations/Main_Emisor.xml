@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main Emisor" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.interconexionsistemas.practica2.Main" />
+    <module name="P2.IS.2023" />
+    <option name="PROGRAM_PARAMETERS" value="-fe config_emisor.txt" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
