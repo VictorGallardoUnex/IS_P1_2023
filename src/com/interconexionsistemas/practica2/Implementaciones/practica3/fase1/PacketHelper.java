@@ -104,10 +104,8 @@ public class PacketHelper {
         byte[] bytesTramaIS = new byte[longitudTramaIS];
         System.arraycopy(bytesTrama, configuracion.getPosTramaIs(), bytesTramaIS, 0, longitudTramaIS);
 
-        TramaDatos td = TramaDatos.fromBytes(bytesTramaIS);
+        return TramaDatos.fromBytes(bytesTramaIS);
 
-        // Devolver el texto y el número de trama como una cadena de caracteres
-        return td;
     }
 
 }

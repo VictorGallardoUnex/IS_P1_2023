@@ -2,15 +2,30 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Tra
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
 
-public class TramaDatos extends Trama{
-    public TramaDatos(String texto, int numero_trama) {
+public class TramaIS {
+    Caracteres caracter_syn;
+    Caracteres caracter_control;
+    int numero_trama;
+    int longitud;
+    int direccion;
+    String texto;
+    public TramaIS(byte[] bytes){
+        caracter_syn = Caracteres.fromByte(bytes[0]);
+        caracter_control = Caracteres.fromByte(bytes[1]);
+        numero_trama = bytes[2];
+        direccion = bytes[3];
+        longitud = bytes[4];
+        texto = new String(bytes, 5, longitud);
+    }
+    public TramaIS(int numero_trama) {
         this.numero_trama = numero_trama;
-        this.texto = texto;
     }
 
-    @Override
+    public int getNumero_trama() {
+        return numero_trama;
+    }
+
     public byte[] toBytes() {
-        // todo bce
         byte[] bytes = new byte[5 + texto.getBytes().length];
         bytes[0] = Caracteres.SYN.value(); // SYN
         bytes[1] = Caracteres.STX.value(); // control
@@ -21,10 +36,7 @@ public class TramaDatos extends Trama{
         return bytes;
     }
 
-    public static TramaDatos fromBytes(byte[] bytes) {
-
-        String texto = new String(bytes, 5, bytes[4]);
-        int numero_trama = bytes[2];
-        return new TramaDatos(texto, numero_trama);
+    public Caracteres getCaracter_control() {
+        return caracter_control;
     }
 }

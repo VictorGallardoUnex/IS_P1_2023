@@ -1,20 +1,16 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaDatos;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.*;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import jpcap.JpcapCaptor;
 import jpcap.packet.Packet;
 
-import java.io.BufferedReader;
 import java.io.Console;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 import static com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.PacketHelper.extraerPin;
 import static com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.PacketHelper.extraerTexto;
 import static com.interconexionsistemas.practica2.Main.*;
 import static com.interconexionsistemas.practica2.Main.syso;
-import static com.interconexionsistemas.practica2.Utils.mostrarPaquete;
 
 public class Receptor {
 
@@ -76,5 +72,48 @@ public class Receptor {
 //                fin = true;
 //            }
         } while (!fin);
+    }
+    byte[] recibirPaquete() {
+        JpcapCaptor captor;
+        captor = ControladorTarjeta.getReceptor();
+        Packet paquete = captor.getPacket();
+        // si no hay paquete, continuamos
+        if(paquete==null) return null;
+        // si no es el tipo que buscamos, continuamos
+
+        if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete.data))) {
+            return null;
+        }
+        return paquete.data;
+
+    }
+    public static TramaIS recibirTrama(Class<? extends TramaIS> tramaClass) {
+        boolean tramaValida = false;
+        JpcapCaptor captor;
+        captor = ControladorTarjeta.getReceptor();
+        TramaIS tramaAceptada;
+        do {
+            Packet paquete = captor.getPacket();
+            // si no hay paquete, continuamos
+            if (paquete == null) return null;
+            // si no es el tipo que buscamos, continuamos
+
+            if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete.data))) {
+                return null;
+            }
+
+            TramaIS tramaIs = new TramaIS(paquete.data);
+            if (tramaIs.getCaracter_control().equals(Caracteres.ACK)) {
+                tramaAceptada = new TramaAck(paquete.data);
+            } else if (tramaIs.getCaracter_control().equals(Caracteres.ENQ)) {
+                tramaAceptada = new TramaISENQ(paquete.data);
+            } else if (tramaIs.getCaracter_control().equals(Caracteres.STX)) {
+                tramaAceptada = new TramaISSTX(paquete.data);
+            } else {
+                return null;
+            }
+            tramaValida = tramaAceptada.getClass().equals(tramaClass);
+        } while (!tramaValida);
+        return tramaAceptada;
     }
 }

@@ -19,7 +19,14 @@ public enum Caracteres {
         this.caracter = caracter;
     }
     // assign ENQ character 25
-
+     public static Caracteres fromByte(byte b) {
+        for (Caracteres c : Caracteres.values()) {
+            if (c.value() == b) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException("Invalid byte value for Caracteres enum: " + b);
+    }
 
 
 
