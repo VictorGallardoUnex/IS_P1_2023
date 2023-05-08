@@ -11,23 +11,21 @@ import static com.interconexionsistemas.practica2.Main.syso;
 
 public class Controlador {
 
-    public boolean establecerConexion() {
-        int contador_tramas = 0;
-        Packet paquete = PacketHelper.buildPacket(new TramaISENQ(contador_tramas).toBytes());
+    public static int establecerConexion(int contadorTramas) {
+        Packet paquete = PacketHelper.buildPacket(new TramaISENQ(contadorTramas).toBytes());
         Emisor.enviarPaquete(paquete);
 
         TramaAck tramaack = (TramaAck) Receptor.recibirTrama(TramaAck.class);
 
         if (tramaack == null) {
             syso.println("No se ha recibido respuesta");
-            return false;
+            return -1;
         }
-        return true;
+        return contadorTramas;
     }
 
-    public boolean enviarDatos() {
+    public int enviarDatos(int contadorTramas) {
         ArrayList<String> lineas = Emisor.leer();
-        int contadorTramas = 0;
         // iterate lineas
         for (String linea : lineas) {
             byte[] bytesDatos = PacketHelper.formatear_trama(linea, contadorTramas);
@@ -37,12 +35,12 @@ public class Controlador {
             TramaAck tramaack = (TramaAck) Receptor.recibirTrama(TramaAck.class);
             if (tramaack == null) {
                 syso.println("No se ha recibido respuesta");
-                return false;
+                return -1;
             }
             syso.println("[TRACE] El ACK de la trama numero " + tramaack.getNumero_trama() + " ha sido recibida");
             contadorTramas++;
         }
-        return true;
+        return contadorTramas;
     }
     public boolean finalizarConexion(int contador_tramas) {
         Packet paquete = PacketHelper.buildPacket(new TramaISEOT(contador_tramas).toBytes());
@@ -56,5 +54,10 @@ public class Controlador {
         }
         return true;
     }
-
+    public void procesarEnvio() {
+        int contador_tramas = 0;
+        contador_tramas = establecerConexion(0);
+        contador_tramas = enviarDatos(contador_tramas);
+        finalizarConexion(contador_tramas);
+    }
 }
