@@ -3,6 +3,8 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Tra
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
 
 public class TramaISENQ extends TramaIS {
+    Caracteres caracter_control = Caracteres.ENQ;
+
     public TramaISENQ(byte[] bytes) {
         super(bytes);
     }

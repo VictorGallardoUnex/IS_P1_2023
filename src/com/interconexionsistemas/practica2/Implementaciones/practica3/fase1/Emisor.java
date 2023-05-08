@@ -38,7 +38,7 @@ public class Emisor {
         int contadorTramas = 0;
         // iterate lineas
         for (String linea : lineas) {
-            byte[] bytesDatos = PacketHelper.formatear_trama(linea, contadorTramas);
+            byte[] bytesDatos = PacketHelper.formatear_trama(linea.getBytes(), contadorTramas);
             Packet paquete = PacketHelper.buildPacket(bytesDatos);
             Emisor.enviarPaquete(paquete);
             syso.println("[TRACE] La trama numero " + contadorTramas + " ha sido enviada");

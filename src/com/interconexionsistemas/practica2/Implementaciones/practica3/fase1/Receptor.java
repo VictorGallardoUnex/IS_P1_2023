@@ -62,7 +62,7 @@ public class Receptor {
             if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete.data))) {
                 continue;
             }
-            TramaDatos tramaIs = extraerTexto(paquete.data);
+            TramaIS tramaIs = extraerTexto(paquete.data);
             syso.println("El texto recibido es: "+ tramaIs.getTexto());
             syso.println("[Traza] El numero de trama recibida es: "+ tramaIs.getNumero_trama());
             // Leemos la entrada del usuario en modo no bloqueante
@@ -91,24 +91,26 @@ public class Receptor {
         boolean tramaValida = false;
         JpcapCaptor captor;
         captor = ControladorTarjeta.getReceptor();
-        TramaIS tramaAceptada;
+        TramaIS tramaAceptada = null;
         do {
             Packet paquete = captor.getPacket();
             // si no hay paquete, continuamos
-            if (paquete == null) return null;
+            if (paquete == null) continue;
             // si no es el tipo que buscamos, continuamos
 
             if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete.data))) {
-                return null;
+                continue;
             }
+            byte[] data = extraerTexto(paquete.data).toBytes();
 
-            TramaIS tramaIs = new TramaIS(paquete.data);
+            TramaIS tramaIs = new TramaIS(data);
             if (tramaIs.getCaracter_control().equals(Caracteres.ACK)) {
-                tramaAceptada = new TramaAck(paquete.data);
+                tramaAceptada = new TramaAck(data);
             } else if (tramaIs.getCaracter_control().equals(Caracteres.ENQ)) {
-                tramaAceptada = new TramaISENQ(paquete.data);
+                System.out.println("Trama ENQ reecibida");
+                tramaAceptada = new TramaISENQ(data);
             } else if (tramaIs.getCaracter_control().equals(Caracteres.STX)) {
-                tramaAceptada = new TramaISSTX(paquete.data);
+                tramaAceptada = new TramaISSTX(data);
             } else {
                 return null;
             }

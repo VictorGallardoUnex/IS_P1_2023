@@ -13,7 +13,7 @@ public class FuncP3F1Test extends TestCase {
         config.setPosTramaIs(10);
         config.setPin("pin");
 
-        byte[] trama = PacketHelper.formatear_trama("hola",0);
+        byte[] trama = PacketHelper.formatear_trama("hola".getBytes(),0);
         System.out.println(Arrays.toString(trama));
     }
 
@@ -48,7 +48,7 @@ public class FuncP3F1Test extends TestCase {
         config.setPin("pin");
         config.setPospin(4);
 
-        byte[] trama = PacketHelper.formatear_trama("hola 4 t45 y5h56",0);
+        byte[] trama = PacketHelper.formatear_trama("hola 4 t45 y5h56".getBytes(),0);
         String pinExtraido = PacketHelper.extraerPin(trama);
         assertEquals("pin", pinExtraido);
     }

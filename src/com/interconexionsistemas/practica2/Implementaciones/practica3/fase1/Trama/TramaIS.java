@@ -3,19 +3,21 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Tra
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
 
 public class TramaIS {
-    Caracteres caracter_syn;
+    Caracteres caracter_syn = Caracteres.SYN;
     Caracteres caracter_control;
     int numero_trama;
     int longitud;
-    int direccion;
+    int direccion = (int) Caracteres.R.value();
     String texto;
     public TramaIS(byte[] bytes){
         caracter_syn = Caracteres.fromByte(bytes[0]);
         caracter_control = Caracteres.fromByte(bytes[1]);
         numero_trama = bytes[2];
         direccion = bytes[3];
-        longitud = bytes[4];
-        texto = new String(bytes, 5, longitud);
+        if (bytes.length>4) {
+            longitud = bytes[4];
+            texto = new String(bytes, 5, longitud);
+        }
     }
     public TramaIS(int numero_trama) {
         this.numero_trama = numero_trama;
@@ -28,7 +30,7 @@ public class TramaIS {
     public byte[] toBytes() {
         byte[] bytes = new byte[5 + texto.getBytes().length];
         bytes[0] = Caracteres.SYN.value(); // SYN
-        bytes[1] = Caracteres.STX.value(); // control
+        bytes[1] = caracter_control.value(); // control
         bytes[2] = (byte) numero_trama;
         bytes[3] = Caracteres.R.value(); // direccion
         bytes[4] = (byte) texto.getBytes().length; // longitud 34
@@ -38,5 +40,9 @@ public class TramaIS {
 
     public Caracteres getCaracter_control() {
         return caracter_control;
+    }
+
+    public String getTexto() {
+        return texto;
     }
 }

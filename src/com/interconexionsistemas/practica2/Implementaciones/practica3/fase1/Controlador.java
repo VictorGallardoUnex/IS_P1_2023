@@ -12,7 +12,7 @@ import static com.interconexionsistemas.practica2.Main.syso;
 public class Controlador {
 
     public static int establecerConexion(int contadorTramas) {
-        Packet paquete = PacketHelper.buildPacket(new TramaISENQ(contadorTramas).toBytes());
+        Packet paquete = PacketHelper.buildPacket(PacketHelper.formatear_trama(new TramaISENQ(contadorTramas).toBytes(),contadorTramas));
         Emisor.enviarPaquete(paquete);
 
         TramaAck tramaack = (TramaAck) Receptor.recibirTrama(TramaAck.class);
@@ -28,7 +28,7 @@ public class Controlador {
         ArrayList<String> lineas = Emisor.leer();
         // iterate lineas
         for (String linea : lineas) {
-            byte[] bytesDatos = PacketHelper.formatear_trama(linea, contadorTramas);
+            byte[] bytesDatos = PacketHelper.formatear_trama(linea.getBytes(), contadorTramas);
             Packet paquete = PacketHelper.buildPacket(bytesDatos);
 
             Emisor.enviarPaquete(paquete);

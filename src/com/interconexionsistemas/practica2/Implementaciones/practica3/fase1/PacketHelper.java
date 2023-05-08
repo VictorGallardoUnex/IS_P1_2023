@@ -1,6 +1,6 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaDatos;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.*;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
@@ -54,8 +54,8 @@ public class PacketHelper {
      * @param contador_tramas El numero de trama que se va a enviar
      * @return
      */
-    public static byte[] formatear_trama(String texto, int contador_tramas) {
-        byte[] bytesDatos_temp = new TramaDatos(texto,contador_tramas).toBytes();
+    public static byte[] formatear_trama(byte[] bytesTramaIS, int contador_tramas) {
+        byte[] bytesDatos_temp = makeTrama(bytesTramaIS).toBytes();
         // Nos aseguramos que el posttrama_is es menor que el final de pin
         int posicion_ultimo_caracter_pin = configuracion.getPospin() + configuracion.getPin().getBytes().length;
         if (posicion_ultimo_caracter_pin >= configuracion.getPosTramaIs()) {
@@ -94,7 +94,7 @@ public class PacketHelper {
      * @param bytesTrama
      * @return
      */
-    public static TramaDatos extraerTexto(byte[] bytesTrama) {
+    public static TramaIS extraerTexto(byte[] bytesTrama) {
 
         if (configuracion.getPosTramaIs() <= configuracion.getPospin()) {
             configuracion.setPosTramaIs(configuracion.getPospin() + configuracion.getPin().getBytes().length + 1);
@@ -104,8 +104,22 @@ public class PacketHelper {
         byte[] bytesTramaIS = new byte[longitudTramaIS];
         System.arraycopy(bytesTrama, configuracion.getPosTramaIs(), bytesTramaIS, 0, longitudTramaIS);
 
-        return TramaDatos.fromBytes(bytesTramaIS);
+        return new TramaIS(bytesTramaIS);
 
+    }
+
+    public static TramaIS makeTrama(byte[] data){
+        TramaIS tramaIs = new TramaIS(data);
+
+        if (tramaIs.getCaracter_control().equals(Caracteres.ACK)) {
+            return  new TramaAck(data);
+        } else if (tramaIs.getCaracter_control().equals(Caracteres.ENQ)) {
+            return new TramaISENQ(data);
+        } else if (tramaIs.getCaracter_control().equals(Caracteres.STX)) {
+            return new TramaISSTX(data);
+        } else {
+            return null;
+        }
     }
 
 }
