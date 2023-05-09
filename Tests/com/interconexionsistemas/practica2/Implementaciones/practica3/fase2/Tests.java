@@ -3,6 +3,8 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import junit.framework.TestCase;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.interconexionsistemas.practica2.Main.syso;
 
 public class Tests extends TestCase {
@@ -30,10 +32,19 @@ public class Tests extends TestCase {
             EnviarPaquetes.enviarTramaIs(bytes);
             syso.println("Esperando ACK");
             EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (Exception e) {
 
+            }
             syso.println("Enviando trama IS");
             EnviarPaquetes.enviarTramaIs(bytes);
             syso.println("Esperando ACK");
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (Exception e) {
+
+            }
             EsperarPaquetes.esperarPaquete(Caracteres.ACK);syso.println("Enviando trama IS");
             EnviarPaquetes.enviarTramaIs(bytes);
             syso.println("Esperando ACK");
@@ -55,7 +66,11 @@ public class Tests extends TestCase {
 
             //Esperamos la informacion
             bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX);
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (Exception e) {
 
+            }
             // Enviar ACK
             bytes[1] = Caracteres.ACK.value(); // control
             bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
@@ -66,6 +81,11 @@ public class Tests extends TestCase {
 
             bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX);
 
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (Exception e) {
+
+            }
             // Enviar ACK
             bytes[1] = Caracteres.ACK.value(); // control
             bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
