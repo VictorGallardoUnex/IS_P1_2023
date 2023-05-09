@@ -22,7 +22,7 @@ public class EnviarPaquetes {
 
             Packet paquete = PacketHelper.buildPacket(bytesDatos);
             Emisor.enviarPaquete(paquete);
-            syso.println("[TRACE] La trama numero " + TramaHelper.getNumTrama(bytesTramaIs) + " ha sido enviada");
+            //syso.println("[TRACE] La trama numero " + TramaHelper.getNumTrama(bytesTramaIs) + " ha sido enviada");
     }
 
 }

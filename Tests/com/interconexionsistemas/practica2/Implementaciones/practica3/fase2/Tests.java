@@ -14,11 +14,9 @@ public class Tests extends TestCase {
             config.setPin("Hola");
 
             EstablecerConexion.establecerConexion();
-
-            syso.println("testEstablecerConexion");
             int numero_trama = 0;
 
-            String texto = "Lorem ipsus donor desdad d asa d a";
+            String texto = "Lorem ipsus donor";
 
             byte[] bytes = new byte[5 + texto.getBytes().length];
             bytes[0] = Caracteres.SYN.value(); // SYN
@@ -40,6 +38,7 @@ public class Tests extends TestCase {
                 EnviarPaquetes.enviarTramaIs(bytes);
                 syso.println("Esperando ACK");
                 EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+                syso.println("ACK recibido");
                 try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (Exception e) {
@@ -77,8 +76,8 @@ public class Tests extends TestCase {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (Exception e) {
                 }
-                syso.println("Bytes recibidos tipo: '" + TramaHelper.getTipoTrama(bytesRecibidos).name() + "' num trama: '" + TramaHelper.getNumTrama(bytesRecibidos) + "'");
-
+                syso.println("[Trace] Paquete recibido. Trama IS es de tipo: '" + TramaHelper.getTipoTrama(bytesRecibidos).name() + "'. Numero de trama: '" + TramaHelper.getNumTrama(bytesRecibidos) + "'");
+                syso.println("[Trace] Enviando ACK");
                 // Enviar ACK
                 bytes[1] = Caracteres.ACK.value(); // control
                 bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
