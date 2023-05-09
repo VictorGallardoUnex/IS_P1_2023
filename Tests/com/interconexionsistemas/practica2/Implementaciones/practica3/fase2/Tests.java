@@ -45,10 +45,11 @@ public class Tests extends TestCase {
             } catch (Exception e) {
 
             }
-            EsperarPaquetes.esperarPaquete(Caracteres.ACK);syso.println("Enviando trama IS");
+            EsperarPaquetes.esperarPaquete(Caracteres.ENQ);
+            syso.println("Enviando trama IS");
             EnviarPaquetes.enviarTramaIs(bytes);
-            syso.println("Esperando ACK");
-            EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+            syso.println("Esperando Fin");
+            //EsperarPaquetes.esperarPaquete(Caracteres.ACK);
         }
 
         public void testRecibirConexion(){
@@ -86,6 +87,8 @@ public class Tests extends TestCase {
             } catch (Exception e) {
 
             }
+
+            assertEquals(Caracteres.ENQ, TramaHelper.getTipoTrama(bytesRecibidos));
             // Enviar ACK
             bytes[1] = Caracteres.ACK.value(); // control
             bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
