@@ -1,5 +1,6 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
+import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import junit.framework.TestCase;
 
 import static com.interconexionsistemas.practica2.Main.syso;
@@ -7,6 +8,8 @@ import static com.interconexionsistemas.practica2.Main.syso;
 public class Tests extends TestCase {
 
         public void testEstablecerConexion() {
+            Configuracion config = Configuracion.getInstance();
+            config.setPin("Hola");
 
             EstablecerConexion.establecerConexion();
 
@@ -38,6 +41,8 @@ public class Tests extends TestCase {
         }
 
         public void testRecibirConexion(){
+            Configuracion config = Configuracion.getInstance();
+            config.setPin("Hola");
             byte[] bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.ENQ);
 
             byte[] bytes = new byte[4];
