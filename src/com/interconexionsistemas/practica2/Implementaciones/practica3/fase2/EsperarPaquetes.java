@@ -27,7 +27,7 @@ public class EsperarPaquetes {
             }
             byte[] tramaIs = extraerBytesTramaIS(paquete.data);
 
-            if (TramaHelper.getTipoTrama(tramaIs) != tipo || TramaHelper.getTipoTrama(tramaIs) != Caracteres.EOT) {
+            if (TramaHelper.getTipoTrama(tramaIs) != tipo && TramaHelper.getTipoTrama(tramaIs) != Caracteres.EOT) {
                 continue;
             }
 
