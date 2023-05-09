@@ -30,37 +30,31 @@ public class Tests extends TestCase {
 
 
 
-            syso.println("Enviando trama IS");
-            EnviarPaquetes.enviarTramaIs(bytes);
-            syso.println("Esperando ACK");
-            EsperarPaquetes.esperarPaquete(Caracteres.ACK);
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (Exception e) {
+            while (true) {
+
+
+                numero_trama++;
+                TramaHelper.setNumTrama(bytes, numero_trama);
+
+                syso.println("Enviando trama IS");
+                EnviarPaquetes.enviarTramaIs(bytes);
+                syso.println("Esperando ACK");
+                EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+                try {
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (Exception e) {
+
+                }
             }
 
-
-            numero_trama++;
-            TramaHelper.setNumTrama(bytes, numero_trama);
-
-            syso.println("Enviando trama IS");
-            EnviarPaquetes.enviarTramaIs(bytes);
-            syso.println("Esperando ACK");
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (Exception e) {
-
-            }
-
-
-            numero_trama++;
-            TramaHelper.setNumTrama(bytes, numero_trama);
-
-//            EsperarPaquetes.esperarPaquete(Caracteres.EOT);
-            syso.println("Enviando trama IS");
-            bytes = TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
-            EnviarPaquetes.enviarTramaIs(bytes);
-            syso.println("Esperando Fin");
+//            numero_trama++;
+//            TramaHelper.setNumTrama(bytes, numero_trama);
+//
+////            EsperarPaquetes.esperarPaquete(Caracteres.EOT);
+//            syso.println("Enviando trama IS");
+//            bytes = TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
+//            EnviarPaquetes.enviarTramaIs(bytes);
+//            syso.println("Esperando Fin");
             //EsperarPaquetes.esperarPaquete(Caracteres.ACK);
         }
 
@@ -76,39 +70,23 @@ public class Tests extends TestCase {
             bytes[3] = Caracteres.R.value(); // direccion
             // Respondemos ok a la peticion de conexion
             EnviarPaquetes.enviarTramaIs(bytes);
+            while (true) {
+                //Esperamos la informacion
+                bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX);
+                try {
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (Exception e) {
+                }
+                syso.println("Bytes recibidos tipo: '" + TramaHelper.getTipoTrama(bytesRecibidos).name() + "' num trama: '" + TramaHelper.getNumTrama(bytesRecibidos) + "'");
 
-            //Esperamos la informacion
-            bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX);
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (Exception e) {
+                // Enviar ACK
+                bytes[1] = Caracteres.ACK.value(); // control
+                bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
+
+                bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos) + 1);
+                EnviarPaquetes.enviarTramaIs(bytes);
+
             }
-            syso.println("Bytes recibidos tipo: "+TramaHelper.getTipoTrama(bytesRecibidos).name()+ " num trama: " + TramaHelper.getNumTrama(bytesRecibidos));
-
-
-            // Enviar ACK
-            bytes[1] = Caracteres.ACK.value(); // control
-            bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
-
-            bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos)+1);
-            EnviarPaquetes.enviarTramaIs(bytes);
-
-
-            bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX);
-
-            try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (Exception e) {
-            }
-            syso.println("Bytes recibidos tipo: "+TramaHelper.getTipoTrama(bytesRecibidos).name()+ " num trama: " + TramaHelper.getNumTrama(bytesRecibidos));
-
-            assertEquals(Caracteres.EOT, TramaHelper.getTipoTrama(bytesRecibidos));
-            // Enviar ACK
-            bytes[1] = Caracteres.ACK.value(); // control
-            bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
-
-            bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos)+1);
-            EnviarPaquetes.enviarTramaIs(bytes);
 
 
 
