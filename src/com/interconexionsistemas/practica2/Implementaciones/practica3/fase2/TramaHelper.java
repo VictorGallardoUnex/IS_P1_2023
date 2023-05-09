@@ -9,10 +9,7 @@ public class TramaHelper {
         return "";
     }
     public static int getNumTrama(byte[] data) {
-        if (data.length>4) {
-            return data[4];
-        }
-        return 0;
+            return data[2];
     }
     public static byte[] setNumTrama(byte[] data, int num_trama) {
             data[2] = (byte) num_trama;
