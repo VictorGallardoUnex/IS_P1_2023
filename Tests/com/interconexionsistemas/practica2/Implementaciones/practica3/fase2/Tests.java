@@ -45,8 +45,9 @@ public class Tests extends TestCase {
             } catch (Exception e) {
 
             }
-            EsperarPaquetes.esperarPaquete(Caracteres.ENQ);
+            EsperarPaquetes.esperarPaquete(Caracteres.EOT);
             syso.println("Enviando trama IS");
+            bytes = TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
             EnviarPaquetes.enviarTramaIs(bytes);
             syso.println("Esperando Fin");
             //EsperarPaquetes.esperarPaquete(Caracteres.ACK);
@@ -88,7 +89,7 @@ public class Tests extends TestCase {
 
             }
 
-            assertEquals(Caracteres.ENQ, TramaHelper.getTipoTrama(bytesRecibidos));
+            assertEquals(Caracteres.EOT, TramaHelper.getTipoTrama(bytesRecibidos));
             // Enviar ACK
             bytes[1] = Caracteres.ACK.value(); // control
             bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);

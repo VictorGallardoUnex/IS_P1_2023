@@ -18,7 +18,10 @@ public class TramaHelper {
             data[2] = (byte) num_trama;
             return data;
     }
-
+    public static byte[] setTipoTrama(byte[] data, Caracteres tipo_trama) {
+            data[1] = tipo_trama.value();
+            return data;
+    }
     public static Caracteres getTipoTrama(byte[] data) {
         return Caracteres.fromByte(data[1]);
     }
