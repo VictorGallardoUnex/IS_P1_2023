@@ -105,16 +105,22 @@ public class Receptor {
 
             TramaIS tramaIs = new TramaIS(data);
             if (tramaIs.getCaracter_control().equals(Caracteres.ACK)) {
+                System.out.println("Trama ACK reecibida");
                 tramaAceptada = new TramaAck(data);
             } else if (tramaIs.getCaracter_control().equals(Caracteres.ENQ)) {
                 System.out.println("Trama ENQ reecibida");
                 tramaAceptada = new TramaISENQ(data);
             } else if (tramaIs.getCaracter_control().equals(Caracteres.STX)) {
+                System.out.println("Trama STX reecibida");
                 tramaAceptada = new TramaISSTX(data);
             } else {
                 return null;
             }
-            tramaValida = tramaAceptada.getClass().equals(tramaClass);
+            if (tramaClass == null) {
+                tramaValida = true;
+            } else {
+                tramaValida = tramaAceptada.getClass().equals(tramaClass);
+            }
         } while (!tramaValida);
         return tramaAceptada;
     }

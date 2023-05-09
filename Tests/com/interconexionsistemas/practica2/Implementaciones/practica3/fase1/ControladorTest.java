@@ -2,6 +2,7 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaIS;
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaISENQ;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.TramaISEOT;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
 import junit.framework.TestCase;
 
@@ -29,7 +30,33 @@ public class ControladorTest extends TestCase {
         config.setPin("Hola");
         TramaIS trama = recibirTrama(TramaISENQ.class);
         syso.println(trama.toString());
+//        do {
+//            trama = recibirTrama(TramaISENQ.class);
+//        }
+    }
+
+
+    public void testComunicacionReceptor() {
+        Configuracion config = Configuracion.getInstance();
+        config.setPin("Hola");
+        TramaIS trama = recibirTrama(TramaISENQ.class);
+        syso.println(trama.toString());
+        do {
+            trama = recibirTrama(null);
+        } while (trama.getClass() != TramaISEOT.class);
+        Emisor.enviarPaquete(PacketHelper.buildPacket(new TramaISEOT(trama.getNumero_trama()).toBytes()));
     }
     public void testProcesarEnvio() {
+        Configuracion config = Configuracion.getInstance();
+        config.setPin("Hola");
+        int contadorTrama = Controlador.establecerConexion(0);
+
+        Controlador.enviarDatos(contadorTrama);
+        Controlador.finalizarConexion(contadorTrama);
+//        syso.println(trama.toString());
+//        do {
+//            trama = recibirTrama(null);
+//        } while (trama.getClass() != TramaISEOT.class);
+//        Emisor.enviarPaquete(PacketHelper.buildPacket(new TramaISEOT(trama.getNumero_trama()).toBytes()));
     }
 }

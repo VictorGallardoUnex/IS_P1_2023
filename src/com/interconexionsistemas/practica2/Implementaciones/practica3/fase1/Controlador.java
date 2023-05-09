@@ -24,7 +24,7 @@ public class Controlador {
         return contadorTramas;
     }
 
-    public int enviarDatos(int contadorTramas) {
+    public static int enviarDatos(int contadorTramas) {
         ArrayList<String> lineas = Emisor.leer();
         // iterate lineas
         for (String linea : lineas) {
@@ -42,7 +42,7 @@ public class Controlador {
         }
         return contadorTramas;
     }
-    public boolean finalizarConexion(int contador_tramas) {
+    public static boolean finalizarConexion(int contador_tramas) {
         Packet paquete = PacketHelper.buildPacket(new TramaISEOT(contador_tramas).toBytes());
         Emisor.enviarPaquete(paquete);
 
