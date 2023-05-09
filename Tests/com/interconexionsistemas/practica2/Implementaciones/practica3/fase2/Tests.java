@@ -28,6 +28,8 @@ public class Tests extends TestCase {
             bytes[4] = (byte) texto.getBytes().length; // longitud 34
             System.arraycopy(texto.getBytes(), 0, bytes, 5, texto.getBytes().length); // texto
 
+
+
             syso.println("Enviando trama IS");
             EnviarPaquetes.enviarTramaIs(bytes);
             syso.println("Esperando ACK");
@@ -35,8 +37,12 @@ public class Tests extends TestCase {
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
-
             }
+
+
+            numero_trama++;
+            TramaHelper.setNumTrama(bytes, numero_trama);
+
             syso.println("Enviando trama IS");
             EnviarPaquetes.enviarTramaIs(bytes);
             syso.println("Esperando ACK");
@@ -45,7 +51,12 @@ public class Tests extends TestCase {
             } catch (Exception e) {
 
             }
-            EsperarPaquetes.esperarPaquete(Caracteres.EOT);
+
+
+            numero_trama++;
+            TramaHelper.setNumTrama(bytes, numero_trama);
+
+//            EsperarPaquetes.esperarPaquete(Caracteres.EOT);
             syso.println("Enviando trama IS");
             bytes = TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
             EnviarPaquetes.enviarTramaIs(bytes);
@@ -71,8 +82,10 @@ public class Tests extends TestCase {
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
-
             }
+            syso.println("Bytes recibidos tipo: "+TramaHelper.getTipoTrama(bytesRecibidos).name()+ " num trama: " + TramaHelper.getNumTrama(bytesRecibidos));
+
+
             // Enviar ACK
             bytes[1] = Caracteres.ACK.value(); // control
             bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
@@ -86,8 +99,8 @@ public class Tests extends TestCase {
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
-
             }
+            syso.println("Bytes recibidos tipo: "+TramaHelper.getTipoTrama(bytesRecibidos).name()+ " num trama: " + TramaHelper.getNumTrama(bytesRecibidos));
 
             assertEquals(Caracteres.EOT, TramaHelper.getTipoTrama(bytesRecibidos));
             // Enviar ACK
