@@ -20,7 +20,11 @@ public class EstablecerConexion {
         tramaIS[2] = (byte) 0;
         tramaIS[3] = Caracteres.R.value(); // direccion
 //        tramaIS[4] = (byte) texto.getBytes().length; //
-        Packet paquete = PacketHelper.buildPacket(tramaIS);
+
+        byte[] bytesDatos = PacketHelper.tramaIS_a_bytesDatosPaquete(tramaIS);
+
+
+        Packet paquete = PacketHelper.buildPacket(bytesDatos);
         Emisor.enviarPaquete(paquete);
 
         syso.println("[Traza] Enviado paquete ENQ");

@@ -18,6 +18,8 @@ public class EnviarPaquetes {
 //        bytes[4] = (byte) texto.getBytes().length; // longitud 34
 //        System.arraycopy(texto.getBytes(), 0, bytes, 5, texto.getBytes().length); // texto
             byte[] bytesDatos = PacketHelper.tramaIS_a_bytesDatosPaquete(bytesTramaIs);
+
+
             Packet paquete = PacketHelper.buildPacket(bytesDatos);
             Emisor.enviarPaquete(paquete);
             syso.println("[TRACE] La trama numero " + TramaHelper.getNumTrama(bytesTramaIs) + " ha sido enviada");
