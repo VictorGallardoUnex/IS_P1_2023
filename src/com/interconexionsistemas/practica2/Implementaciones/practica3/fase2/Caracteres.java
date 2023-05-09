@@ -1,4 +1,4 @@
-package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
+package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
 public enum Caracteres {
     ENQ(25),

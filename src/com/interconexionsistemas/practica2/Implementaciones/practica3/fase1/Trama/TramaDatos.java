@@ -1,6 +1,6 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Caracteres;
 
 public class TramaDatos extends Trama{
     public TramaDatos(String texto, int numero_trama) {
@@ -20,7 +20,6 @@ public class TramaDatos extends Trama{
         System.arraycopy(texto.getBytes(), 0, bytes, 5, texto.getBytes().length); // texto
         return bytes;
     }
-
     public static TramaDatos fromBytes(byte[] bytes) {
 
         String texto = new String(bytes, 5, bytes[4]);

@@ -1,7 +1,5 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
-
 public abstract class Trama {
     String texto;
     int numero_trama;
@@ -24,4 +22,7 @@ public abstract class Trama {
     }
 
     public abstract byte[] toBytes();
+    public Trama makeFromBytes(byte[] bytes) {
+        return null;
+    }
 }

@@ -1,10 +1,8 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.*;
-import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
-import com.interconexionsistemas.practica2.Modelos.Errores.ErrorTarjetaNoExiste;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Caracteres;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
-import jpcap.JpcapSender;
 import jpcap.packet.EthernetPacket;
 import jpcap.packet.Packet;
 
@@ -12,7 +10,6 @@ import java.util.Arrays;
 
 import static com.interconexionsistemas.practica2.Main.configuracion;
 import static com.interconexionsistemas.practica2.Main.syso;
-import static com.interconexionsistemas.practica2.Utils.getMacComoString;
 
 public class PacketHelper {
     public static final byte[] MAC_BROADCAST = { (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff };
@@ -50,12 +47,10 @@ public class PacketHelper {
     /**
      * Recibe un texto/datos y lo coloca en la posición requerida por la configuracion
      * Tambien establece el pin en la posicion deseada con el offset deseado
-     * @param texto El texto o datos que se va a enviar
-     * @param contador_tramas El numero de trama que se va a enviar
      * @return
      */
-    public static byte[] formatear_trama(byte[] bytesTramaIS, int contador_tramas) {
-        byte[] bytesDatos_temp = makeTrama(bytesTramaIS).toBytes();
+    public static byte[] tramaIS_a_bytesDatosPaquete(byte[] bytesTramaIS) {
+        byte[] bytesDatos_temp = bytesTramaIS;
         // Nos aseguramos que el posttrama_is es menor que el final de pin
         int posicion_ultimo_caracter_pin = configuracion.getPospin() + configuracion.getPin().getBytes().length;
         if (posicion_ultimo_caracter_pin >= configuracion.getPosTramaIs()) {
@@ -64,13 +59,13 @@ public class PacketHelper {
         }
 
         // Crear nueva array de bytes con el tamaño de la trama IS + el offset de postramaIS
-        byte[] bytesTramaISMovidos = new byte[bytesDatos_temp.length + (configuracion.getPosTramaIs())];
-        System.arraycopy(bytesDatos_temp, 0, bytesTramaISMovidos, (configuracion.getPosTramaIs()), bytesDatos_temp.length);
+        byte[] bytesDatosTramaIS = new byte[bytesDatos_temp.length + (configuracion.getPosTramaIs())];
+        System.arraycopy(bytesDatos_temp, 0, bytesDatosTramaIS, (configuracion.getPosTramaIs()), bytesDatos_temp.length);
 
         // Copiamos la array de bytes del pin en la array original donde está ya la trama_is con su offset establecido
-        System.arraycopy(configuracion.getPin().getBytes(), 0, bytesTramaISMovidos, configuracion.getPospin(), configuracion.getPin().getBytes().length);
+        System.arraycopy(configuracion.getPin().getBytes(), 0, bytesDatosTramaIS, configuracion.getPospin(), configuracion.getPin().getBytes().length);
 
-        return bytesTramaISMovidos;
+        return bytesDatosTramaIS;
     }
 
     public static String extraerPin(byte[] bytesTrama) {
@@ -107,6 +102,26 @@ public class PacketHelper {
         return new TramaIS(bytesTramaIS);
 
     }
+
+    /**
+     * Saca los bytes del campo datos del paquete ignorando el pin devolviendo la trama IS en bytes
+     * @param bytesDatosPaquete
+     * @return
+     */
+    public static byte[] extraerBytesTramaIS(byte[] bytesDatosPaquete) {
+
+        if (configuracion.getPosTramaIs() <= configuracion.getPospin()) {
+            configuracion.setPosTramaIs(configuracion.getPospin() + configuracion.getPin().getBytes().length + 1);
+        }
+        int longitudTramaIS = bytesDatosPaquete.length - configuracion.getPosTramaIs();
+
+        byte[] bytesTramaIS = new byte[longitudTramaIS];
+        System.arraycopy(bytesDatosPaquete, configuracion.getPosTramaIs(), bytesTramaIS, 0, longitudTramaIS);
+
+        return bytesTramaIS;
+
+    }
+
 
     public static TramaIS makeTrama(byte[] data){
         TramaIS tramaIs = new TramaIS(data);

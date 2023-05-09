@@ -1,8 +1,5 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Caracteres;
-import com.interconexionsistemas.practica2.Singletons.Configuracion;
-
 
 public class TramaAck extends TramaIS {
         public TramaAck(byte[] bytes) {

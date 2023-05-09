@@ -33,18 +33,18 @@ public class Emisor {
         }
         return resultado;
     }
-    public static void leer_y_enviar() {
-        ArrayList<String> lineas = leer();
-        int contadorTramas = 0;
-        // iterate lineas
-        for (String linea : lineas) {
-            byte[] bytesDatos = PacketHelper.formatear_trama(linea.getBytes(), contadorTramas);
-            Packet paquete = PacketHelper.buildPacket(bytesDatos);
-            Emisor.enviarPaquete(paquete);
-            syso.println("[TRACE] La trama numero " + contadorTramas + " ha sido enviada");
-            contadorTramas++;
-        }
-    }
+//    public static void leer_y_enviar() {
+//        ArrayList<String> lineas = leer();
+//        int contadorTramas = 0;
+//        // iterate lineas
+//        for (String linea : lineas) {
+//            byte[] bytesDatos = PacketHelper.formatear_trama(linea.getBytes(), contadorTramas);
+//            Packet paquete = PacketHelper.buildPacket(bytesDatos);
+//            Emisor.enviarPaquete(paquete);
+//            syso.println("[TRACE] La trama numero " + contadorTramas + " ha sido enviada");
+//            contadorTramas++;
+//        }
+//    }
     public static void enviarPaquete(Packet paquete) {
 
         JpcapSender emisor;

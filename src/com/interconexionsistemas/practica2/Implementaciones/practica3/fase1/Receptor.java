@@ -1,6 +1,7 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
 
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.*;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Caracteres;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import jpcap.JpcapCaptor;
 import jpcap.packet.Packet;

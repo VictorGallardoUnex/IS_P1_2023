@@ -48,7 +48,7 @@ public class Main {
 
         if (configuracion.isMaestro()) {
             syso.println("Ejecutando modo maestro");
-            Emisor.leer_y_enviar();
+//            Emisor.leer_y_enviar();
         } else {
             syso.println("Ejecutando modo esclavo");
             Receptor.recibirTramas();
