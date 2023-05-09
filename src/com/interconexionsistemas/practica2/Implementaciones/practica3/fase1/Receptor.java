@@ -92,6 +92,7 @@ public class Receptor {
         JpcapCaptor captor;
         captor = ControladorTarjeta.getReceptor();
         TramaIS tramaAceptada = null;
+        byte[] data;
         do {
             Packet paquete = captor.getPacket();
             // si no hay paquete, continuamos
@@ -101,17 +102,15 @@ public class Receptor {
             if (configuracion.hasPin() && !configuracion.getPin().equals(extraerPin(paquete.data))) {
                 continue;
             }
-            byte[] data = extraerTexto(paquete.data).toBytes();
-
-            TramaIS tramaIs = new TramaIS(data);
-            if (tramaIs.getCaracter_control().equals(Caracteres.ACK)) {
-                System.out.println("Trama ACK reecibida");
+            TramaIS tramaIS = extraerTexto(paquete.data) ;
+            data = tramaIS.toBytes();
+            syso.println("[TRACE] Trama con pin valido recibida tipo: " + tramaIS.getCaracter_control().name());
+            tramaIS = new TramaIS(data);
+            if (tramaIS.getCaracter_control().equals(Caracteres.ACK)) {
                 tramaAceptada = new TramaAck(data);
-            } else if (tramaIs.getCaracter_control().equals(Caracteres.ENQ)) {
-                System.out.println("Trama ENQ reecibida");
+            } else if (tramaIS.getCaracter_control().equals(Caracteres.ENQ)) {
                 tramaAceptada = new TramaISENQ(data);
-            } else if (tramaIs.getCaracter_control().equals(Caracteres.STX)) {
-                System.out.println("Trama STX reecibida");
+            } else if (tramaIS.getCaracter_control().equals(Caracteres.STX)) {
                 tramaAceptada = new TramaISSTX(data);
             } else {
                 return null;
@@ -119,7 +118,7 @@ public class Receptor {
             if (tramaClass == null) {
                 tramaValida = true;
             } else {
-                tramaValida = tramaAceptada.getClass().equals(tramaClass);
+                tramaValida = tramaAceptada.getClass().equals(tramaClass) || tramaAceptada.getClass().equals(TramaISEOT.class);
             }
         } while (!tramaValida);
         return tramaAceptada;

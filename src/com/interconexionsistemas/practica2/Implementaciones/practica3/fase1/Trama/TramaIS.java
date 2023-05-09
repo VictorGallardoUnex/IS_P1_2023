@@ -9,8 +9,9 @@ public class TramaIS {
     int longitud;
     int direccion = (int) Caracteres.R.value();
     String texto;
+    public TramaIS(){}
     public TramaIS(byte[] bytes){
-        caracter_syn = Caracteres.fromByte(bytes[0]);
+        //caracter_syn = Caracteres.fromByte(bytes[0]);
         caracter_control = Caracteres.fromByte(bytes[1]);
         numero_trama = bytes[2];
         direccion = bytes[3];
@@ -20,6 +21,14 @@ public class TramaIS {
         }
     }
     public TramaIS(int numero_trama) {
+        this.numero_trama = numero_trama;
+    }
+
+    public void setCaracter_control(Caracteres caracter_control) {
+        this.caracter_control = caracter_control;
+    }
+
+    public void setNumero_trama(int numero_trama) {
         this.numero_trama = numero_trama;
     }
 

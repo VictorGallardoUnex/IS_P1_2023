@@ -55,7 +55,7 @@ public class Emisor {
             throw new RuntimeException("Error al inicializar jpcap. No se puede hacer ningun envio");
         }
         emisor.sendPacket(paquete);
-        syso.println("Paquete enviado correctamente a la direccion MAC " + getMacComoString(MAC_BROADCAST) + "\n Informacion del paquete: \n" + "\nInformacion del paquete como string: \n"+ new String(paquete.data));
+        syso.println("[TRACE][enviarPaquete] Paquete enviado correctamente");
     }
 
 }
