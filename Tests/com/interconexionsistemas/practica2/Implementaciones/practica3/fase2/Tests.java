@@ -27,13 +27,13 @@ public class Tests extends TestCase {
             System.arraycopy(texto.getBytes(), 0, bytes, 5, texto.getBytes().length); // texto
 
 
-
-            while (true) {
+            int counter = 0;
+            while (counter<10) {
 
 
                 numero_trama++;
                 TramaHelper.setNumTrama(bytes, numero_trama);
-
+                syso.println("\n\n--------------------");
                 syso.println("Enviando trama IS");
                 EnviarPaquetes.enviarTramaIs(bytes);
                 syso.println("Esperando ACK");
@@ -44,7 +44,19 @@ public class Tests extends TestCase {
                 } catch (Exception e) {
 
                 }
+                counter++;
             }
+            numero_trama++;
+            TramaHelper.setNumTrama(bytes, numero_trama);
+            syso.println("\n\n--------------------");
+            syso.println("Enviando trama IS EOT ULTIMA");
+            TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
+            EnviarPaquetes.enviarTramaIs(bytes);
+            syso.println("Esperando ACK");
+            EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+            syso.println("ACK recibido");
+            syso.println("Fin de la conexion");
+
 
 //            numero_trama++;
 //            TramaHelper.setNumTrama(bytes, numero_trama);
@@ -82,9 +94,15 @@ public class Tests extends TestCase {
                 bytes[1] = Caracteres.ACK.value(); // control
                 bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
 
+                if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {
+                    syso.println("[Trace] Fin de la conexion");
+                    bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos) + 1);
+                    EnviarPaquetes.enviarTramaIs(bytes);
+                    return;
+                }
+
                 bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos) + 1);
                 EnviarPaquetes.enviarTramaIs(bytes);
-
             }
 
 
