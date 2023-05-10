@@ -74,10 +74,10 @@ public class Ejecutor {
                             conf.setPorcentajeTramaNoEnviada(Integer.parseInt(instruccion.valor));
                             break;
                         }
-//                        case "porcentajeerrortramas": {
-//                            conf.setPorcentajeErrorTramas(Integer.parseInt(instruccion.valor));
-//                            break;
-//                        }
+                        case "porcentajeerrortramas": {
+                            conf.setPorcentajeErrorTramas(Integer.parseInt(instruccion.valor));
+                            break;
+                        }
                         default: {
                             syso.println("[ERROR] Ese comando no esta disponible");
                             break;
@@ -101,6 +101,11 @@ public class Ejecutor {
         switch (bandera.clave.toLowerCase()) {
             case "maestro": {
                 conf.setMaestro(bandera.valor.equals("ON"));
+                if (conf.isMaestro()) {
+                    conf.setFichero_salida("salida_maestro.txt");
+                } else {
+                    conf.setFichero_salida("salida_esclavo.txt");
+                }
                 break;
             }
             case "traza": {
