@@ -41,6 +41,14 @@ public class Esclavo {
             if (TramaHelper.getTipoTrama(bytesRecibidos)==Caracteres.STX) {
                 syso.println("\n[TEXTO RECIBIDO] '" + TramaHelper.getTexto(bytesRecibidos) + "'\n");
             }
+            byte[] bytesSinBCE = new byte[bytesRecibidos.length-1];
+            System.arraycopy(bytesRecibidos,0,bytesSinBCE,0,bytesRecibidos.length-1);
+            byte bce = TramaHelper.getBCE(bytesRecibidos);
+            if (BCE.calcularBCE(bytesSinBCE) != bce){
+                syso.println("Paquete con errores no se va a responder con ack. Esperando siguiente paquete reenviado");
+                continue;
+            }
+
             syso.println("[Trace] Enviando ACK");
             // Comprobamos que la tramaIS recibida no sea EOT
             if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {

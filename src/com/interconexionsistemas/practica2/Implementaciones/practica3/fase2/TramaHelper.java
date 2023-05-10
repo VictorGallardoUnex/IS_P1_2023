@@ -22,5 +22,14 @@ public class TramaHelper {
     public static Caracteres getTipoTrama(byte[] data) {
         return Caracteres.fromByte(data[1]);
     }
+    public static byte getBCE(byte[] data){
+        //Esperamos la información
+        if (data.length>5) {
+            int longitud = data[4] +5;
+            return data[longitud];
+
+        }
+        return data[5];
+    }
 
 }
