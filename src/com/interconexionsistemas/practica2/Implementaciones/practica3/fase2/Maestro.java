@@ -25,10 +25,7 @@ public class Maestro {
         int numero_trama = 0;
 
         byte[] bytes;
-        byte bce;
         ArrayList<String> lineas = leer();
-
-        // iterate lineas
 
         for (String linea : lineas) {
             numero_trama++;
@@ -45,7 +42,6 @@ public class Maestro {
             byte[] bytes_con_bce = new byte[bytes.length+1];
             System.arraycopy(bytes, 0, bytes_con_bce, 0, bytes.length); // texto
             bytes_con_bce[bytes.length] = BCE.calcularBCE(bytes);
-            byte[] trama_errornea = null;
             int intentos = 0;
 
             boolean ok=false;
@@ -61,11 +57,6 @@ public class Maestro {
                     }
                 }
                 TramaHelper.setNumTrama(bytes_con_bce, numero_trama);
-
-
-
-
-
                     if (!enviarYEsperarACK(bytes_con_bce,intentos)) {
                         intentos++;
                         syso.println("\n    ----  REINTENTO: "+ intentos + "  ----");
@@ -73,7 +64,6 @@ public class Maestro {
                         ok = true;
                         break;
                     }
-
             }
             if (!ok) {
                 syso.println("    Intentos agotados. Abortando");
@@ -97,7 +87,7 @@ public class Maestro {
         byte[] bytesConBCE = new byte[5];
         System.arraycopy(bytes,0,bytesConBCE,0,bytes.length);
         bytesConBCE[4] = BCE.calcularBCE(bytes);
-        syso.println("\n\n--------------------");
+        syso.println("\n\n-------===----------");
         syso.println("[DEBUG] Enviando trama IS EOT ULTIMA");
         TramaHelper.setNumTrama(bytesConBCE, numero_trama);
         TramaHelper.setTipoTrama(bytesConBCE, Caracteres.EOT);
@@ -116,7 +106,7 @@ public class Maestro {
             byte[] respuesta = null;
             respuesta = EsperarPaquetes.esperarPaquete(Caracteres.ACK);
             if (respuesta == null) {
-                System.out.println("    [AVISO] ACK no recibido, reenviando - Reintentando... " + intentos + " de " + (configuracion.getMaxIntentos() - 1) + " veces");
+                System.out.println("    [AVISO] ACK no recibido, reenviando - Reintentando... " + intentos+1 + " de " + (configuracion.getMaxIntentos() - 1) + " veces");
                 return false;
             }
             return true; // ACK recibido, se retorna true

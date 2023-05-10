@@ -54,9 +54,6 @@ public class Tests extends TestCase {
             config.setPorcentajeErrorTramas(20);
             config.setPorcentajeTramaNoEnviada(20);
             Esclavo.init();
-
-
-
         }
 
 
