@@ -1,6 +1,5 @@
-package com.interconexionsistemas.practica2.Implementaciones.practica3.fase1;
+package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Trama.*;
 import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Caracteres;
 import com.interconexionsistemas.practica2.Singletons.Controladores.ControladorTarjeta;
 import jpcap.packet.EthernetPacket;
@@ -84,24 +83,6 @@ public class PacketHelper {
     }
 
 
-    /**
-     * Ignora la posicion del pin y solo se basa en la posicion de la trama IS
-     * @param bytesTrama
-     * @return
-     */
-    public static TramaIS extraerTexto(byte[] bytesTrama) {
-
-        if (configuracion.getPosTramaIs() <= configuracion.getPospin()) {
-            configuracion.setPosTramaIs(configuracion.getPospin() + configuracion.getPin().getBytes().length + 1);
-        }
-        int longitudTramaIS = bytesTrama.length - configuracion.getPosTramaIs();
-
-        byte[] bytesTramaIS = new byte[longitudTramaIS];
-        System.arraycopy(bytesTrama, configuracion.getPosTramaIs(), bytesTramaIS, 0, longitudTramaIS);
-
-        return new TramaIS(bytesTramaIS);
-
-    }
 
     /**
      * Saca los bytes del campo datos del paquete ignorando el pin devolviendo la trama IS en bytes
@@ -121,20 +102,4 @@ public class PacketHelper {
         return bytesTramaIS;
 
     }
-
-
-    public static TramaIS makeTrama(byte[] data){
-        TramaIS tramaIs = new TramaIS(data);
-
-        if (tramaIs.getCaracter_control().equals(Caracteres.ACK)) {
-            return  new TramaAck(data);
-        } else if (tramaIs.getCaracter_control().equals(Caracteres.ENQ)) {
-            return new TramaISENQ(data);
-        } else if (tramaIs.getCaracter_control().equals(Caracteres.STX)) {
-            return new TramaISSTX(data);
-        } else {
-            return null;
-        }
-    }
-
 }

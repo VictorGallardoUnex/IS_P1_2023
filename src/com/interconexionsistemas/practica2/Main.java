@@ -1,6 +1,7 @@
 package com.interconexionsistemas.practica2;
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Emisor;
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Receptor;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Esclavo;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.EsperarPaquetes;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Maestro;
 import com.interconexionsistemas.practica2.Modelos.Errores.ErrorJpcap;
 import com.interconexionsistemas.practica2.Modelos.Instruccion;
 import com.interconexionsistemas.practica2.Singletons.Configuracion;
@@ -48,10 +49,11 @@ public class Main {
 
         if (configuracion.isMaestro()) {
             syso.println("Ejecutando modo maestro");
+            Maestro.init();
 //            Emisor.leer_y_enviar();
         } else {
             syso.println("Ejecutando modo esclavo");
-            Receptor.recibirTramas();
+            Esclavo.init();
             //Ejecutor.ejecutar_modo_esclavo();
         }
 

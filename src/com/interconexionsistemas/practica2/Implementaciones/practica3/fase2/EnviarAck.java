@@ -1,7 +1,5 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.Emisor;
-import com.interconexionsistemas.practica2.Implementaciones.practica3.fase1.PacketHelper;
 import jpcap.packet.Packet;
 
 public class EnviarAck {
@@ -15,7 +13,7 @@ public class EnviarAck {
         tramaIS[3] = Caracteres.R.value(); // direccion
 
         Packet paquete = PacketHelper.buildPacket(tramaIS);
-        Emisor.enviarPaquete(paquete);
+        EnviarPaquetes.enviarPaquete(paquete);
 
     }
 }
