@@ -22,6 +22,7 @@ public class Maestro {
         int numero_trama = 0;
 
         byte[] bytes;
+        byte bce;
         ArrayList<String> lineas = leer();
 
         // iterate lineas
@@ -38,11 +39,22 @@ public class Maestro {
             System.arraycopy(linea.getBytes(), 0, bytes, 5, linea.getBytes().length); // texto
 
 
-            TramaHelper.setNumTrama(bytes, numero_trama);
+            byte[] bytes_con_bce = new byte[bytes.length+1];
+            System.arraycopy(linea.getBytes(), 0, bytes_con_bce, 5, linea.getBytes().length); // texto
+            bytes_con_bce[bytes.length +1] = BCE.calcularBCE(bytes);
+            if (configuracion.getPorcentajeerrortramas() > 0) {
+                if (Math.random() < configuracion.getPorcentajeerrortramas()) {
+                    bytes_con_bce[bytes.length -3] = (byte) (bytes_con_bce[bytes.length -3] + 1);
+                }
+            }
+
+
+            TramaHelper.setNumTrama(bytes_con_bce, numero_trama);
 
             syso.println("\n\n--------------------");
-            if(!enviarYEsperarACK(bytes, 6)) {
+            if(!enviarYEsperarACK(bytes_con_bce, 6)) {
                 break;
+
 //                return; // Si no se recibe ACK, se sale de la función
             }
             System.out.println("[DEBUG] ACK recibido");

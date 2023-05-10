@@ -38,6 +38,8 @@ public class Configuracion {
     int posTramaIs = 1;
     boolean maestro = false;
     long timeout = 1000;
+    int porcentajetramanoenviada = 0;
+    int porcentajeerrortramas = 0;
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;
     }
@@ -133,6 +135,15 @@ public class Configuracion {
         return timeout;
     }
 
+
+    public void setPorcentajeTramaNoEnviada(int porcentajetramanoenviada) {
+        this.porcentajetramanoenviada = porcentajetramanoenviada;
+    }
+
+    public int getPorcentajeTramaNoEnviada() {
+        return porcentajetramanoenviada;
+    }
+
     // Metodos singleton
     private static Configuracion instance;
 
@@ -147,4 +158,11 @@ public class Configuracion {
         return instance;
     }
 
+    public void setPorcentajeErrorTramas(int i) {
+        this.porcentajeerrortramas = i;
+    }
+
+    public int getPorcentajeerrortramas() {
+        return porcentajeerrortramas;
+    }
 }

@@ -2,6 +2,7 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.interconexionsistemas.practica2.Main.configuracion;
 import static com.interconexionsistemas.practica2.Main.syso;
 
 public class Esclavo {
@@ -29,7 +30,7 @@ public class Esclavo {
             syso.println("[Trace] Enviando ACK");
             // Comprobamos que la tramaIS recibida no sea EOT
             if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {
-                System.out.println("[Trace] Fin de la conexion");
+                syso.println("[Trace] Fin de la conexion");
                 enviarACK(TramaHelper.getNumTrama(bytesRecibidos) + 1);
                 EOT = true;
                 continue;
@@ -44,6 +45,10 @@ public class Esclavo {
         bytes[1] = Caracteres.ACK.value(); // control
         bytes[2] = (byte) numTrama;
         bytes[3] = Caracteres.R.value(); // direccion
+        if (configuracion.getPorcentajeTramaNoEnviada() > 0 && (Math.random() * 100 < configuracion.getPorcentajeTramaNoEnviada())) {
+            syso.println("[Trace] Simulando trama no enviada");
+            return;
+        }
         EnviarPaquetes.enviarTramaIs(bytes);
     }
 }

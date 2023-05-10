@@ -66,7 +66,18 @@ public class Ejecutor {
                             conf.setPospin(Integer.parseInt(instruccion.valor));
                             break;
                         }
-
+                        case "maximointentosenvio": {
+                            conf.setTimeout(Integer.parseInt(instruccion.valor));
+                            break;
+                        }
+                        case "porcentajatramanoenviada": {
+                            conf.setPorcentajeTramaNoEnviada(Integer.parseInt(instruccion.valor));
+                            break;
+                        }
+//                        case "porcentajeerrortramas": {
+//                            conf.setPorcentajeErrorTramas(Integer.parseInt(instruccion.valor));
+//                            break;
+//                        }
                         default: {
                             syso.println("[ERROR] Ese comando no esta disponible");
                             break;

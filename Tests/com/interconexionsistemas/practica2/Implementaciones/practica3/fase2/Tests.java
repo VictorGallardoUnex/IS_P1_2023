@@ -17,12 +17,12 @@ public class Tests extends TestCase {
         public void testRecibirConexion(){
             Configuracion config = Configuracion.getInstance();
             config.setPin("Hola");
-
-
-
-
-
-
+        }
+        public void testRecibirTramas_fallaEnviarACk(){
+            Configuracion config = Configuracion.getInstance();
+            config.setPin("Hola");
+            config.setPorcentajeTramaNoEnviada(100);
+            Esclavo.init();
         }
 
 
