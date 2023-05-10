@@ -11,12 +11,23 @@ import static com.interconexionsistemas.practica2.Main.syso;
 public class EsperarPaquetes {
 
     public static byte[] esperarPaquete(Caracteres tipo) {
+        return esperarPaquete(tipo, true);
+    }
+    public static byte[] esperarPaquete(Caracteres tipo, boolean hasTimeout) {
         JpcapCaptor captor;
         captor = ControladorTarjeta.getReceptor();
         syso.println("Esperando Tramas...");
+        long start = System.currentTimeMillis();
 
         boolean fin = false;
         do {
+            // Si ha pasado más tiempo del especificado, salir y devolver null
+            long now = System.currentTimeMillis();
+            if (now - start > configuracion.getTimeout() * 1000 && hasTimeout) {
+                System.out.println("Tiempo agotado, no se recibió paquete.");
+                return null;
+            }
+
             Packet paquete = captor.getPacket();
             // si no hay paquete, continuamos
             if(paquete==null) continue;
@@ -38,7 +49,4 @@ public class EsperarPaquetes {
         } while (!fin);
         return null;
     }
-
-
-
 }

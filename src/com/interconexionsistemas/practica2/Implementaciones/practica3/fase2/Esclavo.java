@@ -8,42 +8,42 @@ public class Esclavo {
 
     public static void init() {
         byte[] bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.ENQ);
-        // Creamos nueva TramaIS que funcione como ACK
-        byte[] bytes = new byte[4];
-        bytes[0] = Caracteres.SYN.value(); // SYN
-        bytes[1] = Caracteres.ACK.value(); // control
-        bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
-        bytes[3] = Caracteres.R.value(); // direccion
-        // Respondemos ok a la peticion de conexion
-        EnviarPaquetes.enviarTramaIs(bytes);
+        enviarACK(TramaHelper.getNumTrama(bytesRecibidos));
+//        // Creamos nueva TramaIS que funcione como ACK
+//        byte[] bytes = new byte[4];
+//        bytes[0] = Caracteres.SYN.value(); // SYN
+//        bytes[1] = Caracteres.ACK.value(); // control
+//        bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
+//        bytes[3] = Caracteres.R.value(); // direccion
+//        // Respondemos ok a la peticion de conexion
+//        EnviarPaquetes.enviarTramaIs(bytes);
 
 
         // Entramos en modo escucha
         boolean EOT = false;
         while (!EOT) {
             //Esperamos la información
-            bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX);
+            bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX,false);
             syso.println("[Trace] Paquete recibido. Trama IS es de tipo: '" + TramaHelper.getTipoTrama(bytesRecibidos).name() + "'. Numero de trama: '" + TramaHelper.getNumTrama(bytesRecibidos) + "'");
-//            try {
-//                TimeUnit.SECONDS.sleep(1);
-//            } catch (Exception e) {
-//            }
 
             syso.println("[Trace] Enviando ACK");
-            // Enviar ACK
-            // Cargamos el numero de trama en la trama ACK
-            TramaHelper.setNumTrama(bytesRecibidos,TramaHelper.getNumTrama(bytesRecibidos));
             // Comprobamos que la tramaIS recibida no sea EOT
             if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {
-                syso.println("[Trace] Fin de la conexion");
-                bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos) + 1);
-                EnviarPaquetes.enviarTramaIs(bytes);
+                System.out.println("[Trace] Fin de la conexion");
+                enviarACK(TramaHelper.getNumTrama(bytesRecibidos) + 1);
                 EOT = true;
                 continue;
             }
             // Enviamos ACK
-            bytes = TramaHelper.setNumTrama(bytes, TramaHelper.getNumTrama(bytesRecibidos) + 1);
-            EnviarPaquetes.enviarTramaIs(bytes);
+            enviarACK(TramaHelper.getNumTrama(bytesRecibidos) + 1);
         }
+    }
+    public static void enviarACK(int numTrama) {
+        byte[] bytes = new byte[4];
+        bytes[0] = Caracteres.SYN.value(); // SYN
+        bytes[1] = Caracteres.ACK.value(); // control
+        bytes[2] = (byte) numTrama;
+        bytes[3] = Caracteres.R.value(); // direccion
+        EnviarPaquetes.enviarTramaIs(bytes);
     }
 }

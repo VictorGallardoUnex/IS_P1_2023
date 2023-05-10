@@ -26,6 +26,7 @@ public class Maestro {
 
         // iterate lineas
         for (String linea : lineas) {
+            int intentos = 0;
             numero_trama++;
 
             bytes = new byte[5 + linea.getBytes().length];
@@ -33,18 +34,19 @@ public class Maestro {
             bytes[1] = Caracteres.STX.value(); // control
             bytes[2] = (byte) numero_trama;
             bytes[3] = Caracteres.R.value(); // direccion
-            bytes[4] = (byte) linea.getBytes().length; // longitud 34
+            bytes[4] = (byte) linea.getBytes().length; // longitud
             System.arraycopy(linea.getBytes(), 0, bytes, 5, linea.getBytes().length); // texto
 
 
             TramaHelper.setNumTrama(bytes, numero_trama);
 
             syso.println("\n\n--------------------");
-            syso.println("[DEBUG] Enviando texto: " + linea);
-            EnviarPaquetes.enviarTramaIs(bytes);
-            syso.println("[DEBUG] Esperando ACK");
-            EsperarPaquetes.esperarPaquete(Caracteres.ACK);
-            syso.println("[DEBUG] ACK recibido");
+            if(!enviarYEsperarACK(bytes, 6)) {
+                break;
+//                return; // Si no se recibe ACK, se sale de la función
+            }
+            System.out.println("[DEBUG] ACK recibido");
+
         }
 
         // enviar trama IS EOT ULTIMA
@@ -60,11 +62,32 @@ public class Maestro {
         TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
         EnviarPaquetes.enviarTramaIs(bytes);
         syso.println("[DEBUG] Esperando ACK");
-        EsperarPaquetes.esperarPaquete(Caracteres.ACK);
-        syso.println("[DEBUG] ACK recibido");
+        if (enviarYEsperarACK(bytes, 6)){
+            syso.println("[DEBUG] ACK recibido");}
         syso.println("[DEBUG] Fin de la conexion");
     }
 
+    public static boolean enviarYEsperarACK(byte[] trama, int maxReintentos) {
+        int intentos = 0;
+        byte[] respuesta = null;
+
+        while (intentos < maxReintentos) {
+            System.out.println("[DEBUG] Enviando texto: " + new String(trama));
+            EnviarPaquetes.enviarTramaIs(trama);
+            System.out.println("[DEBUG] Esperando ACK");
+            respuesta = EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+
+            if (respuesta == null) {
+                intentos++;
+                System.out.println("[AVISO] ACK no recibido, reenviando - Reintento " + intentos + " de " + (maxReintentos - 1));
+                continue;
+            }
+            return true; // ACK recibido, se retorna true
+        }
+
+        System.out.println("[ERROR] No se ha recibido ACK, abortando");
+        return false; // No se recibió ACK después de maxReintentos, se retorna false
+    }
 
     private static ArrayList<String> leer() {
         String filePath = configuracion.getFicheroFuente();

@@ -37,7 +37,7 @@ public class Configuracion {
 
     int posTramaIs = 1;
     boolean maestro = false;
-
+    long timeout = 1000;
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;
     }
@@ -125,7 +125,13 @@ public class Configuracion {
         return maestro;
     }
 
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
 
+    public long getTimeout() {
+        return timeout;
+    }
 
     // Metodos singleton
     private static Configuracion instance;
