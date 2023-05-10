@@ -38,7 +38,9 @@ public class Esclavo {
             //Esperamos la información
             bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX,false);
             syso.println("[Trace] Paquete recibido. Trama IS es de tipo: '" + TramaHelper.getTipoTrama(bytesRecibidos).name() + "'. Numero de trama: '" + TramaHelper.getNumTrama(bytesRecibidos) + "'");
-
+            if (TramaHelper.getTipoTrama(bytesRecibidos)==Caracteres.STX) {
+                syso.println("\n[TEXTO RECIBIDO] '" + TramaHelper.getTexto(bytesRecibidos) + "'\n");
+            }
             syso.println("[Trace] Enviando ACK");
             // Comprobamos que la tramaIS recibida no sea EOT
             if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {

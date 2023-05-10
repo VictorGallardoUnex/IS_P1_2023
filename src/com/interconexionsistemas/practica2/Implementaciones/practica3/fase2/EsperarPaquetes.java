@@ -16,6 +16,7 @@ public class EsperarPaquetes {
     public static byte[] esperarPaquete(Caracteres tipo, boolean hasTimeout) {
         JpcapCaptor captor;
         captor = ControladorTarjeta.getReceptor();
+        syso.println("\n-----------------");
         syso.println("Esperando Tramas...");
         long start = System.currentTimeMillis();
 
