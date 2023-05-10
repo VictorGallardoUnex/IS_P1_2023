@@ -37,9 +37,10 @@ public class Configuracion {
 
     int posTramaIs = 1;
     boolean maestro = false;
-    long timeout = 1000;
+    long timeout = 100;
     int porcentajetramanoenviada = 0;
     int porcentajeerrortramas = 0;
+    int maxintentos = 6;
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;
     }
@@ -142,6 +143,14 @@ public class Configuracion {
 
     public int getPorcentajeTramaNoEnviada() {
         return porcentajetramanoenviada;
+    }
+
+    public int getMaxIntentos() {
+        return maxintentos;
+    }
+
+    public void setMaxIntentos(int maxintentos) {
+        this.maxintentos = maxintentos;
     }
 
     // Metodos singleton

@@ -18,7 +18,10 @@ import static com.interconexionsistemas.practica2.Main.syso;
 
 public class Maestro {
     public static void init() {
-        establecerConexion();
+        if (!establecerConexion()){
+            syso.println("No se pudo establecer la conexión");
+            return;
+        };
         int numero_trama = 0;
 
         byte[] bytes;
@@ -141,7 +144,20 @@ public class Maestro {
 //        Receptor.recibirTramas();
         boolean conexionOk = false;
         boolean timeout = false;
+        int intentos = 0;
+        long start = System.currentTimeMillis();
         do {
+            long now = System.currentTimeMillis();
+            if (now - start > configuracion.getTimeout() * 1000) {
+                start = now;
+                System.out.println("Tiempo agotado, no se recibió ack. Volviendo a enviar ENQ");
+                intentos++;
+                if(intentos>=configuracion.getMaxIntentos()){
+                    syso.println("Intentos agotados, abortando");
+                    return false;
+                }
+            }
+
             paquete = captor.getPacket();
             // si no hay paquete, continuamos
             if(paquete==null) continue;
