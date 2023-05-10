@@ -8,8 +8,20 @@ import static com.interconexionsistemas.practica2.Main.syso;
 public class Esclavo {
 
     public static void init() {
+        boolean conexion = false;
+
+        syso.println("Esperando ENQ conexion");
+        int helper_= configuracion.getPorcentajeTramaNoEnviada();
+        configuracion.setPorcentajeTramaNoEnviada(0);
         byte[] bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.ENQ);
         enviarACK(TramaHelper.getNumTrama(bytesRecibidos));
+        configuracion.setPorcentajeTramaNoEnviada(helper_);
+        bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.ACK);
+        if (bytesRecibidos == null) {
+            syso.println("No se ha recibido ack al ack");
+            return;
+        }
+
 //        // Creamos nueva TramaIS que funcione como ACK
 //        byte[] bytes = new byte[4];
 //        bytes[0] = Caracteres.SYN.value(); // SYN
@@ -39,16 +51,18 @@ public class Esclavo {
             enviarACK(TramaHelper.getNumTrama(bytesRecibidos) + 1);
         }
     }
-    public static void enviarACK(int numTrama) {
+    public static boolean enviarACK(int numTrama) {
         byte[] bytes = new byte[4];
         bytes[0] = Caracteres.SYN.value(); // SYN
         bytes[1] = Caracteres.ACK.value(); // control
         bytes[2] = (byte) numTrama;
         bytes[3] = Caracteres.R.value(); // direccion
+        syso.println("[Trace] Enviando ack");
         if (configuracion.getPorcentajeTramaNoEnviada() > 0 && (Math.random() * 100 < configuracion.getPorcentajeTramaNoEnviada())) {
-            syso.println("[Trace] Simulando trama no enviada");
-            return;
+            syso.println("[Trace] Ack no enviada. Simulando trama no enviada");
+            return false;
         }
         EnviarPaquetes.enviarTramaIs(bytes);
+        return true;
     }
 }

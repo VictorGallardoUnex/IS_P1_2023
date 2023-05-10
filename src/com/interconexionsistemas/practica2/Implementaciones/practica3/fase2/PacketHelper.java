@@ -52,7 +52,8 @@ public class PacketHelper {
         byte bce = BCE.calcularBCE(bytesTramaISsin_bce);
 
         byte[] bytesTramaIS = new byte[bytesTramaISsin_bce.length + 1];
-        bytesTramaIS[bytesTramaIS.length] = bce;
+        System.arraycopy(bytesTramaISsin_bce, 0, bytesTramaIS, 0,bytesTramaISsin_bce.length);
+        bytesTramaIS[bytesTramaIS.length-1] = bce;
 
         byte[] bytesDatos_temp = bytesTramaIS;
         // Nos aseguramos que el posttrama_is es menor que el final de pin

@@ -37,7 +37,7 @@ public class Configuracion {
 
     int posTramaIs = 1;
     boolean maestro = false;
-    long timeout = 100;
+    long timeout = 10;
     int porcentajetramanoenviada = 0;
     int porcentajeerrortramas = 0;
     int maxintentos = 6;

@@ -2,7 +2,7 @@ package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
 public class TramaHelper {
     public static String getTexto(byte[] data) {
-        if (data.length>4) {
+        if (data.length>5) {
             int longitud = data[4];
             return new String(data, 5, longitud);
         }

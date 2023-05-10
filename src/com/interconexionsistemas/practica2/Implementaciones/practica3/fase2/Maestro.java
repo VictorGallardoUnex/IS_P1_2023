@@ -43,8 +43,8 @@ public class Maestro {
 
 
             byte[] bytes_con_bce = new byte[bytes.length+1];
-            System.arraycopy(linea.getBytes(), 0, bytes_con_bce, 5, linea.getBytes().length); // texto
-            bytes_con_bce[bytes.length +1] = BCE.calcularBCE(bytes);
+            System.arraycopy(bytes, 0, bytes_con_bce, 0, bytes.length); // texto
+            bytes_con_bce[bytes.length] = BCE.calcularBCE(bytes);
             if (configuracion.getPorcentajeerrortramas() > 0) {
                 if (Math.random() < configuracion.getPorcentajeerrortramas()) {
                     bytes_con_bce[bytes.length -3] = (byte) (bytes_con_bce[bytes.length -3] + 1);
@@ -167,7 +167,9 @@ public class Maestro {
                 continue;
             }
             byte[] tramaIs = extraerBytesTramaIS(paquete.data);
-            syso.println("El texto recibido es: '"+ TramaHelper.getTexto(tramaIs) + "'");
+            if(tramaIS[1] == Caracteres.STX.value()){
+                syso.println("El texto recibido es: '"+ TramaHelper.getTexto(tramaIs) + "'");
+            }
             syso.println("[Traza] El numero de trama recibida es: "+ TramaHelper.getNumTrama(tramaIs));
 
             if (TramaHelper.getTipoTrama(tramaIs) == Caracteres.ACK) {
