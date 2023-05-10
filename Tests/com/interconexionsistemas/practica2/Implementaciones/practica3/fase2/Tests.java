@@ -35,11 +35,28 @@ public class Tests extends TestCase {
             config.setPorcentajeErrorTramas(100);
             Maestro.init();
         }
-        public void testRecibirTramas_tramasConErrores(){
+
+
+
+
+
+        public void testEnviarTramas_erroresyfallos(){
             Configuracion config = Configuracion.getInstance();
             config.setPin("Hola");
-            config.setPorcentajeErrorTramas(100);
+            config.setPorcentajeErrorTramas(20);
+            config.setPorcentajeTramaNoEnviada(20);
+            Maestro.init();
+        }
+
+        public void testRecibirTramas_erroresyfallos(){
+            Configuracion config = Configuracion.getInstance();
+            config.setPin("Hola");
+            config.setPorcentajeErrorTramas(20);
+            config.setPorcentajeTramaNoEnviada(20);
             Esclavo.init();
+
+
+
         }
 
 

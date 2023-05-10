@@ -14,6 +14,9 @@ public class Esclavo {
         int helper_= configuracion.getPorcentajeTramaNoEnviada();
         configuracion.setPorcentajeTramaNoEnviada(0);
         byte[] bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.ENQ);
+        if (bytesRecibidos == null) {
+            syso.println("No hay paquetes. no se ha recibido enq");
+        }
         enviarACK(TramaHelper.getNumTrama(bytesRecibidos));
         configuracion.setPorcentajeTramaNoEnviada(helper_);
         bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.ACK);
@@ -36,20 +39,29 @@ public class Esclavo {
         boolean EOT = false;
         while (!EOT) {
             //Esperamos la información
+            syso.println("\n================\n Esperando tramas");
             bytesRecibidos = EsperarPaquetes.esperarPaquete(Caracteres.STX,false);
             syso.println("[Trace] Paquete recibido. Trama IS es de tipo: '" + TramaHelper.getTipoTrama(bytesRecibidos).name() + "'. Numero de trama: '" + TramaHelper.getNumTrama(bytesRecibidos) + "'");
+            byte[] bytesSinBCE;
             if (TramaHelper.getTipoTrama(bytesRecibidos)==Caracteres.STX) {
                 syso.println("\n[TEXTO RECIBIDO] '" + TramaHelper.getTexto(bytesRecibidos) + "'\n");
+                bytesSinBCE = new byte[bytesRecibidos[4]+5];
+            } else {
+                bytesSinBCE = new byte[4];
             }
-            byte[] bytesSinBCE = new byte[bytesRecibidos.length-1];
-            System.arraycopy(bytesRecibidos,0,bytesSinBCE,0,bytesRecibidos.length-1);
+
+            try {
+                System.arraycopy(bytesRecibidos, 0, bytesSinBCE, 0, bytesSinBCE.length);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                syso.println("asda");
+            }
             byte bce = TramaHelper.getBCE(bytesRecibidos);
             if (BCE.calcularBCE(bytesSinBCE) != bce){
-                syso.println("Paquete con errores no se va a responder con ack. Esperando siguiente paquete reenviado");
+                syso.println("[ERROR] Se ha recibido un Paquete con errores no se va a responder con ack. Esperando siguiente paquete reenviado");
                 continue;
             }
 
-            syso.println("[Trace] Enviando ACK");
+            //syso.println("[Trace] Enviando ACK");
             // Comprobamos que la tramaIS recibida no sea EOT
             if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {
                 syso.println("[Trace] Fin de la conexion");
@@ -67,9 +79,10 @@ public class Esclavo {
         bytes[1] = Caracteres.ACK.value(); // control
         bytes[2] = (byte) numTrama;
         bytes[3] = Caracteres.R.value(); // direccion
-        syso.println("[Trace] Enviando ack");
+        syso.println("    [Trace] Enviando ack");
         if (configuracion.getPorcentajeTramaNoEnviada() > 0 && (Math.random() * 100 < configuracion.getPorcentajeTramaNoEnviada())) {
-            syso.println("[Trace] Ack no enviada. Simulando trama no enviada");
+            syso.println("[INFO] Se va a simular una trama no enviada");
+            syso.println("    [Trace] Ack no enviada");
             return false;
         }
         EnviarPaquetes.enviarTramaIs(bytes);

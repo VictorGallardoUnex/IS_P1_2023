@@ -16,8 +16,8 @@ public class EsperarPaquetes {
     public static byte[] esperarPaquete(Caracteres tipo, boolean hasTimeout) {
         JpcapCaptor captor;
         captor = ControladorTarjeta.getReceptor();
-        syso.println("\n-----------------");
-        syso.println("Esperando Tramas...");
+        //syso.println("\n-----------------");
+        syso.println("    Esperando Tramas...");
         long start = System.currentTimeMillis();
 
         boolean fin = false;
@@ -25,7 +25,7 @@ public class EsperarPaquetes {
             // Si ha pasado más tiempo del especificado, salir y devolver null
             long now = System.currentTimeMillis();
             if (now - start > configuracion.getTimeout() * 1000 && hasTimeout) {
-                System.out.println("Tiempo agotado, no se recibió paquete.");
+                System.out.println("    [INFO]Tiempo agotado, no se recibió paquete.");
                 return null;
             }
 

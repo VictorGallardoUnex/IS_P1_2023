@@ -29,8 +29,8 @@ public class Maestro {
         ArrayList<String> lineas = leer();
 
         // iterate lineas
+
         for (String linea : lineas) {
-            int intentos = 0;
             numero_trama++;
 
             bytes = new byte[5 + linea.getBytes().length];
@@ -45,24 +45,46 @@ public class Maestro {
             byte[] bytes_con_bce = new byte[bytes.length+1];
             System.arraycopy(bytes, 0, bytes_con_bce, 0, bytes.length); // texto
             bytes_con_bce[bytes.length] = BCE.calcularBCE(bytes);
-            if (configuracion.getPorcentajeerrortramas() > 0) {
-                if (Math.random() < configuracion.getPorcentajeerrortramas()) {
-                    bytes_con_bce[bytes.length -3] = (byte) (bytes_con_bce[bytes.length -3] + 1);
+            byte[] trama_errornea = null;
+            int intentos = 0;
+
+            boolean ok=false;
+            syso.println("\n\n\n================\nEnviando texto...");
+            while (intentos < configuracion.getMaxIntentos()) {
+
+                if (configuracion.getPorcentajeerrortramas() > 0) {
+                    if (Math.random()*100 < configuracion.getPorcentajeerrortramas()) {
+                        syso.println("    [INFO] Se va a simular un error en la estructura de la trama");
+                        bytes_con_bce[bytes.length -3] = (byte) (bytes_con_bce[bytes.length -3] + 1);
+                    } else {
+                        bytes_con_bce[bytes.length -3] = bytes[bytes.length -3];
+                    }
                 }
+                TramaHelper.setNumTrama(bytes_con_bce, numero_trama);
+
+
+
+
+
+                    if (!enviarYEsperarACK(bytes_con_bce,intentos)) {
+                        intentos++;
+                        syso.println("\n    ----  REINTENTO: "+ intentos + "  ----");
+                    } else {
+                        ok = true;
+                        break;
+                    }
+
             }
-
-
-            TramaHelper.setNumTrama(bytes_con_bce, numero_trama);
-
-            syso.println("\n\n--------------------");
-            if(!enviarYEsperarACK(bytes_con_bce, 6)) {
+            if (!ok) {
+                syso.println("    Intentos agotados. Abortando");
                 break;
-
-//                return; // Si no se recibe ACK, se sale de la función
             }
-            System.out.println("[DEBUG] ACK recibido");
+
+            System.out.println("    [DEBUG] ACK recibido");
 
         }
+        syso.println("\n\n--------------------");
+        syso.println("[INFO] Datos enviados");
 
         // enviar trama IS EOT ULTIMA
         numero_trama++;
@@ -71,42 +93,39 @@ public class Maestro {
         bytes[1] = Caracteres.EOT.value(); // control
         bytes[2] = (byte) numero_trama;
         bytes[3] = Caracteres.R.value(); // direccion
+
+        byte[] bytesConBCE = new byte[5];
+        System.arraycopy(bytes,0,bytesConBCE,0,bytes.length);
+        bytesConBCE[4] = BCE.calcularBCE(bytes);
         syso.println("\n\n--------------------");
         syso.println("[DEBUG] Enviando trama IS EOT ULTIMA");
-        TramaHelper.setNumTrama(bytes, numero_trama);
-        TramaHelper.setTipoTrama(bytes, Caracteres.EOT);
-        EnviarPaquetes.enviarTramaIs(bytes);
-        syso.println("[DEBUG] Esperando ACK");
-        if (enviarYEsperarACK(bytes, 6)){
+        TramaHelper.setNumTrama(bytesConBCE, numero_trama);
+        TramaHelper.setTipoTrama(bytesConBCE, Caracteres.EOT);
+        EnviarPaquetes.enviarTramaIs(bytesConBCE);
+        syso.println("    [DEBUG] Esperando ACK");
+        if (enviarYEsperarACK(bytesConBCE, 6)){
             syso.println("[DEBUG] ACK recibido");}
         syso.println("[DEBUG] Fin de la conexion");
     }
 
-    public static boolean enviarYEsperarACK(byte[] trama, int maxReintentos) {
-        int intentos = 0;
-        byte[] respuesta = null;
+    public static boolean enviarYEsperarACK(byte[] trama,int intentos) {
 
-        while (intentos < maxReintentos) {
-            System.out.println("[DEBUG] Enviando texto: " + new String(trama));
+            System.out.println("    [DEBUG] Enviando trama\n    Numero trama: "+TramaHelper.getNumTrama(trama)+ "\n    Texto: " + new String(trama));
             EnviarPaquetes.enviarTramaIs(trama);
-            System.out.println("[DEBUG] Esperando ACK");
+            System.out.println("    [DEBUG] Esperando ACK");
+            byte[] respuesta = null;
             respuesta = EsperarPaquetes.esperarPaquete(Caracteres.ACK);
-
             if (respuesta == null) {
-                intentos++;
-                System.out.println("[AVISO] ACK no recibido, reenviando - Reintento " + intentos + " de " + (maxReintentos - 1));
-                continue;
+                System.out.println("    [AVISO] ACK no recibido, reenviando - Reintentando... " + intentos + " de " + (configuracion.getMaxIntentos() - 1) + " veces");
+                return false;
             }
             return true; // ACK recibido, se retorna true
-        }
 
-        System.out.println("[ERROR] No se ha recibido ACK, abortando");
-        return false; // No se recibió ACK después de maxReintentos, se retorna false
     }
 
     private static ArrayList<String> leer() {
         String filePath = configuracion.getFicheroFuente();
-        int blockSize = 10; // reemplazar con el tamaño de bloque que deseas leer
+        int blockSize = configuracion.getLongitudBloque();
         ArrayList<String> resultado = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             char[] buffer = new char[blockSize];
@@ -150,10 +169,10 @@ public class Maestro {
             long now = System.currentTimeMillis();
             if (now - start > configuracion.getTimeout() * 1000) {
                 start = now;
-                System.out.println("Tiempo agotado, no se recibió ack. Volviendo a enviar ENQ");
+                System.out.println("    Tiempo agotado, no se recibió ack. Volviendo a enviar ENQ");
                 intentos++;
                 if(intentos>=configuracion.getMaxIntentos()){
-                    syso.println("Intentos agotados, abortando");
+                    syso.println("[INFO]Intentos agotados, abortando");
                     return false;
                 }
             }

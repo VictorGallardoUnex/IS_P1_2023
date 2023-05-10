@@ -41,6 +41,13 @@ public class Configuracion {
     int porcentajetramanoenviada = 0;
     int porcentajeerrortramas = 0;
     int maxintentos = 6;
+
+    int longitudcontenido = 25;
+
+    public int getLongitudBloque() {
+        return longitudcontenido;
+    }
+
     public boolean isReescribir_fichero_salida() {
         return reescribir_fichero_salida;
     }

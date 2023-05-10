@@ -1,5 +1,7 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
+import static com.interconexionsistemas.practica2.Main.syso;
+
 public class TramaHelper {
     public static String getTexto(byte[] data) {
         if (data.length>5) {
@@ -24,12 +26,20 @@ public class TramaHelper {
     }
     public static byte getBCE(byte[] data){
         //Esperamos la información
-        if (data.length>5) {
-            int longitud = data[4] +5;
-            return data[longitud];
-
+        int longitud = 4;
+        byte bce;
+        if (data[1] != Caracteres.STX.value()){
+            return data[4];
         }
-        return data[5];
+        longitud = longitud + data[4];
+
+        byte[] tramais = new byte[4+longitud];
+
+        if (data[1] == Caracteres.EOT.value()) {
+            syso.println("sda");
+        }
+
+        return data[1+longitud];
     }
 
 }
