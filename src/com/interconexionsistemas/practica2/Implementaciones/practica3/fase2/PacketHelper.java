@@ -48,7 +48,12 @@ public class PacketHelper {
      * Tambien establece el pin en la posicion deseada con el offset deseado
      * @return
      */
-    public static byte[] tramaIS_a_bytesDatosPaquete(byte[] bytesTramaIS) {
+    public static byte[] tramaIS_a_bytesDatosPaquete(byte[] bytesTramaISsin_bce) {
+        byte bce = BCE.calcularBCE(bytesTramaISsin_bce);
+
+        byte[] bytesTramaIS = new byte[bytesTramaISsin_bce.length + 1];
+        bytesTramaIS[bytesTramaIS.length] = bce;
+
         byte[] bytesDatos_temp = bytesTramaIS;
         // Nos aseguramos que el posttrama_is es menor que el final de pin
         int posicion_ultimo_caracter_pin = configuracion.getPospin() + configuracion.getPin().getBytes().length;
