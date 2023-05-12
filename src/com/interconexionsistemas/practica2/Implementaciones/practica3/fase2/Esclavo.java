@@ -1,5 +1,7 @@
 package com.interconexionsistemas.practica2.Implementaciones.practica3.fase2;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import static com.interconexionsistemas.practica2.Main.configuracion;
@@ -25,18 +27,11 @@ public class Esclavo {
             return;
         }
 
-//        // Creamos nueva TramaIS que funcione como ACK
-//        byte[] bytes = new byte[4];
-//        bytes[0] = Caracteres.SYN.value(); // SYN
-//        bytes[1] = Caracteres.ACK.value(); // control
-//        bytes[2] = (byte) TramaHelper.getNumTrama(bytesRecibidos);
-//        bytes[3] = Caracteres.R.value(); // direccion
-//        // Respondemos ok a la peticion de conexion
-//        EnviarPaquetes.enviarTramaIs(bytes);
 
         StringBuilder resultado = new StringBuilder();
         // Entramos en modo escucha
         boolean EOT = false;
+        ArrayList tramas_a_descartar = new ArrayList();
         while (!EOT) {
             //Esperamos la información
             syso.println("\n================\n Esperando tramas");
@@ -45,7 +40,7 @@ public class Esclavo {
             byte[] bytesSinBCE;
             if (TramaHelper.getTipoTrama(bytesRecibidos)==Caracteres.STX) {
                 syso.println("\n[TEXTO RECIBIDO] '" + TramaHelper.getTexto(bytesRecibidos) + "'\n");
-                resultado.append(TramaHelper.getTexto(bytesRecibidos));
+
                 bytesSinBCE = new byte[bytesRecibidos[4]+5];
             } else {
                 bytesSinBCE = new byte[4];
@@ -61,6 +56,17 @@ public class Esclavo {
                 syso.println("[ERROR] Se ha recibido un Paquete con errores no se va a responder con ack. Esperando siguiente paquete reenviado");
                 continue;
             }
+            int num_trama = TramaHelper.getNumTrama(bytesRecibidos);
+            if (tramas_a_descartar.contains(num_trama)) {
+                syso.println("[AVISO] La trama recibida ya se había recibido. Devolviendo ack pero ignorando...");
+            } else {
+                tramas_a_descartar.add(TramaHelper.getNumTrama(bytesRecibidos));
+                if (TramaHelper.getTipoTrama(bytesRecibidos)==Caracteres.STX) {
+                    resultado.append(TramaHelper.getTexto(bytesRecibidos));
+                }
+            }
+
+
 
             //syso.println("[Trace] Enviando ACK");
             // Comprobamos que la tramaIS recibida no sea EOT

@@ -15,12 +15,13 @@ public class Tests extends TestCase {
             Maestro.init();
 
         }
-
         public void testRecibirConexion(){
             Configuracion config = Configuracion.getInstance();
             config.setPin("Hola");
             Esclavo.init();
         }
+
+
         public void testRecibirTramas_fallaEnviarACk(){
             Configuracion config = Configuracion.getInstance();
             config.setPin("Hola");

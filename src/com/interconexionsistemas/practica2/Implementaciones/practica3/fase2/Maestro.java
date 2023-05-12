@@ -42,12 +42,16 @@ public class Maestro {
             byte[] bytes_con_bce = new byte[bytes.length + 1];
             System.arraycopy(bytes, 0, bytes_con_bce, 0, bytes.length); // texto
             bytes_con_bce[bytes.length] = BCE.calcularBCE(bytes);
-            int intentos = 0;
+
 
             boolean ok = false;
             syso.println("\n\n\n================\nEnviando texto...");
             int contador_repeticion = 0;
-            while (contador_repeticion < 1) {
+            while (contador_repeticion < 2) {
+                int intentos = 0;
+                if (contador_repeticion==1){
+                    syso.println("[AVISO] Se va a enviar una trama duplicada");
+                }
                 while (intentos < configuracion.getMaxIntentos()) {
                     if (configuracion.getPorcentajeerrortramas() > 0) {
                         if (Math.random() * 100 < configuracion.getPorcentajeerrortramas()) {
