@@ -39,32 +39,38 @@ public class Maestro {
             System.arraycopy(linea.getBytes(), 0, bytes, 5, linea.getBytes().length); // texto
 
 
-            byte[] bytes_con_bce = new byte[bytes.length+1];
+            byte[] bytes_con_bce = new byte[bytes.length + 1];
             System.arraycopy(bytes, 0, bytes_con_bce, 0, bytes.length); // texto
             bytes_con_bce[bytes.length] = BCE.calcularBCE(bytes);
             int intentos = 0;
 
-            boolean ok=false;
+            boolean ok = false;
             syso.println("\n\n\n================\nEnviando texto...");
-            while (intentos < configuracion.getMaxIntentos()) {
-
-                if (configuracion.getPorcentajeerrortramas() > 0) {
-                    if (Math.random()*100 < configuracion.getPorcentajeerrortramas()) {
-                        syso.println("    [INFO] Se va a simular un error en la estructura de la trama");
-                        bytes_con_bce[bytes.length -3] = (byte) (bytes_con_bce[bytes.length -3] + 1);
-                    } else {
-                        bytes_con_bce[bytes.length -3] = bytes[bytes.length -3];
+            int contador_repeticion = 0;
+            while (contador_repeticion < 1) {
+                while (intentos < configuracion.getMaxIntentos()) {
+                    if (configuracion.getPorcentajeerrortramas() > 0) {
+                        if (Math.random() * 100 < configuracion.getPorcentajeerrortramas()) {
+                            syso.println("    [INFO] Se va a simular un error en la estructura de la trama");
+                            bytes_con_bce[bytes.length - 3] = (byte) (bytes_con_bce[bytes.length - 3] + 1);
+                        } else {
+                            bytes_con_bce[bytes.length - 3] = bytes[bytes.length - 3];
+                        }
                     }
-                }
-                TramaHelper.setNumTrama(bytes_con_bce, numero_trama);
-                    if (!enviarYEsperarACK(bytes_con_bce,intentos)) {
+                    TramaHelper.setNumTrama(bytes_con_bce, numero_trama);
+
+
+                    if (!enviarYEsperarACK(bytes_con_bce, intentos)) {
                         intentos++;
-                        syso.println("\n    ----  REINTENTO: "+ intentos + "  ----");
+                        syso.println("\n    ----  REINTENTO: " + intentos + "  ----");
                     } else {
                         ok = true;
                         break;
                     }
+                }
+                contador_repeticion++;
             }
+
             if (!ok) {
                 syso.println("    Intentos agotados. Abortando");
                 break;
