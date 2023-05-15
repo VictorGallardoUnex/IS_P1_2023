@@ -1,4 +1,5 @@
 package com.interconexionsistemas.practica2.Singletons.Controladores;
+import com.interconexionsistemas.practica2.Implementaciones.practica3.fase2.Maestro;
 import com.interconexionsistemas.practica2.Main;
 import com.interconexionsistemas.practica2.Utils;
 
@@ -26,6 +27,12 @@ public class ControladorSalida {
         }
         System.out.println(texto);
         salida_texto.add(texto);
+    }
+    public void printTraza(String texto) {
+        if (Main.configuracion.isDebug()) {
+            System.out.println(texto);
+            salida_texto.add(texto);
+        }
     }
 
     /**

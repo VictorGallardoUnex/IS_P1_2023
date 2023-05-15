@@ -28,7 +28,11 @@ public class Maestro {
         ArrayList<String> lineas = leer();
 
         for (String linea : lineas) {
+
             numero_trama++;
+            if (numero_trama >= configuracion.getModulo()) {
+                numero_trama = 0;
+            }
 
             bytes = new byte[5 + linea.getBytes().length];
             bytes[0] = Caracteres.SYN.value(); // SYN
@@ -70,7 +74,7 @@ public class Maestro {
                 break;
             }
 
-            System.out.println("    [DEBUG] ACK recibido");
+            syso.printTraza("[Debug] ACK recibido");
 
         }
         syso.println("\n\n--------------------");
@@ -78,6 +82,9 @@ public class Maestro {
 
         // enviar trama IS EOT ULTIMA
         numero_trama++;
+        if (numero_trama >= configuracion.getModulo()) {
+            numero_trama = 0;
+        }
         bytes = new byte[4]; //TramaIs control
         bytes[0] = Caracteres.SYN.value(); // SYN
         bytes[1] = Caracteres.EOT.value(); // control
@@ -88,21 +95,21 @@ public class Maestro {
         System.arraycopy(bytes,0,bytesConBCE,0,bytes.length);
         bytesConBCE[4] = BCE.calcularBCE(bytes);
         syso.println("\n\n-------===----------");
-        syso.println("[DEBUG] Enviando trama IS EOT ULTIMA");
+        syso.printTraza("[Debug] Enviando trama IS EOT ULTIMA");
         TramaHelper.setNumTrama(bytesConBCE, numero_trama);
         TramaHelper.setTipoTrama(bytesConBCE, Caracteres.EOT);
         EnviarPaquetes.enviarTramaIs(bytesConBCE);
-        syso.println("    [DEBUG] Esperando ACK");
+        syso.printTraza("[Debug] Esperando ACK");
         if (enviarYEsperarACK(bytesConBCE, 6)){
-            syso.println("[DEBUG] ACK recibido");}
-        syso.println("[DEBUG] Fin de la conexion");
+            syso.printTraza("[Debug] ACK recibido");}
+        syso.printTraza("[Debug] Fin de la conexion");
     }
 
     public static boolean enviarYEsperarACK(byte[] trama,int intentos) {
 
-            System.out.println("    [DEBUG] Enviando trama\n    Numero trama: "+TramaHelper.getNumTrama(trama)+ "\n    Texto: " + new String(trama));
+            syso.printTraza("[Debug] Enviando trama\n    Numero trama: "+TramaHelper.getNumTrama(trama)+ "\n    Texto: " + new String(trama));
             EnviarPaquetes.enviarTramaIs(trama);
-            System.out.println("    [DEBUG] Esperando ACK");
+            syso.printTraza("[Debug] Esperando ACK");
             byte[] respuesta = null;
             respuesta = EsperarPaquetes.esperarPaquete(Caracteres.ACK);
             if (respuesta == null) {
@@ -145,7 +152,7 @@ public class Maestro {
         Packet paquete = PacketHelper.buildPacket(bytesDatos);
         EnviarPaquetes.enviarPaquete(paquete);
 
-        syso.println("[Traza] Enviado paquete ENQ");
+        syso.printTraza("Traza] Enviado paquete ENQ");
         // Esperar ACK
 
         JpcapCaptor captor;
@@ -179,7 +186,7 @@ public class Maestro {
             if(tramaIS[1] == Caracteres.STX.value()){
                 syso.println("El texto recibido es: '"+ TramaHelper.getTexto(tramaIs) + "'");
             }
-            syso.println("[Traza] El numero de trama recibida es: "+ TramaHelper.getNumTrama(tramaIs));
+            syso.printTraza("Traza] El numero de trama recibida es: "+ TramaHelper.getNumTrama(tramaIs));
 
             if (TramaHelper.getTipoTrama(tramaIs) == Caracteres.ACK) {
                 conexionOk = true;
@@ -196,7 +203,7 @@ public class Maestro {
             }
         } while (!conexionOk);
 
-        syso.println("[Traza] Conexion establecida");
+        syso.printTraza("Traza] Conexion establecida");
         return true;
     }
 }

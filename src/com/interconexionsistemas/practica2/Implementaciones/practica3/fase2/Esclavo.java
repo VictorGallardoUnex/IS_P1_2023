@@ -62,10 +62,10 @@ public class Esclavo {
                 continue;
             }
 
-            //syso.println("[Trace] Enviando ACK");
+            //syso.printTraza("Trace] Enviando ACK");
             // Comprobamos que la tramaIS recibida no sea EOT
             if (TramaHelper.getTipoTrama(bytesRecibidos) == Caracteres.EOT) {
-                syso.println("[Trace] Fin de la conexion");
+                syso.printTraza("Trace] Fin de la conexion");
                 enviarACK(TramaHelper.getNumTrama(bytesRecibidos) + 1);
                 EOT = true;
                 continue;

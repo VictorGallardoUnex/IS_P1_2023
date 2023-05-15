@@ -6,6 +6,7 @@ package com.interconexionsistemas.practica2.Singletons;
 public class Configuracion {
 
 
+
     /**
      * Indica si se muestra en la terminal la salida
      */
@@ -43,6 +44,10 @@ public class Configuracion {
     int maxintentos = 6;
 
     int longitudcontenido = 25;
+
+    boolean Debug = false;
+
+    int modulo = 3;
 
     public int getLongitudBloque() {
         return longitudcontenido;
@@ -180,5 +185,22 @@ public class Configuracion {
 
     public int getPorcentajeerrortramas() {
         return porcentajeerrortramas;
+    }
+
+
+    public void setDebug(boolean Debug) {
+        this.Debug = Debug;
+    }
+
+    public boolean isDebug() {
+        return Debug;
+    }
+
+    public int getModulo() {
+        return modulo;
+    }
+
+    public void setModulo(int modulo) {
+        this.modulo = modulo;
     }
 }

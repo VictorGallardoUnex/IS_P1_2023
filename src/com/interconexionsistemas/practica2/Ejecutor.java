@@ -70,14 +70,17 @@ public class Ejecutor {
                             conf.setTimeout(Integer.parseInt(instruccion.valor));
                             break;
                         }
-                        case "porcentajatramanoenviada": {
+                        case "porcentajetramanoenviada": {
                             conf.setPorcentajeTramaNoEnviada(Integer.parseInt(instruccion.valor));
                             break;
                         }
-//                        case "porcentajeerrortramas": {
-//                            conf.setPorcentajeErrorTramas(Integer.parseInt(instruccion.valor));
-//                            break;
-//                        }
+                        case "porcentajeerrortramas": {
+                            conf.setPorcentajeErrorTramas(Integer.parseInt(instruccion.valor));
+                            break;
+                        }
+                        case "modulo":{
+                            conf.setModulo(Integer.parseInt(instruccion.valor));
+                        }
                         default: {
                             syso.println("[ERROR] Ese comando no esta disponible");
                             break;
@@ -104,7 +107,8 @@ public class Ejecutor {
                 break;
             }
             case "traza": {
-                conf.setSalida_pantalla(bandera.valor.equals("ON"));
+//                conf.setSalida_pantalla(bandera.valor.equals("ON"));
+                conf.setDebug(bandera.valor.equals("ON"));
                 break;
             }
 
