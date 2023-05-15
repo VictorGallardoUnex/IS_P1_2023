@@ -104,17 +104,18 @@ public class Ejecutor {
     private static void procesar_configuracion(Bandera bandera) {
         switch (bandera.clave.toLowerCase()) {
             case "maestro": {
-                conf.setMaestro(bandera.valor.equals("ON"));
+                conf.setMaestro(bandera.valor.toLowerCase().equals("on"));
                 if (conf.isMaestro()) {
                     conf.setFichero_salida("salida_maestro.txt");
                 } else {
                     conf.setFichero_salida("salida_esclavo.txt");
                 }
+                syso.println("[Info] Ejecutando modo maestro: " + conf.isMaestro());
                 break;
             }
             case "traza": {
 //                conf.setSalida_pantalla(bandera.valor.equals("ON"));
-                conf.setDebug(bandera.valor.equals("ON"));
+                conf.setDebug(bandera.valor.toLowerCase().equals("ON"));
                 break;
             }
 

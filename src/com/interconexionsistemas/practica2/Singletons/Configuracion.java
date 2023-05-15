@@ -34,7 +34,7 @@ public class Configuracion {
 
     int pospin = 1;
 
-    String pin = "";
+    String pin = "HOLA";
 
     int posTramaIs = 1;
     boolean maestro = false;
