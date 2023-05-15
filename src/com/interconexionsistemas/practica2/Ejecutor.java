@@ -104,6 +104,11 @@ public class Ejecutor {
         switch (bandera.clave.toLowerCase()) {
             case "maestro": {
                 conf.setMaestro(bandera.valor.equals("ON"));
+                if (conf.isMaestro()) {
+                    conf.setFichero_salida("salida_maestro.txt");
+                } else {
+                    conf.setFichero_salida("salida_esclavo.txt");
+                }
                 break;
             }
             case "traza": {
