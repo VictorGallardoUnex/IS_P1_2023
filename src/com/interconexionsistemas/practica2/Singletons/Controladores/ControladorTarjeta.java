@@ -21,6 +21,7 @@ public class ControladorTarjeta {
         }
         if (tarjeta_seleccionada > tarjetas.length) {
             throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
+
         }
         return tarjetas[tarjeta_seleccionada];
     }
@@ -35,7 +36,9 @@ public class ControladorTarjeta {
     }
     public void setTarjeta_seleccionada(int tarjeta_seleccionada) throws ErrorTarjetaNoExiste {
         if (tarjeta_seleccionada > tarjetas.length) {
-            throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
+            syso.println("No existe la tarjeta seleccionada: " + tarjeta_seleccionada + " - Estableciendo tarjeta por defecto");
+//            throw new ErrorTarjetaNoExiste("No existe esa tarjeta");
+            return;
         }
         this.tarjeta_seleccionada = tarjeta_seleccionada;
     }

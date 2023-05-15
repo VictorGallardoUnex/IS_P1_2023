@@ -91,6 +91,7 @@ public class Ejecutor {
                 } catch (Exception exception) {
                     syso.println("Error al ejecutar comando '"+instruccion.clave + "' con valor: '"+instruccion.valor+"'");
                     exception.printStackTrace();
+                    syso.salirYGuardar(1);
                 }
             }
         }
